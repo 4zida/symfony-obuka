@@ -1,0 +1,12 @@
+1. Koristimo Ondrej PPA da dodamo specifičnu verziju PHP-a.
+2. Instaliramo PHP8.3
+3. Početni setup PHP-a:
+	sudo apt-get update && sudo apt-get install -y  php8.3-mbstring  php8.3-xml php8.3-mongodb php8.3-mysql
+4. Instaliramo Composer (koristimo manuelno dodavanje composer-a)
+5. Instaliramo docker i docker-compose
+6. Dodajemo symfony test pack - https://symfony.com/doc/current/testing.html (već dodato u composer.json)
+7. Instaliramo symfony CLI - ako želimo, instalaciju od početka možemo pogledati https://symfony.com/doc/current/setup.html
+8. Potrebno je podesiti .env.test.local fajl sa podacima za testiranje baze
+9. Pokrećemo testove sa komandom: `php bin/phpunit`
+
+
