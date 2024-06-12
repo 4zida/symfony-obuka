@@ -3,6 +3,8 @@
 - HINT: https://symfony.com/bundles/SymfonyMakerBundle/current/index.html
 - Polja koja su potrebna u oba entiteta definišite sami po potrebi, kasnije ćete ih širiti svakako.
 - Napraviti tipove (role) User-a, gde jedan podtip User-a odgovara zaposlenom u kompaniji (Company).
+- Koristiti enum tip za definisanje tipova User-a.
+- HINT: https://symfony.com/doc/current/reference/forms/types/enum.html
 - Omogućiti uvezivanje User-a odgovarajućeg tipa sa kompanijom kojoj pripada.
 
 # drugi zadatak
@@ -24,30 +26,35 @@
 - HINT: https://symfony.com/doc/current/testing.html
 
 # peti zadatak
+- Koristiti Symfony serializer, za serilizaciju i deserilizaciju podataka.
+- Dodati context-ne grupe na kontrolere koje ste napravili u trećem zadatku.
+- HINT: https://symfony.com/doc/current/serializer.html
+
+# šesti zadatak
 - Napraviti document Ad (MongoDB), sa poljima koji zvuče logično za oglas za prodaju/izdavanje nekretnine.
 - Ad (oglas) na sebi ima userId, upućuje na id User-a koji je postavio oglas.
 - Ad (oglas) ima i companyId, upućuje na id kompanije koja je postavila oglas, ali i ne mora da ga ima, pošto User ne mora pripadati kompaniji.
 - HINT: https://www.mongodb.com/ - https://symfony.com/doc/current/bundles/DoctrineMongoDBBundle/index.html
 
-# šesti zadatak
+# sedmi zadatak
 - Napraviti REST API za oglas (Ad) koji ste napravili u petom zadatku.
 - Omogućiti CRUD operacije nad oglasima.
 - Omogućiti filtriranje oglasa po User-u i po kompaniji.
 
-# sedmi zadatak
+# osmi zadatak
 - Napisati testove za sve akcije koje ste napravili u šestom zadatku.
 
-# osmi zadatak
+# deveti zadatak
 - Napisati sh skriptu koja će obrisati symfony cache i pokrenuti sve testove.
 
-# deveti zadatak
+# deseti zadatak
 - Napisati komandu koja će dodati 1000 Ad-ova u bazu podataka sa random podacima ali polje kada je Ad postavljen (datum postavke) treba da budu u razmaku prethodna tri meseca.
 - Napisati komandu koja će izvući oglase kojima je datum postavke stariji od 30 dana ali mlađi od 60 dana i generisati csv sa par podataka iz oglasa.
 - Koristiti AdRepository za rad sa bazom podataka.
 - HINT: https://symfony.com/doc/current/doctrine.html#querying-for-objects-the-repository
 - Napisati cleanup komandu.
 
-# deseti zadatak
+# BONUS zadatak
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
 - HINT: https://symfony.com/doc/current/security.html
