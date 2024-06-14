@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
-use App\Util\RoleEnum;
+use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -28,7 +28,7 @@ class TestController extends AbstractController
 
         $user = new User();
         $user->setName("Petar");
-        $user->setRole(RoleEnum::FrontEnd);
+        $user->setRole(UserRole::FrontEnd);
         $user->setCompany($company);
 
         $this->entityManager->persist($company);

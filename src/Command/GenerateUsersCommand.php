@@ -6,7 +6,7 @@ require_once __DIR__.'/../../vendor/fzaninotto/faker/src/autoload.php';
 
 use App\Entity\Company;
 use App\Entity\User;
-use App\Util\RoleEnum;
+use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -48,7 +48,7 @@ class GenerateUsersCommand extends Command
         for ($i = 0; $i < 100; $i++) {
             try {
                 $company = $companyArray[array_rand($companyArray)];
-                $role = RoleEnum::cases()[array_rand(RoleEnum::cases())];
+                $role = UserRole::cases()[array_rand(UserRole::cases())];
 
                 $user = new User();
                 $user->setName($faker->firstName);

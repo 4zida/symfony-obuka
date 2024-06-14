@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use App\Util\RoleEnum;
+use App\Util\UserRole;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
@@ -18,8 +18,8 @@ class User
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, enumType: RoleEnum::class)]
-    private ?RoleEnum $role = null;
+    #[ORM\Column(length: 255, enumType: UserRole::class)]
+    private ?UserRole $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
@@ -57,12 +57,12 @@ class User
         return $this;
     }
 
-    public function getRole(): ?RoleEnum
+    public function getRole(): ?UserRole
     {
         return $this->role;
     }
 
-    public function setRole(?RoleEnum $role): void
+    public function setRole(?UserRole $role): void
     {
         $this->role = $role;
     }

@@ -4,7 +4,7 @@ namespace App\Command;
 
 use App\Entity\Company;
 use App\Entity\User;
-use App\Util\RoleEnum;
+use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
