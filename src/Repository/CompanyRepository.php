@@ -31,4 +31,10 @@ class CompanyRepository extends ServiceEntityRepository
 
         $this->getEntityManager()->flush();
     }
+
+
+    public function getCompanyById(mixed $id) : Company
+    {
+        return $this->getEntityManager()->getRepository(Company::class)->find($id);
+    }
 }
