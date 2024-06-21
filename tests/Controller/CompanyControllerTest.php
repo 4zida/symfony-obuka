@@ -23,11 +23,8 @@ class CompanyControllerTest extends KernelTestCase
 
     public function testIndex()
     {
-        self::bootKernel([
-            'environment' => 'my_test_env',
-            'debug'       => false,
-        ]);
-        $container = self::$kernel->getContainer();
+        $kernel = self::bootKernel();
+        $container = $kernel->getContainer();
 
         $company = new Company();
         $company->setName('Test Company');

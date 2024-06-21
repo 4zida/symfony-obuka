@@ -73,9 +73,13 @@ class User implements FormTypeInterface
         return $this->role;
     }
 
-    public function setRole(?UserRole $role): void
+    public function setRole(UserRole|string $role): void
     {
-        $this->role = $role->value;
+        if(is_string($role)){
+            $this->role = $role;
+        } else {
+            $this->role = $role->value;
+        }
     }
 
     public function getSurname(): ?string

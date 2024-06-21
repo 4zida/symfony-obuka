@@ -6,7 +6,9 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -31,7 +33,8 @@ class UserController extends AbstractFOSRestController
 
     public function __construct(
         private readonly UserRepository      $userRepository,
-        private readonly SerializerInterface $serializer, private readonly EntityManagerInterface $entityManager,
+        private readonly SerializerInterface $serializer,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
     }
@@ -64,14 +67,14 @@ class UserController extends AbstractFOSRestController
 
         $this->entityManager->flush();
 
-        return new Response('User updated.', Response::HTTP_NO_CONTENT);
+        return new Response('User updated.', Response::HTTP_OK);
     }
 
     #[Rest\Post('/', name: 'create', methods: ['POST'])]
-    public function create(Request $request) : Response
+    public function create(Request $request) : Response    // TODO
     {
         $user = new User();
-        $form = $this->createForm(User::class, $user);
+        $form = $this->createForm(UserType::class, $user);
 
         $data = $this->serializer->deserialize($request->getContent(), User::class, 'json');
         $form->submit($data);

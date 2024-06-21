@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Entity\Company;
+use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -60,14 +61,14 @@ class CompanyController extends AbstractFOSRestController
 
         $this->entityManager->flush();
 
-        return new Response('Company updated.', Response::HTTP_NO_CONTENT);
+        return new Response('Company updated.', Response::HTTP_OK);
     }
 
     #[Rest\Post('/', name: 'create', methods: ['POST'])]
-    public function create(Request $request) : Response
+    public function create(Request $request) : Response // TODO
     {
         $company = new Company();
-        $form = $this->createForm(Company::class, $company);
+        $form = $this->createForm(CompanyType::class, $company);
 
         $data = $this->serializer->deserialize($request->getContent(), Company::class, 'json');
         $form->submit($data);

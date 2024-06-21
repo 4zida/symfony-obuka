@@ -13,7 +13,7 @@
 - Napisati komandu koja radi cleanup svih podataka.
 - HINT: https://symfony.com/doc/current/console.html
 
-# treći zadatak
+# treći zadatak x
 - Napraviti REST API za kompanije i User-e. Odnosno omogućiti CRUD operacije nad kompanijama i User-ima.
 - Omogućiti filtriranje User-a po kompaniji.
 - Koristiti Symfony routing za definisanje ruta.
@@ -25,7 +25,7 @@
 - Napisati testove za sve akcije koje ste napravili u trećem zadatku.
 - HINT: https://symfony.com/doc/current/testing.html
 
-# peti zadatak
+# peti zadatak x
 - Koristiti Symfony serializer, za serilizaciju i deserilizaciju podataka.
 - Dodati context-ne grupe na kontrolere koje ste napravili u trećem zadatku.
 - HINT: https://symfony.com/doc/current/serializer.html

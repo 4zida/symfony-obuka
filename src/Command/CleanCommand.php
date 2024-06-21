@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:clean',
-    description: 'Add a short description for your command',
+    description: 'Clears the database',
 )]
 class CleanCommand extends Command
 {
