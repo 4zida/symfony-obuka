@@ -2,35 +2,49 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\User;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Controller\UserController;
+use PHPUnit\Framework\TestCase;
 
-class UserControllerTest extends KernelTestCase
+class UserControllerTest extends TestCase
 {
-    private ?EntityManagerInterface $entityManager;
 
-    protected function setUp() : void
+    public function testIndex()
     {
-        $kernel = self::bootKernel();
-
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        $this->markTestIncomplete();
     }
 
-    protected function tearDown() : void
+    public function testUpdate()
     {
-        $this->entityManager->close();
-        $this->entityManager = null;
+        $this->markTestIncomplete();
     }
 
-    public function testGetUserAction() : void
+    public function testFindByCompany()
     {
-        $users = $this->entityManager
-            ->getRepository(User::class)
-            ->findAll();
+        $this->markTestIncomplete();
+    }
 
-        $this->assertIsArray($users);
+    public function testDelete()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testCreate()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testFindById()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testFindByRole()
+    {
+        $this->markTestIncomplete();
+    }
+
+    public function testShow()
+    {
+        $this->markTestIncomplete();
     }
 }

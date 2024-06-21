@@ -1,4 +1,4 @@
-# prvi zadatak
+# prvi zadatak x
 - Koristiti maker-bundle za kreiranje entiteta Company i User, postoji relacija između njih (OneToMany). 
 - HINT: https://symfony.com/bundles/SymfonyMakerBundle/current/index.html
 - Polja koja su potrebna u oba entiteta definišite sami po potrebi, kasnije ćete ih širiti svakako.
@@ -7,7 +7,7 @@
 - HINT: https://symfony.com/doc/current/reference/forms/types/enum.html
 - Omogućiti uvezivanje User-a odgovarajućeg tipa sa kompanijom kojoj pripada.
 
-# drugi zadatak
+# drugi zadatak x
 - Napisati komandu koja će dodati 10 kompanija u bazu podataka.
 - Napisati komandu koja će dodati 100 User-a u bazu podataka, svaki User pripada jednoj od 10 kompanija.
 - Napisati komandu koja radi cleanup svih podataka.

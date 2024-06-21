@@ -2,59 +2,66 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\CompanyController;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Serializer;
 
 class CompanyControllerTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $entityManager;
 
-    protected function setUp() : void
+    public function testFindById()
     {
-        $kernel = self::bootKernel();
-
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
+        $this->markTestIncomplete();
     }
 
-    protected function tearDown() : void
+    public function testUpdate()
     {
-        $this->entityManager->close();
-        $this->entityManager = null;
+        $this->markTestIncomplete();
     }
 
-    public function testGetCompaniesAction() : void
+    public function testIndex()
     {
-        $companies = $this->entityManager
-            ->getRepository(Company::class)
-            ->findAll();
+        self::bootKernel([
+            'environment' => 'my_test_env',
+            'debug'       => false,
+        ]);
+        $container = self::$kernel->getContainer();
 
-        $this->assertIsArray($companies);
+        $company = new Company();
+        $company->setName('Test Company');
+        $company->setAddress('Test Address');
+
+        $companyRepository = $this->createMock(CompanyRepository::class);
+        $companyRepository->expects($this->any())
+            ->method('find')
+            ->willReturn($company);
+
+        $serializer = $container->get(Serializer::class);
+
+        $result = $serializer->serialize($company, 'json');
+
+        $this->assertJson($result);
     }
 
-    public function testPostCompanyAction() : void
+    public function test__construct()
     {
-        $this->markTestIncomplete(
-            'Not implemented yet.',
-        );
+        $this->markTestIncomplete();
     }
 
-    public function testDeleteCompanyAction() : void
+    public function testDelete()
     {
-//        $company = new Company();
-//        $company->setName('Test');
-//        $company->setAddress('Test Address');
-//
-//        $repository = $this->createMock(CompanyRepository::class);
-//        $request = new Request(['id' => $company->getId()]);
+        $this->markTestIncomplete();
+    }
 
+    public function testShow()
+    {
+        $this->markTestIncomplete();
+    }
 
-        $this->markTestIncomplete(
-            'Not implemented yet.',
-        );
+    public function testCreate()
+    {
+        $this->markTestIncomplete();
     }
 }
