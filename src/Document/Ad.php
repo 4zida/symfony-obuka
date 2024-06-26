@@ -22,6 +22,9 @@ class Ad
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank()]
     protected string $url;
+    #[MongoDB\Field(type: 'string')]
+    #[Assert\NotBlank()]
+    protected string $dateTime;
     #[MongoDB\Field(type: 'int')]
     protected string $userId;
     #[MongoDB\Field(type: 'int')]
@@ -81,6 +84,16 @@ class Ad
     public function setCompanyId(string $companyId): void
     {
         $this->companyId = $companyId;
+    }
+
+    public function getDateTime(): string
+    {
+        return $this->dateTime;
+    }
+
+    public function setDateTime(string $dateTime): void
+    {
+        $this->dateTime = $dateTime;
     }
 
 }

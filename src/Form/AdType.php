@@ -14,6 +14,7 @@ class AdType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
+            ->add('dateTime', \DateTime::class)
         ;
     }
 
@@ -21,7 +22,7 @@ class AdType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ad::class,
-            'csrf_protection' => false
+            'csrf_protection' => false,
         ]);
     }
 }

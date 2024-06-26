@@ -5,16 +5,12 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use App\Util\UserRole;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\Form\FormTypeInterface;
-use Symfony\Component\Form\FormView;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User implements FormTypeInterface
+class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,6 +20,7 @@ class User implements FormTypeInterface
 
     #[ORM\Column(length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
+    #[Assert\NotBlank()]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -36,6 +33,7 @@ class User implements FormTypeInterface
 
     #[ORM\Column(length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
+    #[Assert\NotBlank()]
     private ?string $surname = null;
 
 
@@ -92,35 +90,5 @@ class User implements FormTypeInterface
         $this->surname = $surname;
 
         return $this;
-    }
-
-    public function getParent()
-    {
-        // TODO: Implement getParent() method.
-    }
-
-    public function configureOptions(OptionsResolver $resolver)
-    {
-        // TODO: Implement configureOptions() method.
-    }
-
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        // TODO: Implement buildForm() method.
-    }
-
-    public function buildView(FormView $view, FormInterface $form, array $options)
-    {
-        // TODO: Implement buildView() method.
-    }
-
-    public function finishView(FormView $view, FormInterface $form, array $options)
-    {
-        // TODO: Implement finishView() method.
-    }
-
-    public function getBlockPrefix()
-    {
-        // TODO: Implement getBlockPrefix() method.
     }
 }

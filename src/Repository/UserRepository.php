@@ -36,4 +36,12 @@ class UserRepository extends ServiceEntityRepository
             yield $user;
         }
     }
+
+    public function getUsersAsArray() : array
+    {
+        return $this->createQueryBuilder('u')
+            ->select()
+            ->getQuery()
+            ->getResult();
+    }
 }

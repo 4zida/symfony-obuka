@@ -16,11 +16,10 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    public function getCompaniesAsArray($number = 100) : array
+    public function getCompaniesAsArray() : array
     {
         return $this->createQueryBuilder('c')
             ->select()
-            ->setMaxResults($number)
             ->getQuery()
             ->getResult();
     }

@@ -76,11 +76,11 @@ class UserController extends AbstractFOSRestController
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
 
-        $data = $this->serializer->deserialize($request->getContent(), User::class, 'json');
-        $form->submit($data);
+        $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->entityManager;
+            $user = $form->getData();
             $em->persist($user);
             $em->flush();
             return new Response('User created.', Response::HTTP_CREATED);

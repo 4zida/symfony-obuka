@@ -30,13 +30,13 @@
 - Dodati context-ne grupe na kontrolere koje ste napravili u trećem zadatku.
 - HINT: https://symfony.com/doc/current/serializer.html
 
-# šesti zadatak
+# šesti zadatak x
 - Napraviti document Ad (MongoDB), sa poljima koji zvuče logično za oglas za prodaju/izdavanje nekretnine.
 - Ad (oglas) na sebi ima userId, upućuje na id User-a koji je postavio oglas.
 - Ad (oglas) ima i companyId, upućuje na id kompanije koja je postavila oglas, ali i ne mora da ga ima, pošto User ne mora pripadati kompaniji.
 - HINT: https://www.mongodb.com/ - https://symfony.com/doc/current/bundles/DoctrineMongoDBBundle/index.html
 
-# sedmi zadatak
+# sedmi zadatak x
 - Napraviti REST API za oglas (Ad) koji ste napravili u petom zadatku.
 - Omogućiti CRUD operacije nad oglasima.
 - Omogućiti filtriranje oglasa po User-u i po kompaniji.
@@ -44,10 +44,10 @@
 # osmi zadatak
 - Napisati testove za sve akcije koje ste napravili u šestom zadatku.
 
-# deveti zadatak
+# deveti zadatak x
 - Napisati sh skriptu koja će obrisati symfony cache i pokrenuti sve testove.
 
-# deseti zadatak
+# deseti zadatak 
 - Napisati komandu koja će dodati 1000 Ad-ova u bazu podataka sa random podacima ali polje kada je Ad postavljen (datum postavke) treba da budu u razmaku prethodna tri meseca.
 - Napisati komandu koja će izvući oglase kojima je datum postavke stariji od 30 dana ali mlađi od 60 dana i generisati csv sa par podataka iz oglasa.
 - Koristiti AdRepository za rad sa bazom podataka.

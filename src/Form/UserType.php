@@ -12,18 +12,17 @@ class UserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('id')
             ->add('name')
             ->add('surname')
             ->add('role')
-            ->add('company')
-        ;
+            ->add('company');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'csrf_protection' => false
         ]);
     }
 }
