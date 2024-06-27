@@ -2,7 +2,6 @@
 
 namespace App\Document;
 
-
 use App\Repository\AdRepository;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
@@ -96,5 +95,4 @@ class Ad
     {
         $this->dateTime = $dateTime;
     }
-
 }

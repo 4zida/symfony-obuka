@@ -3,9 +3,7 @@
 namespace App\Command;
 
 use App\Document\Ad;
-use App\Repository\AdRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetLastMonthsAdsCommand extends Command
 {
     public function __construct(
-        private readonly AdRepository $adRepository
+        private readonly DocumentManager $documentManager
     )
     {
         parent::__construct();
@@ -33,7 +31,7 @@ class GetLastMonthsAdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $ads = $this->adRepository->findLastMonthsAds();
+        $ads = $this->documentManager->getRepository(Ad::class)->findLastMonthsAds();
         $month = 2592000;
 
         $filename = 'ads.csv';
