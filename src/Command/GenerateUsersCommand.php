@@ -55,6 +55,8 @@ class GenerateUsersCommand extends Command
                 $user->setRole($role);
                 $user->setCompany($company);
                 $user->setSurname($faker->lastName);
+                $user->setEmail($faker->email);
+                $user->setPassword($faker->password);
                 $e->persist($user);
             } catch (\Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");

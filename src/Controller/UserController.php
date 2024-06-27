@@ -64,6 +64,8 @@ class UserController extends AbstractFOSRestController
         $user->setName($updatedUser->getName());
         $user->setSurname($updatedUser->getSurname());
         $user->setRole($updatedUser->getRole());
+        $user->setEmail($updatedUser->getEmail());
+        $user->setPassword($updatedUser->getPassword());
 
         $this->entityManager->flush();
 
