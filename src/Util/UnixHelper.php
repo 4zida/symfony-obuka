@@ -4,10 +4,7 @@ namespace App\Util;
 
 class UnixHelper
 {
+    const MONTH = 2592000;
     const DAY = 86400;
-    static final function getLastMonthUnix(): int
-    {
-        return time() - strtotime('last month');
-    }
-
+    const HOUR = 3600;
 }

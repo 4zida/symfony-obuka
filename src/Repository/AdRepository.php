@@ -9,7 +9,7 @@ class AdRepository extends DocumentRepository
 {
     public function findLastMonthsAds(): array
     {
-        $month = UnixHelper::DAY * 30;
+        $month = UnixHelper::MONTH;
         $ads = $this->createQueryBuilder()
             ->field('unixTime')->lte(time() - $month)
             ->field('unixTime')->gte(time() - $month*2)

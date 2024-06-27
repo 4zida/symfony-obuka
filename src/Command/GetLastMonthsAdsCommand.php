@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Document\Ad;
-use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

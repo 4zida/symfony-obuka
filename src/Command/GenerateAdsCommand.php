@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
+use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
@@ -49,7 +50,7 @@ class GenerateAdsCommand extends Command
                 $company = $companyArray[array_rand($companyArray)];
                 $user = $userArray[array_rand($userArray)];
 
-                $time = time() - rand(0, 2592000 * 3);
+                $time = time() - rand(0, UnixHelper::MONTH * 3);
 
                 $ad = new Ad();
                 $ad->setName($faker->sentence);
