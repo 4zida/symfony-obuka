@@ -58,6 +58,7 @@ class GenerateAdsCommand extends Command
                 $ad->setUserId($user->getId());
                 $ad->setCompanyId($company->getId());
                 $ad->setDateTime(date(DATE_ATOM, $time));
+                $ad->setUnixTime($time);
                 $dm->persist($ad);
             } catch (\Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");

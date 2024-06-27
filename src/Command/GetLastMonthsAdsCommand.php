@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Document\Ad;
+use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -32,7 +33,7 @@ class GetLastMonthsAdsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $ads = $this->documentManager->getRepository(Ad::class)->findLastMonthsAds();
-        $month = 2592000;
+        $lastMonthUnix = UnixHelper::getLastMonthUnix();
 
         $filename = 'ads.csv';
         $file = fopen($filename, 'w');
