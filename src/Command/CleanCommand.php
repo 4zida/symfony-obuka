@@ -2,10 +2,8 @@
 
 namespace App\Command;
 
-use App\Document\Ad;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -23,7 +21,6 @@ class CleanCommand extends Command
     public function __construct(
         private readonly CompanyRepository $companyRepository,
         private readonly UserRepository $userRepository,
-        private readonly DocumentManager $documentManager,
     )
     {
         parent::__construct();
@@ -58,17 +55,6 @@ class CleanCommand extends Command
             $this->companyRepository->deleteCompany($company);
             $output->writeln(sprintf('Company %s (%d) has been deleted', $company->getName(), $id));
         }
-
-        $ads = $this->documentManager->getRepository(Ad::class)->findAll();
-        foreach ($ads as $ad)
-        {
-            $id = $ad->getId();
-            $output->writeln(sprintf('Ad %s (%d) will be deleted', $ad->getName(), $ad->getId()));
-            $this->documentManager->remove($ad);
-            $output->writeln(sprintf('Ad %s (%d) has been deleted', $ad->getName(), $id));
-        }
-
-        $this->documentManager->flush();
 
         $io->success('The database has been wiped.');
 
