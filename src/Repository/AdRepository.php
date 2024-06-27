@@ -2,24 +2,23 @@
 
 namespace App\Repository;
 
+use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
 class AdRepository extends DocumentRepository
 {
     public function findLastMonthsAds(): array
     {
-        $month = 2592000;
-        $ads = $this->findAll();
+        $month = UnixHelper::DAY * 30;
+        $ads = $this->createQueryBuilder()
+            ->field('unixTime')->lte(time() - $month)
+            ->field('unixTime')->gte(time() - $month*2)
+            ->getQuery()
+            ->execute();
         $array = [];
         foreach ($ads as $ad)
         {
-            if (
-                strtotime($ad->getDateTime()) < (time() - $month) &&
-                strtotime($ad->getDateTime()) > time() - ($month * 2)
-            )
-            {
-                $array[] = $ad;
-            }
+            $array[] = $ad;
         }
         return $array;
     }
