@@ -25,6 +25,10 @@ class Ad
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank()]
     protected string $dateTime;
+
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank()]
+    protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
     protected string $userId;
     #[MongoDB\Field(type: 'int')]
@@ -94,5 +98,15 @@ class Ad
     public function setDateTime(string $dateTime): void
     {
         $this->dateTime = $dateTime;
+    }
+
+    public function getUnixTime(): int
+    {
+        return $this->unixTime;
+    }
+
+    public function setUnixTime(int $unixTime): void
+    {
+        $this->unixTime = $unixTime;
     }
 }
