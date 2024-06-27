@@ -47,7 +47,7 @@
 # deveti zadatak x
 - Napisati sh skriptu koja će obrisati symfony cache i pokrenuti sve testove.
 
-# deseti zadatak 
+# deseti zadatak x
 - Napisati komandu koja će dodati 1000 Ad-ova u bazu podataka sa random podacima ali polje kada je Ad postavljen (datum postavke) treba da budu u razmaku prethodna tri meseca.
 - Napisati komandu koja će izvući oglase kojima je datum postavke stariji od 30 dana ali mlađi od 60 dana i generisati csv sa par podataka iz oglasa.
 - Koristiti AdRepository za rad sa bazom podataka.
