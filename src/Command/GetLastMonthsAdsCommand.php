@@ -3,7 +3,9 @@
 namespace App\Command;
 
 use App\Document\Ad;
+use App\Repository\AdRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -17,7 +19,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetLastMonthsAdsCommand extends Command
 {
     public function __construct(
-        private readonly DocumentManager $documentManager
+        private readonly AdRepository $adRepository
     )
     {
         parent::__construct();
@@ -31,8 +33,7 @@ class GetLastMonthsAdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $dm = $this->documentManager;
-        $ads = $dm->getRepository(Ad::class)->findAll();
+        $ads = $this->adRepository->findLastMonthsAds();
         $month = 2592000;
 
         $filename = 'ads.csv';
@@ -44,18 +45,12 @@ class GetLastMonthsAdsCommand extends Command
         }
 
         foreach ($ads as $ad) {
-            if (
-                strtotime($ad->getDateTime()) < (time() - $month) &&
-                strtotime($ad->getDateTime()) > time() - ($month * 2)
-            )
-            {
-                fputcsv($file, [
-                    $ad->getName(),
-                    $ad->getDescription(),
-                    $ad->getUrl(),
-                    $ad->getDateTime()
-                ]);
-            }
+            fputcsv($file, [
+                $ad->getName(),
+                $ad->getDescription(),
+                $ad->getUrl(),
+                $ad->getDateTime()
+            ]);
         }
 
         fclose($file);
