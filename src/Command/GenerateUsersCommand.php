@@ -16,6 +16,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:generate-users',
@@ -23,7 +24,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class GenerateUsersCommand extends Command
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private readonly UserPasswordHasherInterface $passwordHasher
+    )
     {
         parent::__construct();
     }
@@ -56,7 +60,7 @@ class GenerateUsersCommand extends Command
                 $user->setCompany($company);
                 $user->setSurname($faker->lastName);
                 $user->setEmail($faker->email);
-                $user->setPassword($faker->password);
+                $user->setPassword($this->passwordHasher->hashPassword($user, $faker->password));
                 $e->persist($user);
             } catch (\Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");
