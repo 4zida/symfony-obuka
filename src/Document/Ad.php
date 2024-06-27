@@ -3,11 +3,12 @@
 namespace App\Document;
 
 
+use App\Repository\AdRepository;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Validator\Constraints as Assert;
 
-#[MongoDB\Document(collection: 'ads')]
+#[MongoDB\Document(collection: 'ads', repositoryClass: AdRepository::class)]
 #[Unique(fields: 'url')]
 class Ad
 {
