@@ -54,7 +54,7 @@
 - HINT: https://symfony.com/doc/current/doctrine.html#querying-for-objects-the-repository
 - Napisati cleanup komandu.
 
-# BONUS zadatak
+# BONUS zadatak x
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
 - HINT: https://symfony.com/doc/current/security.html
