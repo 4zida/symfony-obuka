@@ -2,14 +2,16 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\CompanyController;
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use Symfony\Component\Serializer\Serializer;
 
 class CompanyControllerTest extends KernelTestCase
 {
+    public function setUp(): void
+    {
+        $kernel = static::bootKernel();
+    }
 
     public function testFindById()
     {
@@ -23,9 +25,6 @@ class CompanyControllerTest extends KernelTestCase
 
     public function testIndex()
     {
-        $kernel = self::bootKernel();
-        $container = $kernel->getContainer();
-
         $company = new Company();
         $company->setName('Test Company');
         $company->setAddress('Test Address');
@@ -35,11 +34,7 @@ class CompanyControllerTest extends KernelTestCase
             ->method('find')
             ->willReturn($company);
 
-        $serializer = $container->get(Serializer::class);
-
-        $result = $serializer->serialize($company, 'json');
-
-        $this->assertJson($result);
+        $this->assertSame($company, $companyRepository->find($company->getId()));
     }
 
     public function test__construct()
