@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Document\Ad;
 use App\Entity\Company;
-use App\Form\AdType;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
