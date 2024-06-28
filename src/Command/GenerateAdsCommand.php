@@ -17,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:generate-ads',
-    description: 'Add a short description for your command',
+    description: 'Generates ads with random values',
 )]
 class GenerateAdsCommand extends Command
 {

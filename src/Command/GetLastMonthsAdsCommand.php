@@ -12,7 +12,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:get-last-months-ads',
-    description: 'Add a short description for your command',
+    description: 'Gets the months older than 30 days, but younger than 60 days and puts them in a CSV file',
 )]
 class GetLastMonthsAdsCommand extends Command
 {
