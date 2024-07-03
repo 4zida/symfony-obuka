@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Company;
 use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,17 +15,23 @@ class UserType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('surname')
             ->add('role')
-            ->add('company')
+            ->add('surname')
             ->add('email')
-            ->add('password');
+            ->add('password')
+            ->add('roles')
+            ->add('company', EntityType::class, [
+                'class' => Company::class,
+                'choice_label' => 'id',
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_protection' => false,
         ]);
     }
 }

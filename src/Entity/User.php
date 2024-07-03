@@ -20,12 +20,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['list_user', 'list_user_all'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, type: 'string')]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
     #[Assert\NotBlank()]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, type: 'string')]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
     private ?string $role = null;
 
@@ -33,12 +33,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['list_user_all'])]
     private ?Company $company = null;
 
-    #[ORM\Column(length: 255, type: 'string')]
+    #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
     #[Assert\NotBlank()]
     private ?string $surname = null;
 
-    #[ORM\Column(length: 255, unique: true, type: 'string')]
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups(['list_user', 'list_user_all'])]
     #[Assert\NotBlank()]
     private ?string $email;

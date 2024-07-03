@@ -10,6 +10,7 @@ use App\Repository\CompanyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -20,6 +21,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 #[Route('/api/company', name: 'company_api')]
 class CompanyController extends AbstractFOSRestController
 {
+    use FormTrait;
     public array $companySerializerConfig = [
         AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true,
         AbstractNormalizer::CIRCULAR_REFERENCE_LIMIT => 2,
@@ -35,14 +37,14 @@ class CompanyController extends AbstractFOSRestController
     {
     }
 
-    #[Rest\Get('/', name: 'index', methods: ['GET'])]
+    #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
     public function index(): Response
     {
         $companies = $this->serializer->serialize($this->companyRepository->findAll(), 'json', $this->companySerializerConfig);
         return new Response($companies, Response::HTTP_OK);
     }
 
-    #[Rest\Get('/{id}', name: 'show', methods: ['GET'])]
+    #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
     public function show(Company $company) : Response
     {
         $data = $this->serializer->serialize($company, 'json', $this->companySerializerConfig);
@@ -50,14 +52,10 @@ class CompanyController extends AbstractFOSRestController
         return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
 
-    #[Rest\Put('/{id}', name: 'update', methods: ['PUT'])]
+    #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
     public function update(Company $company, Request $request) : Response
     {
-        $requestContent = $request->getContent();
-        $updatedCompany = $this->serializer->deserialize($requestContent, Company::class, 'json');
-
-        $company->setName($updatedCompany->getName());
-        $company->setAddress($updatedCompany->getAddress());
+        $this->handleJSONForm($request, $company, CompanyType::class, [], false);
 
         $this->entityManager->flush();
 
@@ -68,18 +66,10 @@ class CompanyController extends AbstractFOSRestController
     public function create(Request $request) : Response // TODO
     {
         $company = new Company();
-        $form = $this->createForm(CompanyType::class, $company);
+        $this->handleJSONForm($request, $company, CompanyType::class);
 
-        $data = $this->serializer->deserialize($request->getContent(), Company::class, 'json');
-        $form->submit($data);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $em = $this->entityManager;
-            $em->persist($company);
-            $em->flush();
-            return new Response('Company created.', Response::HTTP_CREATED);
-        }
-        return new Response('Company not created.', Response::HTTP_BAD_REQUEST);
+        $this->entityManager->flush();
+        return new Response('Company created.', Response::HTTP_OK);
     }
 
     #[Rest\Delete('/{id}', name: 'delete', methods: ['DELETE'])]
@@ -94,7 +84,7 @@ class CompanyController extends AbstractFOSRestController
         return new Response('Company deleted.', Response::HTTP_OK);
     }
 
-    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: ['GET'])]
+    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
         $company = $this->companyRepository->find($id);
