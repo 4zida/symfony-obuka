@@ -9,7 +9,6 @@ use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Util\SerializerHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/company', name: 'company_api')]
-class CompanyController extends AbstractFOSRestController
+class CompanyController extends BaseRestController
 {
     use FormTrait;
 
@@ -32,8 +31,8 @@ class CompanyController extends AbstractFOSRestController
     #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
     public function index(): Response
     {
-        $companies = $this->serializer->serialize($this->companyRepository->findAll(), 'json', SerializerHelper::COMPANY_CONFIG);
-        return new Response($companies, Response::HTTP_OK);
+        $companies = $this->serializeJSON($this->companyRepository->findAll(), context: SerializerHelper::COMPANY_CONFIG);
+        return $this->generateOkResponse($companies);
     }
 
     #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
