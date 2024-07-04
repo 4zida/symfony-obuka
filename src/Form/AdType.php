@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Document\Ad;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,7 @@ class AdType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('dateTime', \DateTime::class)
+            ->add('dateTime', DateTime::class)
         ;
     }
 

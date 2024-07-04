@@ -56,7 +56,7 @@ class UserController extends BaseRestController
     }
 
     #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
-    public function create(Request $request, SerializerInterface $serializer) : Response
+    public function create(Request $request) : Response
     {
         $user = new User();
         $this->handleJSONForm($request, $user, UserType::class);

@@ -21,12 +21,12 @@ class Company
 
     #[ORM\Column(length: 255)]
     #[Groups(['list_company', 'list_company_no_users'])]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
     #[Groups(['list_company', 'list_company_no_users'])]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private ?string $address = null;
 
     /**

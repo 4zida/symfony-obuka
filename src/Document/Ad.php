@@ -14,20 +14,20 @@ class Ad
     #[MongoDB\Id]
     protected string $id;
     #[MongoDB\Field(type: 'string')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     protected string $name;
     #[MongoDB\Field(type: 'string')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     protected string $description;
     #[MongoDB\Field(type: 'string')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     protected string $url;
     #[MongoDB\Field(type: 'string')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     protected string $dateTime;
 
     #[MongoDB\Field(type: 'int')]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
     protected string $userId;

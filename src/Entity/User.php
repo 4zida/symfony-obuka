@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -35,12 +35,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Groups(['list_user', 'list_user_all'])]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private ?string $surname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
     #[Groups(['list_user', 'list_user_all'])]
-    #[Assert\NotBlank()]
+    #[Assert\NotBlank]
     private ?string $email;
 
     #[ORM\Column(type: 'string')]

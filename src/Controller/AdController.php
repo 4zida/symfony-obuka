@@ -8,6 +8,9 @@ use App\Document\Ad;
 use App\Entity\Company;
 use App\Form\AdType;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\LockException;
+use Doctrine\ODM\MongoDB\Mapping\MappingException;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,6 +45,9 @@ class AdController extends BaseRestController
         return $this->generateOkResponse($data);
     }
 
+    /**
+     * @throws MongoDBException
+     */
     #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request) : Response
     {
@@ -52,6 +58,9 @@ class AdController extends BaseRestController
         return $this->generateOkResponse('Ad updated.');
     }
 
+    /**
+     * @throws MongoDBException
+     */
     #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
     public function create(Request $request) : Response
     {
@@ -64,6 +73,9 @@ class AdController extends BaseRestController
         return $this->generateOkResponse('Ad created.');
     }
 
+    /**
+     * @throws MongoDBException
+     */
     #[Rest\Delete('/{id}', name: 'delete', methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad) : Response
     {
@@ -73,6 +85,10 @@ class AdController extends BaseRestController
         return $this->generateOkResponse('Ad deleted.');
     }
 
+    /**
+     * @throws MappingException
+     * @throws LockException
+     */
     #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {

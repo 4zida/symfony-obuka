@@ -3,10 +3,14 @@
 namespace App\Repository;
 
 use App\Util\UnixHelper;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
 class AdRepository extends DocumentRepository
 {
+    /**
+     * @throws MongoDBException
+     */
     public function findLastMonthsAds(): array
     {
         $month = UnixHelper::MONTH;
