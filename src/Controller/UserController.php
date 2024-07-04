@@ -92,7 +92,7 @@ class UserController extends BaseRestController
     #[Rest\Get('/search/role/{role}', name: 'search_by_role', methods: Request::METHOD_GET)]
     public function findByRole(string $role) : Response
     {
-        $user = $this->userRepository->findBy(['role' => $role]);
+        $user = $this->userRepository->getUsersByRole($role);
 
         if (!$user) {
             return $this->generateNotFoundResponse('Users not found.');
@@ -103,10 +103,10 @@ class UserController extends BaseRestController
         return $this->generateOkResponse($data);
     }
 
-    #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: Request::METHOD_GET)]
+    #[Rest\Get('/search/company/{id}', name: 'search_by_company', methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : Response
     {
-        $user = $this->userRepository->findBy(['company' => $company]);
+        $user = $this->userRepository->getUsersByCompany($company);
 
         if (!$user) {
             return $this->generateNotFoundResponse('Users not found.');

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -43,5 +44,17 @@ class UserRepository extends ServiceEntityRepository
             ->select()
             ->getQuery()
             ->getResult();
+    }
+
+    public function getUsersByCompany(Company $company) : array
+    {
+        $em = $this->getEntityManager();
+        return $em->getRepository(User::class)->findBy(['company' => $company]);
+    }
+
+    public function getUsersByRole(string $role) : array
+    {
+        $em = $this->getEntityManager();
+        return $em->getRepository(User::class)->findBy(['role' => $role]);
     }
 }
