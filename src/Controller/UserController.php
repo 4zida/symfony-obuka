@@ -10,7 +10,6 @@ use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Util\SerializerHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,14 +18,14 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/user', name: 'user_api')]
-class UserController extends AbstractFOSRestController
+class UserController extends BaseRestController
 {
     use FormTrait;
 
     public function __construct(
         private readonly UserRepository      $userRepository,
-        private readonly SerializerInterface $serializer,
         private readonly EntityManagerInterface $entityManager,
+        private readonly SerializerInterface $serializer,
     )
     {
     }
@@ -34,17 +33,17 @@ class UserController extends AbstractFOSRestController
     #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
     public function index() : Response
     {
-        $data = $this->serializer->serialize($this->userRepository->findAll(), 'json', SerializerHelper::USER_CONFIG);
+        $data = $this->serializeJSON($this->userRepository->findAll(), $this->serializer, context: SerializerHelper::USER_CONFIG);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
     #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
     public function show(User $user) : Response
     {
-        $data = $this->serializer->serialize($user, 'json', SerializerHelper::USER_CONFIG);
+        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
     #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
@@ -53,19 +52,18 @@ class UserController extends AbstractFOSRestController
         $this->handleJSONForm($request, $user, UserType::class, [], false);
         $this->entityManager->flush();
 
-        return new Response('User updated.', Response::HTTP_OK);
+        return $this->generateOkResponse('User updated.');
     }
 
     #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
     public function create(Request $request, SerializerInterface $serializer) : Response
     {
         $user = new User();
-
         $this->handleJSONForm($request, $user, UserType::class);
 
         $this->entityManager->flush();
 
-        return new Response('User created.', Response::HTTP_OK);
+        return $this->generateOkResponse('User created.');
     }
 
     #[Rest\Delete('/{id}', name: 'delete', methods: Request::METHOD_DELETE)]
@@ -74,7 +72,7 @@ class UserController extends AbstractFOSRestController
         $this->entityManager->remove($user);
         $this->entityManager->flush();
 
-        return new Response('User deleted.', Response::HTTP_OK);
+        return $this->generateOkResponse('User deleted.');
     }
 
     #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
@@ -83,12 +81,12 @@ class UserController extends AbstractFOSRestController
         $user = $this->userRepository->find($id);
 
         if (null === $user) {
-            return new Response('Users not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Users not found.');
         }
 
-        $data = $this->serializer->serialize($user, 'json', SerializerHelper::USER_CONFIG);
+        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
     #[Rest\Get('/search/role/{role}', name: 'search_by_role', methods: Request::METHOD_GET)]
@@ -97,12 +95,12 @@ class UserController extends AbstractFOSRestController
         $user = $this->userRepository->findBy(['role' => $role]);
 
         if (!$user) {
-            return new Response('Users not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Users not found.');
         }
 
-        $data = $this->serializer->serialize($user, 'json', SerializerHelper::USER_CONFIG);
+        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
     #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: Request::METHOD_GET)]
@@ -111,11 +109,11 @@ class UserController extends AbstractFOSRestController
         $user = $this->userRepository->findBy(['company' => $company]);
 
         if (!$user) {
-            return new Response('Users not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Users not found.');
         }
 
-        $data = $this->serializer->serialize($user, 'json', SerializerHelper::USER_CONFIG);
+        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 }
