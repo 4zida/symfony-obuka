@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
+use App\Util\SerializerHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -14,22 +15,13 @@ use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/company', name: 'company_api')]
 class CompanyController extends AbstractFOSRestController
 {
     use FormTrait;
-    public array $companySerializerConfig = [
-        AbstractObjectNormalizer::ENABLE_MAX_DEPTH => true,
-        AbstractNormalizer::CIRCULAR_REFERENCE_LIMIT => 2,
-        'groups' => [
-            'list_company',
-            'list_user'
-        ]
-    ];
+
     public function __construct(
         private readonly CompanyRepository $companyRepository,
         private readonly EntityManagerInterface $entityManager,
@@ -40,14 +32,14 @@ class CompanyController extends AbstractFOSRestController
     #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
     public function index(): Response
     {
-        $companies = $this->serializer->serialize($this->companyRepository->findAll(), 'json', $this->companySerializerConfig);
+        $companies = $this->serializer->serialize($this->companyRepository->findAll(), 'json', SerializerHelper::COMPANY_CONFIG);
         return new Response($companies, Response::HTTP_OK);
     }
 
     #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
     public function show(Company $company) : Response
     {
-        $data = $this->serializer->serialize($company, 'json', $this->companySerializerConfig);
+        $data = $this->serializer->serialize($company, 'json', SerializerHelper::COMPANY_CONFIG);
 
         return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
@@ -93,7 +85,7 @@ class CompanyController extends AbstractFOSRestController
             return new Response('Companies not found.', Response::HTTP_NOT_FOUND);
         }
 
-        $data = $this->serializer->serialize($company, 'json', $this->companySerializerConfig);
+        $data = $this->serializer->serialize($company, 'json', SerializerHelper::COMPANY_CONFIG);
 
         return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
     }
