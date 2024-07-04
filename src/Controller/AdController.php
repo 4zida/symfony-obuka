@@ -6,17 +6,19 @@ namespace App\Controller;
 
 use App\Document\Ad;
 use App\Entity\Company;
+use App\Form\AdType;
 use Doctrine\ODM\MongoDB\DocumentManager;
-use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/api/ad', name: 'ad_api')]
-class AdController extends AbstractFOSRestController
+class AdController extends BaseRestController
 {
+    use FormTrait;
     public function __construct(
         private readonly DocumentManager $documentManager,
         private readonly SerializerInterface $serializer,
@@ -24,117 +26,92 @@ class AdController extends AbstractFOSRestController
     {
     }
 
-    #[Rest\Get('/', name: 'index', methods: ['GET'])]
+    #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
     public function index() : Response
     {
-        $data = $this->serializer->serialize($this->documentManager->getRepository(Ad::class)->findAll(), 'json');
+        $data = $this->serializeJSON($this->documentManager->getRepository(Ad::class)->findAll(), $this->serializer);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
-    #[Rest\Get('/{id}', name: 'show', methods: ['GET'])]
+    #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
     public function show(Ad $ad) : Response
     {
-        $data = $this->serializer->serialize($ad, 'json');
+        $data = $this->serializeJSON($ad, $this->serializer);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
-    #[Rest\Put('/{id}', name: 'update', methods: ['PUT'])]
+    #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request) : Response
     {
-        $requestContent = $request->getContent();
-        $updatedAd = $this->serializer->deserialize($requestContent, Ad::class, 'json');
+        $this->handleJSONForm($request, $ad, AdType::class);
 
-        $ad->setName($updatedAd->getName());
-        $ad->setUrl($updatedAd->getUrl());
-        $ad->setDescription($updatedAd->getDescription());
-        $ad->setCompanyId($updatedAd->getCompanyId());
-        $ad->setUserId($updatedAd->getUserId());
-
-        $this->documentManager->persist($ad);
         $this->documentManager->flush();
 
-        return new Response('Ad updated.', Response::HTTP_OK);
+        return $this->generateOkResponse('Ad updated.');
     }
 
-    #[Rest\Post('/', name: 'create', methods: ['POST'])]
+    #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
     public function create(Request $request) : Response
     {
-//        $ad = new Ad();
-//        $form = $this->createForm(AdType::class, $ad);
-//
-//        $data = $this->serializer->deserialize($request->getContent(), Ad::class, 'json');
-//        $form->submit($data);
+        $ad = new Ad();
 
-//        if ($form->isSubmitted() && $form->isValid()) {
-//            $dm = $this->documentManager;
-//            $dm->persist($ad);
-//            $dm->flush();
-//            return new Response('Ad created.', Response::HTTP_CREATED);
-//        }
-//// return new Response('Ad not created.', Response::HTTP_BAD_REQUEST);
-        $data = $request->getContent();
-        $ad = $this->serializer->deserialize($data, Ad::class, 'json');
+        $this->handleJSONForm($request, $ad, AdType::class);
 
-        if(!$ad || !$ad->getDescription() || !$ad->getName()){
-            return new Response('Ad not created.', Response::HTTP_BAD_REQUEST);
-        }
-
-        $this->documentManager->persist($ad);
         $this->documentManager->flush();
 
-        return new Response('Ad created.', Response::HTTP_CREATED);
+        return $this->generateOkResponse('Ad created.');
     }
 
-    #[Rest\Delete('/{id}', name: 'delete', methods: ['DELETE'])]
+    #[Rest\Delete('/{id}', name: 'delete', methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad) : Response
     {
         $this->documentManager->remove($ad);
         $this->documentManager->flush();
 
-        return new Response('Ad deleted.', Response::HTTP_OK);
+        return $this->generateOkResponse('Ad deleted.');
     }
 
-    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: ['GET'])]
+    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 
         if (null === $ad) {
-            return new Response('Ads not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Ads not found.');
         }
 
-        $data = $this->serializer->serialize($ad, 'json');
+        $data = $this->serializeJSON($ad, $this->serializer);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 
-    #[Rest\Get('/search/user/{user}', name: 'search_by_role', methods: ['GET'])]
+    #[Rest\Get('/search/user/{user}', name: 'search_by_role', methods: Request::METHOD_GET)]
     public function findByUser(string $user) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findBy(['userId' => $user]);
 
         if (!$ad) {
-            return new Response('Ads not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Ads not found.');
         }
 
-        $data = $this->serializer->serialize($ad, 'json');
+        $data = $this->serializeJSON($ad, $this->serializer);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateNotFoundResponse($data);
     }
 
-    #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: ['GET'])]
+    #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findBy(['companyId' => $company]);
 
         if (!$ad) {
-            return new Response('Ads not found.', Response::HTTP_NOT_FOUND);
+            return $this->generateNotFoundResponse('Ads not found.');
         }
 
-        $data = $this->serializer->serialize($ad, 'json');
+        $data = $this->serializeJSON($ad, $this->serializer);
 
-        return new Response($data, Response::HTTP_OK, ['Content-Type' => 'application/json']);
+        return $this->generateOkResponse($data);
     }
 }
