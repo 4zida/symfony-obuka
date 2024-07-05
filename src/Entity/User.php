@@ -155,4 +155,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return (string) $this->email;
     }
+
+    public function setRoles(array $roles): User
+    {
+        $this->roles = $roles;
+        return $this;
+    }
 }
