@@ -51,7 +51,7 @@ class CompanyController extends AbstractController
         return $this->createOkResponse('Company updated.');
     }
 
-    #[Route('/api/company/', methods: ['POST'])]
+    #[Route('/api/company/', methods: Request::METHOD_POST)]
     public function create(Request $request) : Response // TODO
     {
         $company = new Company();
@@ -61,7 +61,7 @@ class CompanyController extends AbstractController
         return $this->createOkResponse('Company created.');
     }
 
-    #[Route('/api/company/{id}', methods: ['DELETE'])]
+    #[Route('/api/company/{id}', methods: Request::METHOD_DELETE)]
     public function delete(Company $company) : Response
     {
         foreach ($company->getUsers() as $user) {

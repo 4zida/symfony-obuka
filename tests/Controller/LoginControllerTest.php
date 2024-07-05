@@ -14,7 +14,7 @@ class LoginControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->markTestIncomplete();
+        $this->markTestSkipped();
 
         $this->client = static::createClient();
         $container = static::getContainer();
