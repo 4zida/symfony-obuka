@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\Util\ContextGroup;
 use App\Util\UserRole;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -17,29 +18,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['list_user', 'list_user_all'])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['list_user', 'list_user_all'])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['list_user', 'list_user_all'])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
     private ?string $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[Groups(['list_user_all'])]
+    #[Groups([ContextGroup::USER_INFO])]
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['list_user', 'list_user_all'])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups(['list_user', 'list_user_all'])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
     #[Assert\NotBlank]
     private ?string $email;
 

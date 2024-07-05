@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CompanyRepository;
+use App\Util\ContextGroup;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,16 +17,16 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['list_company', 'list_company_no_users'])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['list_company', 'list_company_no_users'])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['list_company', 'list_company_no_users'])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
     #[Assert\NotBlank]
     private ?string $address = null;
 
@@ -34,7 +35,7 @@ class Company
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
     #[MaxDepth(1)]
-    #[Groups('list_company')]
+    #[Groups(ContextGroup::COMPANY_INFO)]
     private Collection $users;
 
     public function __construct()
