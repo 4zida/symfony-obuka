@@ -8,54 +8,50 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use App\Util\SerializerHelper;
+use App\Util\ContextGroup;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api/user', name: 'user_api')]
-class UserController extends BaseRestController
+class UserController extends AbstractController
 {
     use FormTrait;
+    use ControllerTrait;
 
     public function __construct(
         private readonly UserRepository      $userRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly SerializerInterface $serializer,
     )
     {
     }
 
-    #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
-    public function index() : Response
+    #[Route('/api/user/', methods: Request::METHOD_GET)]
+    public function index() : JsonResponse
     {
-        $data = $this->serializeJSON($this->userRepository->findAll(), $this->serializer, context: SerializerHelper::USER_CONFIG);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_INFO);
     }
 
-    #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
-    public function show(User $user) : Response
+    #[Route('/api/user/{id}', methods: Request::METHOD_GET)]
+    public function show(User $user) : JsonResponse
     {
-        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($user, ContextGroup::USER_INFO);
     }
 
-    #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
+    #[Route('/api/user/{id}', methods: Request::METHOD_PATCH)]
     public function update(User $user, Request $request) : Response
     {
         $this->handleJSONForm($request, $user, UserType::class, [], false);
         $this->entityManager->flush();
 
-        return $this->generateOkResponse('User updated.');
+        return $this->createOkResponse('User updated.');
     }
 
-    #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('/api/user/', methods: Request::METHOD_POST)]
     public function create(Request $request) : Response
     {
         $user = new User();
@@ -63,57 +59,39 @@ class UserController extends BaseRestController
 
         $this->entityManager->flush();
 
-        return $this->generateOkResponse('User created.');
+        return $this->createOkResponse('User created.');
     }
 
-    #[Rest\Delete('/{id}', name: 'delete', methods: Request::METHOD_DELETE)]
+    #[Route('/api/user/{id}', methods: Request::METHOD_DELETE)]
     public function delete(User $user) : Response
     {
         $this->entityManager->remove($user);
         $this->entityManager->flush();
 
-        return $this->generateOkResponse('User deleted.');
+        return $this->createOkResponse('User deleted.');
     }
 
-    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
-    public function findById(int $id) : Response
+    #[Route('/api/user/search/{id}', methods: Request::METHOD_GET)]
+    public function findById(int $id) : JsonResponse
     {
         $user = $this->userRepository->find($id);
 
-        if (null === $user) {
-            return $this->generateNotFoundResponse('Users not found.');
-        }
-
-        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($user, ContextGroup::USER_INFO);
     }
 
-    #[Rest\Get('/search/role/{role}', name: 'search_by_role', methods: Request::METHOD_GET)]
-    public function findByRole(string $role) : Response
+    #[Route('/api/user/search/role/{role}', methods: Request::METHOD_GET)]
+    public function findByRole(string $role) : JsonResponse
     {
         $user = $this->userRepository->getUsersByRole($role);
 
-        if (!$user) {
-            return $this->generateNotFoundResponse('Users not found.');
-        }
-
-        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($user, ContextGroup::USER_INFO);
     }
 
-    #[Rest\Get('/search/company/{id}', name: 'search_by_company', methods: Request::METHOD_GET)]
-    public function findByCompany(Company $company) : Response
+    #[Route('/api/user/search/company/{id}', methods: Request::METHOD_GET)]
+    public function findByCompany(Company $company) : JsonResponse
     {
         $user = $this->userRepository->getUsersByCompany($company);
 
-        if (!$user) {
-            return $this->generateNotFoundResponse('Users not found.');
-        }
-
-        $data = $this->serializeJSON($user, $this->serializer, context:  SerializerHelper::USER_CONFIG);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($user, ContextGroup::USER_INFO);
     }
 }

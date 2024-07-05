@@ -7,127 +7,105 @@ namespace App\Controller;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Form\AdType;
+use App\Util\ContextGroup;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\MongoDBException;
-use FOS\RestBundle\Controller\Annotations as Rest;
+use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
 
-#[Route('/api/ad', name: 'ad_api')]
-class AdController extends BaseRestController
+class AdController extends AbstractController
 {
     use FormTrait;
+    use ControllerTrait;
     public function __construct(
         private readonly DocumentManager $documentManager,
-        private readonly SerializerInterface $serializer,
     )
     {
     }
 
-    #[Rest\Get('/', name: 'index', methods: Request::METHOD_GET)]
-    public function index() : Response
+    #[Route('/api/ad/', methods: Request::METHOD_GET)]
+    public function index() : JsonResponse
     {
-        $data = $this->serializeJSON($this->documentManager->getRepository(Ad::class)->findAll(), $this->serializer);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_INFO);
     }
 
-    #[Rest\Get('/{id}', name: 'show', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/{id}', methods: Request::METHOD_GET)]
     public function show(Ad $ad) : Response
     {
-        $data = $this->serializeJSON($ad, $this->serializer);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
     }
 
     /**
      * @throws MongoDBException
      */
-    #[Rest\Patch('/{id}', name: 'update', methods: Request::METHOD_PATCH)]
+    #[Route('/api/ad/{id}', methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request) : Response
     {
         $this->handleJSONForm($request, $ad, AdType::class);
 
         $this->documentManager->flush();
 
-        return $this->generateOkResponse('Ad updated.');
+        return $this->createOkResponse('Ad updated.');
     }
 
     /**
      * @throws MongoDBException
      */
-    #[Rest\Post('/', name: 'create', methods: Request::METHOD_POST)]
+    #[Route('/api/ad/', methods: Request::METHOD_POST)]
     public function create(Request $request) : Response
     {
         $ad = new Ad();
-
         $this->handleJSONForm($request, $ad, AdType::class);
 
         $this->documentManager->flush();
 
-        return $this->generateOkResponse('Ad created.');
+        return $this->createOkResponse('Ad created.');
     }
 
     /**
      * @throws MongoDBException
      */
-    #[Rest\Delete('/{id}', name: 'delete', methods: Request::METHOD_DELETE)]
+    #[Route('/api/ad/{id}', methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad) : Response
     {
         $this->documentManager->remove($ad);
         $this->documentManager->flush();
 
-        return $this->generateOkResponse('Ad deleted.');
+        return $this->createOkResponse('Ad deleted.');
     }
 
     /**
      * @throws MappingException
      * @throws LockException
      */
-    #[Rest\Get('/search/{id}', name: 'search_by_id', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/{id}', methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 
-        if (null === $ad) {
-            return $this->generateNotFoundResponse('Ads not found.');
-        }
-
-        $data = $this->serializeJSON($ad, $this->serializer);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
     }
 
-    #[Rest\Get('/search/user/{user}', name: 'search_by_role', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
     public function findByUser(string $user) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
-        if (!$ad) {
-            return $this->generateNotFoundResponse('Ads not found.');
-        }
-
-        $data = $this->serializeJSON($ad, $this->serializer);
-
-        return $this->generateNotFoundResponse($data);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
     }
 
-    #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/company/{company}', methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
 
-        if (!$ad) {
-            return $this->generateNotFoundResponse('Ads not found.');
-        }
-
-        $data = $this->serializeJSON($ad, $this->serializer);
-
-        return $this->generateOkResponse($data);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
     }
 }
