@@ -22,6 +22,26 @@ class UserControllerTest extends WebTestCase
         dump($content);
     }
 
+    public function testCreate(): void
+    {
+        $this->markTestIncomplete();
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_POST)
+            ->setUri('/api/user/')
+            ->setJsonContent([
+                "name" => "test",
+                "email" => "test@example.com",
+                "password" => "password",
+                "surname" => "test",
+                "role" => "testrole",
+                "roles" => [],
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        dump($response->getResponse()->getContent());
+    }
+
     public function testFindByCompany(): void
     {
         self::markTestSkipped();
