@@ -106,7 +106,7 @@ class AdController extends BaseRestController
     #[Rest\Get('/search/user/{user}', name: 'search_by_role', methods: Request::METHOD_GET)]
     public function findByUser(string $user) : Response
     {
-        $ad = $this->documentManager->getRepository(Ad::class)->findBy(['userId' => $user]);
+        $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
         if (!$ad) {
             return $this->generateNotFoundResponse('Ads not found.');
@@ -120,7 +120,7 @@ class AdController extends BaseRestController
     #[Rest\Get('/search/company/{company}', name: 'search_by_company', methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : Response
     {
-        $ad = $this->documentManager->getRepository(Ad::class)->findBy(['companyId' => $company]);
+        $ad = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
 
         if (!$ad) {
             return $this->generateNotFoundResponse('Ads not found.');
