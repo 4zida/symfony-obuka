@@ -3,8 +3,10 @@
 namespace App\Document;
 
 use App\Repository\AdRepository;
+use App\Util\ContextGroup;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[MongoDB\Document(collection: 'ads', repositoryClass: AdRepository::class)]
@@ -15,15 +17,19 @@ class Ad
     protected string $id;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $name;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $description;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $url;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $dateTime;
 
     #[MongoDB\Field(type: 'int')]
