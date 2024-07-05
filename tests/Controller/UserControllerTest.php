@@ -25,11 +25,11 @@ class UserControllerTest extends WebTestCase
     public function testFindByCompany(): void
     {
         self::markTestSkipped();
-        $companies = $this->entityManager->getRepository(Company::class)->findAll();
-        $this->assertNotEmpty($companies);
-        foreach ($companies as $company)
-        {
-            $users = $this->entityManager->getRepository(User::class)->findBy(['company' => $company]);
-        }
+//        $companies = $this->entityManager->getRepository(Company::class)->findAll();
+//        $this->assertNotEmpty($companies);
+//        foreach ($companies as $company)
+//        {
+//            $users = $this->entityManager->getRepository(User::class)->findBy(['company' => $company]);
+//        }
     }
 }
