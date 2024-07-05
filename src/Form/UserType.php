@@ -23,6 +23,7 @@ class UserType extends AbstractType
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'id',
+                'required' => false
             ])
         ;
     }
