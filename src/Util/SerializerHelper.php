@@ -2,9 +2,11 @@
 
 namespace App\Util;
 
+use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\AbstractObjectNormalizer;
 
+#[Deprecated]
 class SerializerHelper
 {
     const COMPANY_CONFIG = [

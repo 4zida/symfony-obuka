@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Deprecated]
 class BaseRestController extends AbstractFOSRestController
 {
 
