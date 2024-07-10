@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use Doctrine\DBAL\Types\DateTimeType;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,16 +22,15 @@ class AdControllerTest extends WebTestCase
 
     public function testCreate() : void
     {
-        $this->markTestIncomplete();
-        $date = new \DateTime("now");
-
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/ad/')
             ->setJsonContent([
                 "name" => "test",
                 "description" => "test description",
-                "dateTime" => $date->format("Y-m-d"),
+                "url" => "https://symfony.com/doc/current/testing/database.html",
+                "dateTime" => "10/10/2022",
+                "unixTime" => time()
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();

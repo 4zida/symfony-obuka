@@ -38,7 +38,6 @@ class Ad
     #[MongoDB\Field(type: 'int')]
     protected string $userId;
     #[MongoDB\Field(type: 'int')]
-
     protected string $companyId;
 
     public function getId(): string
