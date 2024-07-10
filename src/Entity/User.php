@@ -86,13 +86,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->role;
     }
 
-    public function setRole(UserRole|string $role): void
+    public function setRole(UserRole|string $role): User
     {
         if(is_string($role)){
             $this->role = $role;
         } else {
             $this->role = $role->value;
         }
+
+        return $this;
     }
 
     public function getSurname(): ?string
