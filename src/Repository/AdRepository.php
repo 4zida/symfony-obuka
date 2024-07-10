@@ -2,7 +2,6 @@
 
 namespace App\Repository;
 
-use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
@@ -11,12 +10,24 @@ class AdRepository extends DocumentRepository
     /**
      * @throws MongoDBException
      */
-    public function findLastMonthsAds(): array
+    public function findBetween(string|int $before, string|int $after): array
     {
-        $month = UnixHelper::MONTH;
+        if(!is_int($before)) {
+            $before = strtotime($before);
+        }
+        if(!is_int($after)) {
+            $after = strtotime($after);
+        }
+
+        if ($before > $after) {
+            $temp = $before;
+            $before = $after;
+            $after = $temp;
+        }
+
         $ads = $this->createQueryBuilder()
-            ->field('unixTime')->lte(time() - $month)
-            ->field('unixTime')->gte(time() - $month*2)
+            ->field('unixTime')->gte($before)
+            ->field('unixTime')->lte($after)
             ->getQuery()
             ->execute();
         return $this->toArray($ads);
@@ -34,7 +45,10 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
-    public function findByCompany(\App\Entity\Company $company)
+    /**
+     * @throws MongoDBException
+     */
+    public function findByCompany(\App\Entity\Company $company): array
     {
         $ads = $this->createQueryBuilder()
             ->field('companyId')->equals($company->getId())
