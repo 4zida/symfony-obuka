@@ -14,7 +14,7 @@ class LoginControllerTest extends WebTestCase
 
     protected function setUp(): void
     {
-        $this->markTestSkipped();
+        $this->markTestIncomplete();
 
         $this->client = static::createClient();
         $container = static::getContainer();
@@ -37,6 +37,7 @@ class LoginControllerTest extends WebTestCase
         $user->setName('test');
         $user->setRole('test');
         $user->setSurname('test');
+        $user->setRoles(['ROLE_USER']);
         $user->setPassword($passwordHasher->hashPassword($user, 'password'));
 
         $em->persist($user);
