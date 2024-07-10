@@ -7,6 +7,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -33,6 +34,9 @@ class GenerateAdsCommand extends Command
     {
     }
 
+    /**
+     * @throws MongoDBException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

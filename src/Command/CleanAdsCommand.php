@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Document\Ad;
 use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -27,6 +28,9 @@ class CleanAdsCommand extends Command
     {
     }
 
+    /**
+     * @throws MongoDBException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

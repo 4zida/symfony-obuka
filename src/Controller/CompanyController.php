@@ -52,7 +52,7 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/api/company/', methods: Request::METHOD_POST)]
-    public function create(Request $request) : Response // TODO
+    public function create(Request $request) : Response
     {
         $company = new Company();
         $this->handleJSONForm($request, $company, CompanyType::class);
