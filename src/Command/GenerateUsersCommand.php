@@ -47,6 +47,7 @@ class GenerateUsersCommand extends Command
             try {
                 $company = $companyArray[array_rand($companyArray)];
                 $role = UserRole::cases()[array_rand(UserRole::cases())];
+                $pass = $faker->password;
 
                 $user = new User();
                 $user->setName($faker->firstName);
@@ -54,7 +55,8 @@ class GenerateUsersCommand extends Command
                 $user->setCompany($company);
                 $user->setSurname($faker->lastName);
                 $user->setEmail($faker->email);
-                $user->setPassword($this->passwordHasher->hashPassword($user, $faker->password));
+                $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
+                $user->setPasswordNoHash($pass);
                 $e->persist($user);
             } catch (\Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");

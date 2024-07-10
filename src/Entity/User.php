@@ -46,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string')]
     private ?string $password;
+
+    #[ORM\Column(type: 'string')]
+    public ?string $passwordNoHash;
     #[ORM\Column(type: "simple_array", nullable: true)]
     private array $roles;
 
@@ -159,6 +162,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setRoles(array $roles): User
     {
         $this->roles = $roles;
+        return $this;
+    }
+
+    public function setPasswordNoHash(?string $passwordNoHash): User
+    {
+        $this->passwordNoHash = $passwordNoHash;
         return $this;
     }
 }
