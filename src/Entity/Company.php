@@ -8,7 +8,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
-use Symfony\Component\Serializer\Attribute\MaxDepth;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
@@ -21,7 +20,7 @@ class Company
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO, ContextGroup::USER_INFO])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -34,7 +33,6 @@ class Company
      * @var Collection<int, User>
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
-    #[MaxDepth(1)]
     #[Groups(ContextGroup::COMPANY_INFO)]
     private Collection $users;
 

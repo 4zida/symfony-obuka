@@ -22,7 +22,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO, ContextGroup::COMPANY_INFO])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
@@ -35,7 +35,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO, ContextGroup::COMPANY_INFO])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 
@@ -170,6 +170,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPasswordNoHash(?string $passwordNoHash): User
     {
         $this->passwordNoHash = $passwordNoHash;
+        return $this;
+    }
+
+    public function setId(int $int): User
+    {
+        $this->id = $int;
         return $this;
     }
 }
