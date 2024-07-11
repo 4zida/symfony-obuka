@@ -89,9 +89,10 @@ class Ad
         return $this->userId;
     }
 
-    public function setUserId(string $userId): void
+    public function setUserId(string $userId): Ad
     {
         $this->userId = $userId;
+        return $this;
     }
 
     public function getCompanyId(): string
