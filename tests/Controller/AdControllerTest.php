@@ -2,29 +2,26 @@
 
 namespace App\Tests\Controller;
 
-use App\Entity\User;
+use App\Document\Ad;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
-use function Symfony\Component\DependencyInjection\Loader\Configurator\param;
 
 class AdControllerTest extends WebTestCase
 {
-    private static User $agent;
-    private static ?int $agentId;
+    private static ?Ad $agent;
+    private static ?string $agentId;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$agent = (new User())
-            ->setEmail('agent@example.com')
-            ->setRoles(['ROLE_AGENT'])
-            ->setPasswordNoHash('12345678')
-            ->setPassword('12345678')
-            ->setRole('TestRole')
-            ->setName('TestName')
-            ->setSurname('TestSurname')
-            ->setCompany(null)
+        self::$agent = (new Ad())
+            ->setId("test123test123")
+            ->setName("AdTest")
+            ->setUrl("test.url")
+            ->setDescription("Description test")
+            ->setDateTime(date("Y-m-d H:i:s"))
+            ->setUnixTime(time())
         ;
         self::$agentId = self::$agent->getId();
 
@@ -45,7 +42,6 @@ class AdControllerTest extends WebTestCase
 
     public function testShow(): void
     {
-        $this->markTestIncomplete();
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/%d', self::$agentId)

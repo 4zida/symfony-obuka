@@ -45,14 +45,21 @@ class Ad
         return $this->id;
     }
 
+    public function setId(string $id): Ad
+    {
+        $this->id = $id;
+        return $this;
+    }
+
     public function getName(): string
     {
         return $this->name;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): Ad
     {
         $this->name = $name;
+        return $this;
     }
 
     public function getDescription(): string
@@ -60,9 +67,10 @@ class Ad
         return $this->description;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string $description): Ad
     {
         $this->description = $description;
+        return $this;
     }
 
     public function getUrl(): string
@@ -70,9 +78,10 @@ class Ad
         return $this->url;
     }
 
-    public function setUrl(string $url): void
+    public function setUrl(string $url): Ad
     {
         $this->url = $url;
+        return $this;
     }
 
     public function getUserId(): string
@@ -100,9 +109,10 @@ class Ad
         return $this->dateTime;
     }
 
-    public function setDateTime(string $dateTime): void
+    public function setDateTime(string $dateTime): Ad
     {
         $this->dateTime = $dateTime;
+        return $this;
     }
 
     public function getUnixTime(): int
@@ -110,8 +120,9 @@ class Ad
         return $this->unixTime;
     }
 
-    public function setUnixTime(int $unixTime): void
+    public function setUnixTime(int $unixTime): Ad
     {
         $this->unixTime = $unixTime;
+        return $this;
     }
 }
