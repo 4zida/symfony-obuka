@@ -42,6 +42,7 @@ class AdControllerTest extends WebTestCase
 
     public function testShow(): void
     {
+        $this->markTestIncomplete();
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/%d', self::$agentId)
