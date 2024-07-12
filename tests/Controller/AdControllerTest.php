@@ -3,27 +3,33 @@
 namespace App\Tests\Controller;
 
 use App\Document\Ad;
+use App\Tests\DocumentManagerAwareTrait;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdControllerTest extends WebTestCase
 {
+    use DocumentManagerAwareTrait;
     private static ?Ad $agent;
     private static ?string $agentId;
 
+    /**
+     * @throws MongoDBException
+     */
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
         self::$agent = (new Ad())
-            ->setId("test123test123")
             ->setName("AdTest")
             ->setUrl("test.url")
             ->setDescription("Description test")
             ->setDateTime(date("Y-m-d H:i:s"))
             ->setUnixTime(time())
         ;
-        self::$agentId = self::$agent->getId();
+        self::$agentId = self::persistDocument(self::$agent);
+        self::flushDocuments();
 
         self::ensureKernelShutdown();
     }
@@ -36,22 +42,26 @@ class AdControllerTest extends WebTestCase
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getResponse()->getContent();
+        self::assertJson($content);
         dump($content);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function testShow(): void
     {
-        $this->markTestIncomplete();
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/%d', self::$agentId)
+            ->setUri('/api/ad/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getResponse()->getContent();
+        $ad = self::findDocumentById(Ad::class, self::$agentId);
         self::assertNotEmpty($content);
-        self::assertEquals(self::$agentId, $content['id']);
+        self::assertEquals(self::$agentId, $ad->getId());
     }
 
     public function testCreate() : void
@@ -70,5 +80,15 @@ class AdControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         dump($response->getResponse()->getContent());
+    }
+
+    /**
+     * @throws MongoDBException
+     */
+    public static function tearDownAfterClass(): void
+    {
+        self::removeDocumentById(Ad::class, self::$agentId);
+
+        parent::tearDownAfterClass();
     }
 }
