@@ -3,12 +3,16 @@
 namespace App\Tests\Controller;
 
 use App\Entity\User;
+use App\Tests\EntityManagerAwareTrait;
+use Doctrine\ORM\Exception\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class UserControllerTest extends WebTestCase
 {
+    use EntityManagerAwareTrait;
     public static ?User $agent;
     public static ?int $agentId;
 
@@ -16,15 +20,16 @@ class UserControllerTest extends WebTestCase
     {
         parent::setUpBeforeClass();
         self::$agent = (new User())
-            ->setId(1)
             ->setName("Test Agent")
             ->setRole("Test Role")
             ->setPassword("testPassword")
             ->setRoles([])
             ->setSurname("Test Surname")
-            ->setEmail("test@test.com")
-            ->setCompany(null);
-        self::$agentId = self::$agent->getId();
+            ->setEmail("test@ts34.com")
+            ->setCompany(null)
+            ->setPasswordNoHash("testPassword");
+        self::$agentId = self::persistEntity(self::$agent);
+        self::flushEntities();
 
         self::ensureKernelShutdown();
     }
@@ -61,17 +66,33 @@ class UserControllerTest extends WebTestCase
         dump($response->getResponse()->getContent());
     }
 
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function testShow(): void
     {
-        $this->markTestIncomplete();
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/%d', self::$agentId)
+            ->setUri('/api/user/'.self::$agentId)
             ->getResponse();
-        self::assertResponseIsSuccessful();
+        $this->assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getResponse()->getContent();
+        $user = self::findEntity(User::class, self::$agentId);
         self::assertNotEmpty($content);
-        self::assertEquals(self::$agentId, $content['id']);
+        self::assertJson($content);
+        self::assertEquals(self::$agentId, $user->getId());
+        dump($content, $user);
+    }
+
+    /**
+     * @throws ORMException
+     */
+    public static function tearDownAfterClass(): void
+    {
+        self::removeEntityById(User::class, self::$agent->getId());
+
+        parent::tearDownAfterClass();
     }
 }
