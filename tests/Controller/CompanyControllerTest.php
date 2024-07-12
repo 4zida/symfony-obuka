@@ -37,7 +37,6 @@ class CompanyControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
-        dump($content);
     }
 
     public function testCreate(): void
@@ -51,8 +50,6 @@ class CompanyControllerTest extends WebTestCase
             ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();
-
-        dump($response->getResponse()->getContent());
     }
 
     /**
@@ -72,7 +69,40 @@ class CompanyControllerTest extends WebTestCase
         self::assertNotEmpty($content);
         self::assertJson($content);
         self::assertEquals(self::$agentId, $company->getId());
-        dump($content, $company);
+    }
+
+    /**
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
+    public function testUpdate(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_PATCH)
+            ->setUri('/api/company/'.self::$agentId)
+            ->setJsonContent([
+                "name" => "Test Company UPDATED",
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        $company = self::findEntity(Company::class, self::$agentId);
+        self::assertNotEmpty($content);
+        self::assertEquals("Company updated.", $content);
+        self::assertEquals(self::$agentId, $company->getId());
+    }
+
+    public function testFindById(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/company/search/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertEquals(self::$agentId, $content["id"]);
     }
 
     /**

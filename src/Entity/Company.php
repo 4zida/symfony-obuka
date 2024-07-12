@@ -16,7 +16,7 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO, ContextGroup::USER_INFO])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]

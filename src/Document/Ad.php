@@ -35,10 +35,13 @@ class Ad
 
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
+    #[Groups(ContextGroup::AD_INFO)]
     protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $userId;
     #[MongoDB\Field(type: 'int')]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $companyId;
 
     public function getId(): string
@@ -101,9 +104,10 @@ class Ad
         return $this->companyId;
     }
 
-    public function setCompanyId(string $companyId): void
+    public function setCompanyId(string $companyId): Ad
     {
         $this->companyId = $companyId;
+        return $this;
     }
 
     public function getDateTime(): string
