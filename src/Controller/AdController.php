@@ -48,7 +48,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/{id}', methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request) : Response
     {
-        $this->handleJSONForm($request, $ad, AdType::class);
+        $this->handleJSONForm($request, $ad, AdType::class, [], false);
 
         $this->documentManager->flush();
 
@@ -86,7 +86,7 @@ class AdController extends AbstractController
      * @throws LockException
      */
     #[Route('/api/ad/search/{id}', methods: Request::METHOD_GET)]
-    public function findById(int $id) : Response
+    public function findById(string $id) : Response
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 

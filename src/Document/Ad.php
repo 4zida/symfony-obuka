@@ -14,6 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Ad
 {
     #[MongoDB\Id]
+    #[Groups(ContextGroup::AD_INFO)]
     protected string $id;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
