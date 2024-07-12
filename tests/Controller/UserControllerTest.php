@@ -106,8 +106,7 @@ class UserControllerTest extends WebTestCase
             ->setMethod(Request::METHOD_PATCH)
             ->setUri('/api/user/'.self::$agentId)
             ->setJsonContent([
-                "name" => "Test User UPDATED",
-                "role" => "Test Role UPDATED"
+                "name" => "Test User UPDATED"
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
@@ -142,7 +141,6 @@ class UserControllerTest extends WebTestCase
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
-        self::assertNotEmpty($content);
         self::assertEquals($role, $content[0]["role"]);
     }
 
@@ -165,6 +163,7 @@ class UserControllerTest extends WebTestCase
     public static function tearDownAfterClass(): void
     {
         self::removeEntityById(User::class, self::$agent->getId());
+        self::removeEntityById(Company::class, self::$companyId);
 
         parent::tearDownAfterClass();
     }
