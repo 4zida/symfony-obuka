@@ -5,19 +5,19 @@ namespace App\Tests\Controller;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
 class LoginControllerTest extends WebTestCase
 {
-    private KernelBrowser $client;
+    private static ?KernelBrowser $client;
 
-    protected function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        $this->markTestIncomplete();
+        self::markTestSkipped();
 
-        $this->client = static::createClient();
-        $container = static::getContainer();
+        parent::setUpBeforeClass();
+
+        $container = self::$kernel->getContainer();
         $em = $container->get('doctrine.orm.entity_manager');
         $userRepository = $em->getRepository(User::class);
 
@@ -29,8 +29,8 @@ class LoginControllerTest extends WebTestCase
         $em->flush();
 
         // Create a User fixture
-        /** @var UserPasswordHasherInterface $passwordHasher */
-        $passwordHasher = $container->get('security.user_password_hasher');
+        /** @var UserPasswordHasher $passwordHasher */
+        $passwordHasher = $container->get(UserPasswordHasher::class);
 
         $user = new User();
         $user->setEmail('email@example.com');
@@ -39,53 +39,58 @@ class LoginControllerTest extends WebTestCase
         $user->setSurname('test');
         $user->setRoles(['ROLE_USER']);
         $user->setPassword($passwordHasher->hashPassword($user, 'password'));
+        $user->setPasswordNoHash('password');
+        $user->setCompany(null);
 
         $em->persist($user);
         $em->flush();
+
+        self::ensureKernelShutdown();
     }
 
     public function testLogin(): void
     {
-        $this->markTestIncomplete();
-
         // Denied - Can't login with invalid email address.
-        $this->client->request('GET', '/login');
+        $response = static::createClient()
+            ->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('sign-in', [
+        $client = $this->getClient();
+
+        $client->submitForm('sign_in', [
             '_username' => 'doesNotExist@example.com',
             '_password' => 'password',
         ]);
 
         self::assertResponseRedirects('/login');
-        $this->client->followRedirect();
+        $client->followRedirect();
 
         // Ensure we do not reveal if the user exists or not.
         self::assertSelectorTextContains('.alert-danger', 'Invalid credentials.');
 
         // Denied - Can't login with invalid password.
-        $this->client->request('GET', '/login');
+        $client->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('sign-in', [
+        $client->submitForm('sign-in', [
             '_username' => 'email@example.com',
             '_password' => 'bad-password',
         ]);
 
         self::assertResponseRedirects('/login');
-        $this->client->followRedirect();
+        $client->followRedirect();
 
         // Ensure we do not reveal the user exists but the password is wrong.
         self::assertSelectorTextContains('.alert-danger', 'Invalid credentials.');
 
         // Success - Login with valid credentials is allowed.
-        $this->client->submitForm('sign-in', [
+        $client->submitForm('sign-in', [
             '_username' => 'email@example.com',
             '_password' => 'password',
         ]);
 
         self::assertResponseRedirects('/');
-        $this->client->followRedirect();
+        $client->followRedirect();
 
         self::assertSelectorNotExists('.alert-danger');
         self::assertResponseIsSuccessful();
