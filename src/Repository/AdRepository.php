@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Company;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
@@ -48,7 +49,7 @@ class AdRepository extends DocumentRepository
     /**
      * @throws MongoDBException
      */
-    public function findByCompany(\App\Entity\Company $company): array
+    public function findByCompany(Company $company): array
     {
         $ads = $this->createQueryBuilder()
             ->field('companyId')->equals($company->getId())

@@ -37,7 +37,7 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/{id}', methods: Request::METHOD_GET)]
-    public function show(Ad $ad) : Response
+    public function show(Ad $ad) : JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
     }
@@ -86,7 +86,7 @@ class AdController extends AbstractController
      * @throws LockException
      */
     #[Route('/api/ad/search/{id}', methods: Request::METHOD_GET)]
-    public function findById(string $id) : Response
+    public function findById(string $id) : JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 
@@ -94,7 +94,7 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
-    public function findByUser(string $user) : Response
+    public function findByUser(string $user) : JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
@@ -102,7 +102,7 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/search/company/{company}', methods: Request::METHOD_GET)]
-    public function findByCompany(Company $company) : Response
+    public function findByCompany(Company $company) : JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
 
