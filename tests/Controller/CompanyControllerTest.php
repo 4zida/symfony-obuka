@@ -3,14 +3,14 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Company;
+use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class CompanyControllerTest extends WebTestCase
+class CompanyControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
     private static ?Company $agent;
@@ -19,11 +19,9 @@ class CompanyControllerTest extends WebTestCase
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$agent = (new Company())
-            ->setName("Test Company")
-            ->setAddress("Test Address");
-
+        self::$agent = self::createTestCompany();
         self::$agentId = self::persistEntity(self::$agent);
+
         self::flushEntities();
 
         self::ensureKernelShutdown();

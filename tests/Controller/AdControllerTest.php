@@ -5,16 +5,16 @@ namespace App\Tests\Controller;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
+use App\Tests\BaseTestController;
 use App\Tests\DocumentManagerAwareTrait;
 use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class AdControllerTest extends WebTestCase
+class AdControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
@@ -32,31 +32,13 @@ class AdControllerTest extends WebTestCase
     {
         parent::setUpBeforeClass();
 
-        self::$company = (new Company())
-            ->setName("Test Company")
-            ->setAddress("Test Address");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
-        self::$user = (new User())
-            ->setName("Test Agent")
-            ->setRole("Test Role")
-            ->setPassword("testPassword")
-            ->setRoles([])
-            ->setSurname("Test Surname")
-            ->setEmail("test@email.com")
-            ->setCompany(self::$company)
-            ->setPasswordNoHash("testPassword");
+        self::$user = self::createTestUser(self::$company);
         self::$userId = self::persistEntity(self::$user);
 
-        self::$agent = (new Ad())
-            ->setName("AdTest")
-            ->setUrl("test.url")
-            ->setDescription("Description test")
-            ->setDateTime(date("Y-m-d H:i:s"))
-            ->setUnixTime(time())
-            ->setUserId(self::$userId)
-            ->setCompanyId(self::$companyId)
-        ;
+        self::$agent = self::createTestAd(self::$company, self::$user);
         self::$agentId = self::persistDocument(self::$agent);
 
         self::flushDocuments();

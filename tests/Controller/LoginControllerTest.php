@@ -3,11 +3,11 @@
 namespace App\Tests\Controller;
 
 use App\Entity\User;
+use App\Tests\BaseTestController;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
-class LoginControllerTest extends WebTestCase
+class LoginControllerTest extends BaseTestController
 {
     private static ?KernelBrowser $client;
 

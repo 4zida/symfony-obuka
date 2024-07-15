@@ -4,14 +4,14 @@ namespace App\Tests\Controller;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserControllerTest extends WebTestCase
+class UserControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
     public static ?User $agent;
@@ -23,20 +23,10 @@ class UserControllerTest extends WebTestCase
     {
         parent::setUpBeforeClass();
 
-        self::$company = (new Company())
-            ->setName("Test Company")
-            ->setAddress("Test Address");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
-        self::$agent = (new User())
-            ->setName("Test Agent")
-            ->setRole("Test Role")
-            ->setPassword("testPassword")
-            ->setRoles([])
-            ->setSurname("Test Surname")
-            ->setEmail("test@email.com")
-            ->setCompany(self::$company)
-            ->setPasswordNoHash("testPassword");
+        self::$agent = self::createTestUser(self::$company);
         self::$agentId = self::persistEntity(self::$agent);
 
         self::flushEntities();
