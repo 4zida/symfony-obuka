@@ -29,8 +29,6 @@ class UserControllerTest extends BaseTestController
         self::$agent = self::createTestUser(self::$company);
         self::$agentId = self::persistEntity(self::$agent);
 
-        self::flushEntities();
-
         self::ensureKernelShutdown();
     }
 

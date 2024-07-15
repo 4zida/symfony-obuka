@@ -41,8 +41,6 @@ class AdControllerTest extends BaseTestController
         self::$agent = self::createTestAd(self::$company, self::$user);
         self::$agentId = self::persistDocument(self::$agent);
 
-        self::flushDocuments();
-
         self::ensureKernelShutdown();
     }
 

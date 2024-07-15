@@ -22,8 +22,6 @@ class CompanyControllerTest extends BaseTestController
         self::$agent = self::createTestCompany();
         self::$agentId = self::persistEntity(self::$agent);
 
-        self::flushEntities();
-
         self::ensureKernelShutdown();
     }
     public function testIndex()
