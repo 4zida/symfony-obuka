@@ -42,6 +42,13 @@ class GetLastMonthsAdsCommand extends Command
             return Command::FAILURE;
         }
 
+        fputcsv($file, [
+            "Name",
+            "Description",
+            "Url",
+            "DateTime"
+        ]);
+
         foreach ($ads as $ad) {
             fputcsv($file, [
                 $ad->getName(),
