@@ -51,19 +51,25 @@ class GenerateAdsCommand extends Command
 
         for ($i = 0; $i < 1000; $i++) {
             try {
+                $rand = random_int(0, 1);
                 $company = $companyArray[array_rand($companyArray)];
                 $user = $userArray[array_rand($userArray)];
-
                 $time = time() - rand(0, UnixHelper::MONTH * 3);
 
                 $ad = new Ad();
                 $ad->setName($faker->sentence);
                 $ad->setUrl($faker->url);
                 $ad->setDescription($faker->sentence);
-                $ad->setUserId($user->getId());
-                $ad->setCompanyId($company->getId());
+                if ($rand) {
+                    $ad->setUserId($user->getId());
+                    $ad->setCompanyId(null);
+                } else {
+                    $ad->setUserId(null);
+                    $ad->setCompanyId($company->getId());
+                }
                 $ad->setDateTime(date(DATE_ATOM, $time));
                 $ad->setUnixTime($time);
+
                 $dm->persist($ad);
             } catch (\Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");

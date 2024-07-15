@@ -32,17 +32,16 @@ class Ad
     #[Assert\NotBlank]
     #[Groups(ContextGroup::AD_INFO)]
     protected string $dateTime;
-
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
     #[Groups(ContextGroup::AD_INFO)]
     protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
     #[Groups(ContextGroup::AD_INFO)]
-    protected string $userId;
+    protected int|null $userId;
     #[MongoDB\Field(type: 'int')]
     #[Groups(ContextGroup::AD_INFO)]
-    protected string $companyId;
+    protected int|null $companyId;
 
     public function getId(): string
     {
@@ -88,23 +87,23 @@ class Ad
         return $this;
     }
 
-    public function getUserId(): string
+    public function getUserId(): int|null
     {
         return $this->userId;
     }
 
-    public function setUserId(string $userId): Ad
+    public function setUserId(int|null $userId): Ad
     {
         $this->userId = $userId;
         return $this;
     }
 
-    public function getCompanyId(): string
+    public function getCompanyId(): int|null
     {
         return $this->companyId;
     }
 
-    public function setCompanyId(string $companyId): Ad
+    public function setCompanyId(int|null $companyId): Ad
     {
         $this->companyId = $companyId;
         return $this;
