@@ -15,8 +15,8 @@ class AdType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [])
-            ->add('description', TextType::class, [])
+            ->add('name', TextType::class)
+            ->add('description', TextType::class)
             ->add('url', UrlType::class, ["default_protocol" => "http"])
             ->add('dateTime', TextType::class, ['empty_data' => "10/10/2022"])
             ->add('unixTime', IntegerType::class)
