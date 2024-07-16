@@ -9,6 +9,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\PositiveOrZero;
 
 class AdType extends AbstractType
 {
@@ -18,8 +19,8 @@ class AdType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextType::class)
             ->add('url', UrlType::class, ["default_protocol" => "http"])
-            ->add('dateTime', TextType::class, ['empty_data' => "10/10/2022"])
-            ->add('unixTime', IntegerType::class)
+            ->add('dateTime', TextType::class, ['empty_data' => date(DATE_ATOM)])
+            ->add('unixTime', IntegerType::class, ['empty_data' => strtotime(date(DATE_ATOM))])
         ;
     }
 
