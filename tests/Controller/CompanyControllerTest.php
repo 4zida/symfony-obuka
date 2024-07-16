@@ -89,6 +89,15 @@ class CompanyControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $company->getId());
     }
 
+    public function testDelete(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_DELETE)
+            ->setUri('/api/company/'.self::persistEntity(self::createTestCompany()))
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+    }
+
     public function testFindById(): void
     {
         $response = RequestBuilder::create(self::createClient())

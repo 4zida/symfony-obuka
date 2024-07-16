@@ -106,6 +106,15 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $user->getId());
     }
 
+    public function testDelete(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_DELETE)
+            ->setUri('/api/user/'.self::persistEntity(self::createTestUser(null)->setEmail("test@gmail.com")))
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+    }
+
     public function testFindById(): void
     {
         $response = RequestBuilder::create(self::createClient())

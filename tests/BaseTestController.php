@@ -19,7 +19,7 @@ class BaseTestController extends WebTestCase
             ->setAddress("Test Address");
     }
 
-    protected static function createTestUser(Company $company): User
+    protected static function createTestUser(Company|null $company): User
     {
         return (new User())
             ->setName("Test Agent")

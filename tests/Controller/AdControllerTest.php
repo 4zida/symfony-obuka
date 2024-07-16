@@ -32,6 +32,12 @@ class AdControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
+        // Remove all ads first
+        $ads = self::getDocumentManager()->getRepository(Ad::class)->findAll();
+        foreach ($ads as $ad) {
+            self::removeDocumentById(Ad::class, $ad->getId());
+        }
+
         self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
@@ -147,6 +153,18 @@ class AdControllerTest extends BaseTestController
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
         self::assertEquals(self::$companyId, $content[0]["companyId"]);
+    }
+
+    /**
+     * @throws MongoDBException
+     */
+    public function testDelete(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_DELETE)
+            ->setUri('/api/ad/'.self::persistDocument(self::createTestAd(self::$company, self::$user)))
+            ->getResponse();
+        self::assertResponseIsSuccessful();
     }
 
     /**
