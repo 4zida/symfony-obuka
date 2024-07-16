@@ -32,13 +32,13 @@ class CompanyController extends AbstractController
     #[Route('/api/company/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->companyRepository->findAll(), ContextGroup::COMPANY_INFO);
+        return $this->jsonWithGroup($this->companyRepository->findAll(), ContextGroup::COMPANY_USERS);
     }
 
     #[Route('/api/company/{id}', methods: Request::METHOD_GET)]
     public function show(Company $company) : JsonResponse
     {
-        return $this->jsonWithGroup($company, ContextGroup::COMPANY_INFO);
+        return $this->jsonWithGroup($company, ContextGroup::COMPANY_USERS);
     }
 
     #[Route('/api/company/{id}', methods: Request::METHOD_PATCH)]
@@ -82,6 +82,6 @@ class CompanyController extends AbstractController
             return new Response('Companies not found.', Response::HTTP_NOT_FOUND);
         }
 
-        return $this->jsonWithGroup($company, ContextGroup::COMPANY_INFO);
+        return $this->jsonWithGroup($company, ContextGroup::COMPANY_USERS);
     }
 }

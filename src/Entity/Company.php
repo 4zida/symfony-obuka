@@ -16,16 +16,16 @@ class Company
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_INFO])]
+    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $address = null;
 
@@ -33,7 +33,7 @@ class Company
      * @var Collection<int, User>
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
-    #[Groups(ContextGroup::COMPANY_INFO)]
+    #[Groups(ContextGroup::COMPANY_USERS)]
     private Collection $users;
 
     public function __construct()

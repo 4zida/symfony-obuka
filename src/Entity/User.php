@@ -18,29 +18,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO, ContextGroup::COMPANY_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
     private ?string $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[Groups([ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_COMPANY])]
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO, ContextGroup::COMPANY_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_INFO])]
+    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
     #[Assert\NotBlank]
     private ?string $email;
 
