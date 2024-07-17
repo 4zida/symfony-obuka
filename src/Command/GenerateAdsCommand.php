@@ -9,6 +9,7 @@ use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -71,7 +72,7 @@ class GenerateAdsCommand extends Command
                 $ad->setUnixTime($time);
 
                 $dm->persist($ad);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");
                 continue;
             }

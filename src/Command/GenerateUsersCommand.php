@@ -8,6 +8,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -58,7 +59,7 @@ class GenerateUsersCommand extends Command
                 $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
                 $user->setPasswordNoHash($pass);
                 $e->persist($user);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");
                 continue;
             }

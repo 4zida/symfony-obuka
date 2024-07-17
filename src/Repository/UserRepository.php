@@ -6,6 +6,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Generator;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -30,7 +31,7 @@ class UserRepository extends ServiceEntityRepository
         return $em->getRepository(User::class)->find($id);
     }
 
-    public function getUsers() : \Generator
+    public function getUsers() : Generator
     {
         $em = $this->getEntityManager();
         foreach ($em->getRepository(User::class)->findAll() as $user) {

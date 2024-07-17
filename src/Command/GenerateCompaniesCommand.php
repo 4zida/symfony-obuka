@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\Company;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -40,7 +41,7 @@ class GenerateCompaniesCommand extends Command
                 $company->setName($faker->company);
                 $company->setAddress($faker->address);
                 $e->persist($company);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->error($e->getMessage(). " Continuing...");
                 continue;
             }
