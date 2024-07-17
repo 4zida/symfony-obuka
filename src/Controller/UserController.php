@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Util\ContextGroup;
+use App\Util\ResponseMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
@@ -48,7 +49,7 @@ class UserController extends AbstractController
         $this->handleJSONForm($request, $user, UserType::class, [], false);
         $this->entityManager->flush();
 
-        return $this->createOkResponse('User updated.');
+        return $this->createOkResponse(ResponseMessage::USER_UPDATED);
     }
 
     #[Route('/api/user/', methods: Request::METHOD_POST)]
@@ -59,7 +60,7 @@ class UserController extends AbstractController
 
         $this->entityManager->flush();
 
-        return $this->createOkResponse('User created.');
+        return $this->createOkResponse(ResponseMessage::USER_CREATED);
     }
 
     #[Route('/api/user/{id}', methods: Request::METHOD_DELETE)]
@@ -68,7 +69,7 @@ class UserController extends AbstractController
         $this->entityManager->remove($user);
         $this->entityManager->flush();
 
-        return $this->createOkResponse('User deleted.');
+        return $this->createOkResponse(ResponseMessage::USER_DELETED);
     }
 
     #[Route('/api/user/search/{id}', methods: Request::METHOD_GET)]

@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\Company;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
+use App\Util\ResponseMessage;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
@@ -39,7 +40,7 @@ class CompanyControllerTest extends BaseTestController
 
     public function testCreate(): void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setJsonContent([
                 "name" => "test",
@@ -48,6 +49,9 @@ class CompanyControllerTest extends BaseTestController
             ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        self::assertEquals(ResponseMessage::COMPANY_CREATED, $content);
     }
 
     /**
@@ -87,17 +91,20 @@ class CompanyControllerTest extends BaseTestController
         $content = $response->getResponse()->getContent();
         $company = self::findEntity(Company::class, self::$agentId);
         self::assertNotEmpty($content);
-        self::assertEquals("Company updated.", $content);
+        self::assertEquals(ResponseMessage::COMPANY_UPDATED, $content);
         self::assertEquals(self::$agentId, $company->getId());
     }
 
     public function testDelete(): void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/company/'.self::persistEntity(self::createTestCompany()))
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        self::assertEquals(ResponseMessage::COMPANY_DELETED, $content);
     }
 
     public function testFindById(): void

@@ -6,6 +6,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
+use App\Util\ResponseMessage;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
@@ -64,7 +65,7 @@ class UserControllerTest extends BaseTestController
 
         $content = $response->getResponse()->getContent();
         self::assertNotEmpty($content);
-        self::assertEquals('User created.', $content);
+        self::assertEquals(ResponseMessage::USER_CREATED, $content);
     }
 
     /**
@@ -104,7 +105,7 @@ class UserControllerTest extends BaseTestController
         $content = $response->getResponse()->getContent();
         $user = self::findEntity(User::class, self::$agentId);
         self::assertNotEmpty($content);
-        self::assertEquals("User updated.", $content);
+        self::assertEquals(ResponseMessage::USER_UPDATED, $content);
         self::assertEquals(self::$agentId, $user->getId());
     }
 
@@ -117,7 +118,7 @@ class UserControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
 
         $content = $response->getResponse()->getContent();
-        self::assertEquals("User deleted.", $content);
+        self::assertEquals(ResponseMessage::USER_DELETED, $content);
     }
 
     public function testFindById(): void

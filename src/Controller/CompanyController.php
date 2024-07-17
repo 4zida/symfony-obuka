@@ -8,6 +8,7 @@ use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Repository\CompanyRepository;
 use App\Util\ContextGroup;
+use App\Util\ResponseMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
@@ -48,7 +49,7 @@ class CompanyController extends AbstractController
 
         $this->entityManager->flush();
 
-        return $this->createOkResponse('Company updated.');
+        return $this->createOkResponse(ResponseMessage::COMPANY_UPDATED);
     }
 
     #[Route('/api/company/', methods: Request::METHOD_POST)]
@@ -58,7 +59,7 @@ class CompanyController extends AbstractController
         $this->handleJSONForm($request, $company, CompanyType::class);
 
         $this->entityManager->flush();
-        return $this->createOkResponse('Company created.');
+        return $this->createOkResponse(ResponseMessage::COMPANY_CREATED);
     }
 
     #[Route('/api/company/{id}', methods: Request::METHOD_DELETE)]
@@ -70,7 +71,7 @@ class CompanyController extends AbstractController
         $this->entityManager->remove($company);
         $this->entityManager->flush();
 
-        return $this->createOkResponse('Company deleted.');
+        return $this->createOkResponse(ResponseMessage::COMPANY_DELETED);
     }
 
     #[Route('/api/company/search/{id}', methods: Request::METHOD_GET)]

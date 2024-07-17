@@ -8,6 +8,7 @@ use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\DocumentManagerAwareTrait;
 use App\Tests\EntityManagerAwareTrait;
+use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -82,7 +83,7 @@ class AdControllerTest extends BaseTestController
 
     public function testCreate() : void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/ad/')
             ->setJsonContent([
@@ -94,6 +95,9 @@ class AdControllerTest extends BaseTestController
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        self::assertEquals(ResponseMessage::AD_CREATED, $content);
     }
 
     /**
@@ -114,8 +118,7 @@ class AdControllerTest extends BaseTestController
         $ad = self::findDocumentById(Ad::class, self::$agentId);
         self::assertNotEmpty($content);
         self::assertEquals(self::$agentId, $ad->getId());
-        self::assertEquals("Ad updated.", $content);
-        self::assertEquals("test Ad UPDATED", $ad->getName());
+        self::assertEquals(ResponseMessage::AD_UPDATED, $content);
     }
 
     public function testFindById(): void
@@ -161,11 +164,14 @@ class AdControllerTest extends BaseTestController
      */
     public function testDelete(): void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/ad/'.self::persistDocument(self::createTestAd(self::$company, self::$user)))
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        self::assertEquals(ResponseMessage::AD_DELETED, $content);
     }
 
     /**

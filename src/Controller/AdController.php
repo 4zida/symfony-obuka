@@ -9,6 +9,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdType;
 use App\Util\ContextGroup;
+use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
@@ -53,7 +54,7 @@ class AdController extends AbstractController
 
         $this->documentManager->flush();
 
-        return $this->createOkResponse('Ad updated.');
+        return $this->createOkResponse(ResponseMessage::AD_UPDATED);
     }
 
     /**
@@ -67,7 +68,7 @@ class AdController extends AbstractController
 
         $this->documentManager->flush();
 
-        return $this->createOkResponse('Ad created.');
+        return $this->createOkResponse(ResponseMessage::AD_CREATED);
     }
 
     /**
@@ -79,7 +80,7 @@ class AdController extends AbstractController
         $this->documentManager->remove($ad);
         $this->documentManager->flush();
 
-        return $this->createOkResponse('Ad deleted.');
+        return $this->createOkResponse(ResponseMessage::AD_DELETED);
     }
 
     /**
