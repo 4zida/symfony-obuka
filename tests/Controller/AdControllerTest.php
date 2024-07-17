@@ -81,7 +81,7 @@ class AdControllerTest extends BaseTestController
 
     public function testCreate() : void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/ad/')
             ->setJsonContent([
@@ -160,7 +160,7 @@ class AdControllerTest extends BaseTestController
      */
     public function testDelete(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/ad/'.self::persistDocument(self::createTestAd(self::$company, self::$user)))
             ->getResponse();

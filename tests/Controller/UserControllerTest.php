@@ -108,7 +108,7 @@ class UserControllerTest extends BaseTestController
 
     public function testDelete(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/user/'.self::persistEntity(self::createTestUser(null)->setEmail("test@gmail.com")))
             ->getResponse();

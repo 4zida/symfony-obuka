@@ -37,7 +37,7 @@ class CompanyControllerTest extends BaseTestController
 
     public function testCreate(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setJsonContent([
                 "name" => "test",
@@ -91,7 +91,7 @@ class CompanyControllerTest extends BaseTestController
 
     public function testDelete(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/company/'.self::persistEntity(self::createTestCompany()))
             ->getResponse();
