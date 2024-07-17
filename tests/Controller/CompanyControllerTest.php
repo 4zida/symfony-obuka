@@ -32,7 +32,9 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getResponse()->getContent();
+        self::assertNotEmpty($content);
+        self::assertJson($content);
     }
 
     public function testCreate(): void
@@ -107,6 +109,7 @@ class CompanyControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
         self::assertEquals(self::$agentId, $content["id"]);
     }
 

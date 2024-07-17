@@ -59,6 +59,7 @@ class AdControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
 
         $content = $response->getResponse()->getContent();
+        self::assertNotEmpty($content);
         self::assertJson($content);
     }
 

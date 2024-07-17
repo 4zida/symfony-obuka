@@ -40,7 +40,9 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getResponse()->getContent();
+        self::assertNotEmpty($content);
+        self::assertJson($content);
     }
 
     public function testCreate(): void
@@ -108,11 +110,14 @@ class UserControllerTest extends BaseTestController
 
     public function testDelete(): void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
             ->setUri('/api/user/'.self::persistEntity(self::createTestUser(null)->setEmail("test@gmail.com")))
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getResponse()->getContent();
+        self::assertEquals("User deleted.", $content);
     }
 
     public function testFindById(): void
@@ -138,6 +143,7 @@ class UserControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
         self::assertEquals($role, $content[0]["role"]);
     }
 
