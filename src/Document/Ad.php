@@ -48,12 +48,6 @@ class Ad
         return $this->id;
     }
 
-    public function setId(string $id): Ad
-    {
-        $this->id = $id;
-        return $this;
-    }
-
     public function getName(): string
     {
         return $this->name;

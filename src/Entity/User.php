@@ -172,10 +172,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->passwordNoHash = $passwordNoHash;
         return $this;
     }
-
-    public function setId(int $int): User
-    {
-        $this->id = $int;
-        return $this;
-    }
 }
