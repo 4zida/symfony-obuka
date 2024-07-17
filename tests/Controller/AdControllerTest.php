@@ -12,6 +12,7 @@ use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
+use Exception;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -65,7 +66,7 @@ class AdControllerTest extends BaseTestController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testShow(): void
     {
@@ -101,7 +102,7 @@ class AdControllerTest extends BaseTestController
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function testUpdate(): void
     {
