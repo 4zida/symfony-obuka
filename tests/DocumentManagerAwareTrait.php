@@ -43,11 +43,11 @@ trait DocumentManagerAwareTrait
     }
 
     /**
-     * @param $document
+     * @param object $document
      * @return string
      * @throws MongoDBException
      */
-    protected static function persistDocument($document): string
+    protected static function persistDocument(object $document): string
     {
         self::getDocumentManager()->persist($document);
         self::getDocumentManager()->flush();
