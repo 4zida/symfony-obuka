@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Company;
+use App\Entity\User;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
@@ -37,10 +38,10 @@ class AdRepository extends DocumentRepository
     /**
      * @throws MongoDBException
      */
-    public function findByUser(string $userId): array
+    public function findByUser(User $user): array
     {
         $ads = $this->createQueryBuilder()
-            ->field('userId')->equals($userId)
+            ->field('userId')->equals($user->getId())
             ->getQuery()
             ->execute();
         return $this->toArray($ads);

@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Document\Ad;
 use App\Entity\Company;
+use App\Entity\User;
 use App\Form\AdType;
 use App\Util\ContextGroup;
 use Doctrine\ODM\MongoDB\DocumentManager;
@@ -94,7 +95,7 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
-    public function findByUser(string $user) : JsonResponse
+    public function findByUser(User $user) : JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
