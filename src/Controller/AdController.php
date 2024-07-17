@@ -34,13 +34,13 @@ class AdController extends AbstractController
     #[Route('/api/ad/', methods: Request::METHOD_GET)]
     public function index() : JsonResponse
     {
-        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_INFO);
+        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_DETAILS);
     }
 
     #[Route('/api/ad/{id}', methods: Request::METHOD_GET)]
     public function show(Ad $ad) : JsonResponse
     {
-        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
     }
 
     /**
@@ -91,7 +91,7 @@ class AdController extends AbstractController
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 
-        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
     }
 
     #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
@@ -99,7 +99,7 @@ class AdController extends AbstractController
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
-        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
     }
 
     #[Route('/api/ad/search/company/{company}', methods: Request::METHOD_GET)]
@@ -107,6 +107,6 @@ class AdController extends AbstractController
     {
         $ad = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
 
-        return $this->jsonWithGroup($ad, ContextGroup::AD_INFO);
+        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
     }
 }

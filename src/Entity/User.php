@@ -13,21 +13,22 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
+#[Groups(ContextGroup::USER_DETAILS)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::USER_COMPANY])]
     private ?string $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -35,7 +36,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 

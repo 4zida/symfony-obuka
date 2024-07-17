@@ -11,21 +11,22 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
+#[Groups(ContextGroup::COMPANY_DETAILS)]
 class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_DETAILS, ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::COMPANY_USERS])]
     #[Assert\NotBlank]
     private ?string $address = null;
 

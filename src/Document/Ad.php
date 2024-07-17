@@ -11,36 +11,34 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[MongoDB\Document(collection: 'ads', repositoryClass: AdRepository::class)]
 #[Unique(fields: 'url')]
+#[Groups(ContextGroup::AD_DETAILS)]
 class Ad
 {
     #[MongoDB\Id]
-    #[Groups(ContextGroup::AD_INFO)]
     protected string $id;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_INFO)]
     protected string $name;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_INFO)]
     protected string $description;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_INFO)]
+    #[Groups(ContextGroup::AD_DETAILS)]
     protected string $url;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_INFO)]
+    #[Groups(ContextGroup::AD_DETAILS)]
     protected string $dateTime;
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_INFO)]
+    #[Groups(ContextGroup::AD_DETAILS)]
     protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
-    #[Groups(ContextGroup::AD_INFO)]
+    #[Groups(ContextGroup::AD_DETAILS)]
     protected int|null $userId;
     #[MongoDB\Field(type: 'int')]
-    #[Groups(ContextGroup::AD_INFO)]
+    #[Groups(ContextGroup::AD_DETAILS)]
     protected int|null $companyId;
 
     public function getId(): string
