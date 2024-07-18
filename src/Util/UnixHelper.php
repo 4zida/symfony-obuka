@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-class UnixHelper
+interface UnixHelper
 {
     const MONTH = 2592000;
     const DAY = 86400;

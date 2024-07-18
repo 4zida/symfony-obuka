@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-class ResponseMessage
+interface ResponseMessage
 {
     public const USER_CREATED = 'User created';
     public const USER_UPDATED = 'User updated';
