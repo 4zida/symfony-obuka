@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListeners;
+namespace App\EventListeners\Document;
 
 use App\Document\Ad;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
