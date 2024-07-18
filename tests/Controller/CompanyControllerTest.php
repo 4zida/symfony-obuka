@@ -35,9 +35,9 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertJson($content);
+        self::assertIsArray($content);
     }
 
     public function testCreate(): void
@@ -52,7 +52,7 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::COMPANY_CREATED, $content);
     }
 
@@ -68,11 +68,9 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         $this->assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $company = self::findEntity(Company::class, self::$agentId);
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertJson($content);
-        self::assertEquals(self::$agentId, $company->getId());
+        self::assertEquals(self::$agentId, $content['id']);
     }
 
     /**
@@ -90,11 +88,9 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $company = self::findEntity(Company::class, self::$agentId);
+        $content = $response->getRawContent();
         self::assertNotEmpty($content);
         self::assertEquals(ResponseMessage::COMPANY_UPDATED, $content);
-        self::assertEquals(self::$agentId, $company->getId());
     }
 
     public function testDelete(): void
@@ -105,7 +101,7 @@ class CompanyControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::COMPANY_DELETED, $content);
     }
 

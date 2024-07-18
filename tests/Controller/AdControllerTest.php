@@ -54,9 +54,9 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertJson($content);
+        self::assertIsArray($content);
     }
 
     /**
@@ -70,10 +70,9 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $ad = self::findDocumentById(Ad::class, self::$agentId);
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertEquals(self::$agentId, $ad->getId());
+        self::assertEquals(self::$agentId, $content['id']);
     }
 
     public function testCreate() : void
@@ -89,7 +88,7 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::AD_CREATED, $content);
     }
 
@@ -107,11 +106,7 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $ad = self::findDocumentById(Ad::class, self::$agentId);
-        self::assertNotEmpty($content);
-        self::assertEquals(self::$agentId, $ad->getId());
-        self::assertEquals(ResponseMessage::AD_UPDATED, $content);
+        self::assertEquals(ResponseMessage::AD_UPDATED, $response->getResponse()->getContent());
     }
 
     public function testFindById(): void
@@ -163,7 +158,7 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::AD_DELETED, $content);
     }
 

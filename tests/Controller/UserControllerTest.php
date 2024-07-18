@@ -41,9 +41,9 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertJson($content);
+        self::assertIsArray($content);
     }
 
     public function testCreate(): void
@@ -63,7 +63,7 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertNotEmpty($content);
         self::assertEquals(ResponseMessage::USER_CREATED, $content);
     }
@@ -80,11 +80,10 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $user = self::findEntity(User::class, self::$agentId);
+        $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertJson($content);
-        self::assertEquals(self::$agentId, $user->getId());
+        self::assertIsArray($content);
+        self::assertEquals(self::$agentId, $content['id']);
     }
 
     /**
@@ -102,11 +101,9 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
-        $user = self::findEntity(User::class, self::$agentId);
+        $content = $response->getRawContent();
         self::assertNotEmpty($content);
         self::assertEquals(ResponseMessage::USER_UPDATED, $content);
-        self::assertEquals(self::$agentId, $user->getId());
     }
 
     public function testDelete(): void
@@ -117,7 +114,7 @@ class UserControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getResponse()->getContent();
+        $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::USER_DELETED, $content);
     }
 
