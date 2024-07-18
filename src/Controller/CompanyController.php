@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Form\CompanyType;
-use App\Repository\CompanyRepository;
 use App\Util\ContextGroup;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\EntityManagerInterface;
@@ -24,7 +23,6 @@ class CompanyController extends AbstractController
     use ControllerTrait;
 
     public function __construct(
-        private readonly CompanyRepository $companyRepository,
         private readonly EntityManagerInterface $entityManager,
     )
     {
@@ -33,7 +31,7 @@ class CompanyController extends AbstractController
     #[Route('/api/company/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->companyRepository->findAll(), ContextGroup::COMPANY_USERS);
+        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::COMPANY_USERS);
     }
 
     #[Route('/api/company/{id}', methods: Request::METHOD_GET)]
@@ -77,7 +75,7 @@ class CompanyController extends AbstractController
     #[Route('/api/company/search/{id}', methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
-        $company = $this->companyRepository->find($id);
+        $company = $this->entityManager->getRepository(Company::class)->find($id);
 
         if (null === $company) {
             return new Response('Companies not found.', Response::HTTP_NOT_FOUND);

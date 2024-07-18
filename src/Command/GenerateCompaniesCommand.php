@@ -42,7 +42,7 @@ class GenerateCompaniesCommand extends Command
                 $company->setAddress($faker->address);
                 $e->persist($company);
             } catch (Exception $e) {
-                $io->error($e->getMessage(). " Continuing...");
+                $io->error($e->getMessage() . " Continuing...");
                 continue;
             }
             $counter++;

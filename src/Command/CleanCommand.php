@@ -18,7 +18,7 @@ class CleanCommand extends Command
 {
     public function __construct(
         private readonly CompanyRepository $companyRepository,
-        private readonly UserRepository $userRepository,
+        private readonly UserRepository    $userRepository,
     )
     {
         parent::__construct();
@@ -33,8 +33,7 @@ class CleanCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $users = $this->userRepository->findAll();
-        foreach ($users as $user)
-        {
+        foreach ($users as $user) {
             $id = $user->getId();
             $output->writeln(sprintf('User %s (%d) will be deleted', $user->getName(), $user->getId()));
             $this->userRepository->deleteUser($user);
@@ -42,8 +41,7 @@ class CleanCommand extends Command
         }
 
         $companies = $this->companyRepository->findAll();
-        foreach ($companies as $company)
-        {
+        foreach ($companies as $company) {
             $id = $company->getId();
             $output->writeln(sprintf('Company %s (%d) will be deleted', $company->getName(), $company->getId()));
             $this->companyRepository->deleteCompany($company);

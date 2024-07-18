@@ -24,21 +24,16 @@ class Ad
     protected string $description;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_DETAILS)]
     protected string $url;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_DETAILS)]
     protected string $dateTime;
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
-    #[Groups(ContextGroup::AD_DETAILS)]
     protected int $unixTime;
     #[MongoDB\Field(type: 'int')]
-    #[Groups(ContextGroup::AD_DETAILS)]
     protected int|null $userId;
     #[MongoDB\Field(type: 'int')]
-    #[Groups(ContextGroup::AD_DETAILS)]
     protected int|null $companyId;
 
     public function getId(): string

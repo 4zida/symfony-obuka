@@ -25,7 +25,7 @@ class GenerateAdsCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface $entityManager,
-        private readonly DocumentManager $documentManager
+        private readonly DocumentManager        $documentManager
     )
     {
         parent::__construct();
@@ -73,7 +73,7 @@ class GenerateAdsCommand extends Command
 
                 $dm->persist($ad);
             } catch (Exception $e) {
-                $io->error($e->getMessage(). " Continuing...");
+                $io->error($e->getMessage() . " Continuing...");
                 continue;
             }
             $counter++;

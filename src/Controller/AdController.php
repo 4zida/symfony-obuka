@@ -26,6 +26,7 @@ class AdController extends AbstractController
 {
     use FormTrait;
     use ControllerTrait;
+
     public function __construct(
         private readonly DocumentManager $documentManager,
     )
@@ -33,13 +34,13 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/', methods: Request::METHOD_GET)]
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
         return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_DETAILS);
     }
 
     #[Route('/api/ad/{id}', methods: Request::METHOD_GET)]
-    public function show(Ad $ad) : JsonResponse
+    public function show(Ad $ad): JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
     }
@@ -48,7 +49,7 @@ class AdController extends AbstractController
      * @throws MongoDBException
      */
     #[Route('/api/ad/{id}', methods: Request::METHOD_PATCH)]
-    public function update(Ad $ad, Request $request) : Response
+    public function update(Ad $ad, Request $request): Response
     {
         $this->handleJSONForm($request, $ad, AdType::class, [], false);
 
@@ -61,7 +62,7 @@ class AdController extends AbstractController
      * @throws MongoDBException
      */
     #[Route('/api/ad/', methods: Request::METHOD_POST)]
-    public function create(Request $request) : Response
+    public function create(Request $request): Response
     {
         $ad = new Ad();
         $this->handleJSONForm($request, $ad, AdType::class);
@@ -75,7 +76,7 @@ class AdController extends AbstractController
      * @throws MongoDBException
      */
     #[Route('/api/ad/{id}', methods: Request::METHOD_DELETE)]
-    public function delete(Ad $ad) : Response
+    public function delete(Ad $ad): Response
     {
         $this->documentManager->remove($ad);
         $this->documentManager->flush();
@@ -88,7 +89,7 @@ class AdController extends AbstractController
      * @throws LockException
      */
     #[Route('/api/ad/search/{id}', methods: Request::METHOD_GET)]
-    public function findById(string $id) : JsonResponse
+    public function findById(string $id): JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
 
@@ -96,18 +97,18 @@ class AdController extends AbstractController
     }
 
     #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
-    public function findByUser(User $user) : JsonResponse
+    public function findByUser(User $user): JsonResponse
     {
-        $ad = $this->documentManager->getRepository(Ad::class)->findByUser($user);
+        $ads = $this->documentManager->getRepository(Ad::class)->findByUser($user);
 
-        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
+        return $this->jsonWithGroup($ads, ContextGroup::AD_DETAILS);
     }
 
     #[Route('/api/ad/search/company/{company}', methods: Request::METHOD_GET)]
-    public function findByCompany(Company $company) : JsonResponse
+    public function findByCompany(Company $company): JsonResponse
     {
-        $ad = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
+        $ads = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
 
-        return $this->jsonWithGroup($ad, ContextGroup::AD_DETAILS);
+        return $this->jsonWithGroup($ads, ContextGroup::AD_DETAILS);
     }
 }

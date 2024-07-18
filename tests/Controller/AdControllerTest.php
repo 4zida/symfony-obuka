@@ -34,12 +34,6 @@ class AdControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        // Remove all ads first
-        $ads = self::getDocumentManager()->getRepository(Ad::class)->findAll();
-        foreach ($ads as $ad) {
-            self::removeDocumentById(Ad::class, $ad->getId());
-        }
-
         self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 

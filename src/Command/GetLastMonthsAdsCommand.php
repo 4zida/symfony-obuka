@@ -32,12 +32,12 @@ class GetLastMonthsAdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $ads = $this->documentManager->getRepository(Ad::class)->findBetween(time()-UnixHelper::MONTH, time()-UnixHelper::MONTH*2);
+        $ads = $this->documentManager->getRepository(Ad::class)->findBetween(time() - UnixHelper::MONTH, time() - UnixHelper::MONTH * 2);
 
         $filename = 'ads.csv';
         $file = fopen($filename, 'w');
 
-        if ($file === false){
+        if ($file === false) {
             $io->error('Unable to open file!');
             return Command::FAILURE;
         }

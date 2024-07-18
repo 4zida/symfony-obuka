@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-require_once __DIR__.'/../../vendor/fzaninotto/faker/src/autoload.php';
+require_once __DIR__ . '/../../vendor/fzaninotto/faker/src/autoload.php';
 
 use App\Entity\Company;
 use App\Entity\User;
@@ -60,7 +60,7 @@ class GenerateUsersCommand extends Command
                 $user->setPasswordNoHash($pass);
                 $e->persist($user);
             } catch (Exception $e) {
-                $io->error($e->getMessage(). " Continuing...");
+                $io->error($e->getMessage() . " Continuing...");
                 continue;
             }
             $counter++;

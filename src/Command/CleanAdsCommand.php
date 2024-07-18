@@ -36,8 +36,7 @@ class CleanAdsCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $ads = $this->documentManager->getRepository(Ad::class)->findAll();
-        foreach ($ads as $ad)
-        {
+        foreach ($ads as $ad) {
             $id = $ad->getId();
             $output->writeln(sprintf('Ad %s (%d) will be deleted', $ad->getName(), $ad->getId()));
             $this->documentManager->remove($ad);

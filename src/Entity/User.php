@@ -41,7 +41,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $surname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([ContextGroup::USER_DETAILS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::USER_COMPANY])]
     #[Assert\NotBlank]
     private ?string $email;
 

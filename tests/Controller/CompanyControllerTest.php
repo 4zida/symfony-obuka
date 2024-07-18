@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Company;
+use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
@@ -20,6 +21,7 @@ class CompanyControllerTest extends BaseTestController
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+
         self::$agent = self::createTestCompany();
         self::$agentId = self::persistEntity(self::$agent);
 
