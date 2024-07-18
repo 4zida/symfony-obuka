@@ -14,12 +14,6 @@ class AdRepository extends DocumentRepository
      */
     public function findBetween(\DateTimeImmutable $after, \DateTimeImmutable $before): array
     {
-        if ($before < $after) {
-            $temp = $before;
-            $before = $after;
-            $after = $temp;
-        }
-
         $ads = $this->createQueryBuilder()
             ->field('createdAt')->lte($before)
             ->field('createdAt')->gte($after)
