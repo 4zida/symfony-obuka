@@ -37,8 +37,7 @@ class CleanAdsCommand extends Command
 
         $ads = $this->documentManager->getRepository(Ad::class)->findAll();
         foreach ($ads as $ad) {
-            $id = $ad->getId();
-            $output->writeln(sprintf('Ad %s (%d) will be deleted', $ad->getName(), $ad->getId()));
+            $output->writeln(sprintf('Ad %s (%d) will be deleted', $ad->getName(), $id = $ad->getId()));
             $this->documentManager->remove($ad);
             $output->writeln(sprintf('Ad %s (%d) has been deleted', $ad->getName(), $id));
         }

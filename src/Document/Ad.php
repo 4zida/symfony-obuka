@@ -4,8 +4,10 @@ namespace App\Document;
 
 use App\Repository\AdRepository;
 use App\Util\ContextGroup;
+use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -26,15 +28,18 @@ class Ad
     #[Assert\NotBlank]
     protected string $url;
     #[MongoDB\Field(type: 'string')]
-    #[Assert\NotBlank]
-    protected string $dateTime;
+    #[Deprecated]
+    protected ?string $dateTime;
     #[MongoDB\Field(type: 'int')]
-    #[Assert\NotBlank]
-    protected int $unixTime;
+    #[Deprecated]
+    protected ?int $unixTime;
     #[MongoDB\Field(type: 'int')]
     protected int|null $userId;
     #[MongoDB\Field(type: 'int')]
     protected int|null $companyId;
+
+    #[MongoDB\Field(type: 'date_immutable')]
+    protected ?DateTimeImmutable $createdAt;
 
     public function getId(): string
     {
@@ -116,5 +121,15 @@ class Ad
     {
         $this->unixTime = $unixTime;
         return $this;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function getCreatedAt(): ?DateTimeImmutable
+    {
+        return $this->createdAt ?? null;
     }
 }

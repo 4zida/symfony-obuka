@@ -2,6 +2,9 @@
 
 namespace App\Util;
 
+use JetBrains\PhpStorm\Deprecated;
+
+#[Deprecated]
 interface UnixHelper
 {
     const MONTH = 2592000;

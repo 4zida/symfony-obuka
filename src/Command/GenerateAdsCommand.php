@@ -5,7 +5,6 @@ namespace App\Command;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
-use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -55,7 +54,6 @@ class GenerateAdsCommand extends Command
                 $rand = random_int(0, 1);
                 $company = $companyArray[array_rand($companyArray)];
                 $user = $userArray[array_rand($userArray)];
-                $time = time() - rand(0, UnixHelper::MONTH * 3);
 
                 $ad = new Ad();
                 $ad->setName($faker->sentence);
@@ -68,8 +66,10 @@ class GenerateAdsCommand extends Command
                     $ad->setUserId(null);
                     $ad->setCompanyId($company->getId());
                 }
-                $ad->setDateTime(date(DATE_ATOM, $time));
-                $ad->setUnixTime($time);
+                $minDate = (new \DateTimeImmutable("-3 months"))->getTimestamp();
+                $maxDate = (new \DateTimeImmutable())->getTimestamp();
+                $randomTimestamp = random_int($minDate, $maxDate);
+                $ad->setCreatedAt((new \DateTimeImmutable())->setTimestamp($randomTimestamp));
 
                 $dm->persist($ad);
             } catch (Exception $e) {

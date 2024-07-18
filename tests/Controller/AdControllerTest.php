@@ -84,9 +84,7 @@ class AdControllerTest extends BaseTestController
             ->setJsonContent([
                 "name" => "test",
                 "description" => "test description",
-                "url" => "https://symfony.com/doc/current/testing/database.html",
-                "dateTime" => "10/10/2022",
-                "unixTime" => time()
+                "url" => "https://symfony.com/doc/current/testing/database.html"
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();

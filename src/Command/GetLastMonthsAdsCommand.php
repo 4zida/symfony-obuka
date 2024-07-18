@@ -3,7 +3,6 @@
 namespace App\Command;
 
 use App\Document\Ad;
-use App\Util\UnixHelper;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -32,7 +31,7 @@ class GetLastMonthsAdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $ads = $this->documentManager->getRepository(Ad::class)->findBetween(time() - UnixHelper::MONTH, time() - UnixHelper::MONTH * 2);
+        $ads = $this->documentManager->getRepository(Ad::class)->findBetween(new \DateTimeImmutable("-2 months"), new \DateTimeImmutable("-1 month"));
 
         $filename = 'ads.csv';
         $file = fopen($filename, 'w');
@@ -46,7 +45,7 @@ class GetLastMonthsAdsCommand extends Command
             "Name",
             "Description",
             "Url",
-            "DateTime"
+            "Created at",
         ]);
 
         foreach ($ads as $ad) {
@@ -54,7 +53,7 @@ class GetLastMonthsAdsCommand extends Command
                 $ad->getName(),
                 $ad->getDescription(),
                 $ad->getUrl(),
-                $ad->getDateTime()
+                $ad->getCreatedAt()->format('Y-m-d H:i:s')
             ]);
         }
 

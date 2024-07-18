@@ -12,24 +12,17 @@ class AdRepository extends DocumentRepository
     /**
      * @throws MongoDBException
      */
-    public function findBetween(string|int $before, string|int $after): array
+    public function findBetween(\DateTimeImmutable $after, \DateTimeImmutable $before): array
     {
-        if(!is_int($before)) {
-            $before = strtotime($before);
-        }
-        if(!is_int($after)) {
-            $after = strtotime($after);
-        }
-
-        if ($before > $after) {
+        if ($before < $after) {
             $temp = $before;
             $before = $after;
             $after = $temp;
         }
 
         $ads = $this->createQueryBuilder()
-            ->field('unixTime')->gte($before)
-            ->field('unixTime')->lte($after)
+            ->field('createdAt')->lte($before)
+            ->field('createdAt')->gte($after)
             ->getQuery()
             ->execute();
         return $this->toArray($ads);

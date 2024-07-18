@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Document\Ad;
+use Doctrine\DBAL\Types\DateTimeImmutableType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,9 +19,7 @@ class AdType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextType::class)
             ->add('url', UrlType::class, ["default_protocol" => "http"])
-            ->add('dateTime', TextType::class, ['empty_data' => date(DATE_ATOM)])
-            ->add('unixTime', IntegerType::class, ['empty_data' => strtotime(date(DATE_ATOM))])
-        ;
+            ->add('createdAt');
     }
 
     public function configureOptions(OptionsResolver $resolver): void
