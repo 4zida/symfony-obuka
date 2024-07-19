@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
@@ -66,10 +67,10 @@ class GenerateAdsCommand extends Command
                     $ad->setUserId(null);
                     $ad->setCompanyId($company->getId());
                 }
-                $minDate = (new \DateTimeImmutable("-3 months"))->getTimestamp();
-                $maxDate = (new \DateTimeImmutable())->getTimestamp();
+                $minDate = (new DateTimeImmutable("-3 months"))->getTimestamp();
+                $maxDate = (new DateTimeImmutable())->getTimestamp();
                 $randomTimestamp = random_int($minDate, $maxDate);
-                $ad->setCreatedAt((new \DateTimeImmutable())->setTimestamp($randomTimestamp));
+                $ad->setCreatedAt((new DateTimeImmutable())->setTimestamp($randomTimestamp));
 
                 $dm->persist($ad);
             } catch (Exception $e) {

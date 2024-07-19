@@ -3,6 +3,7 @@
 namespace App\EventListeners\Document;
 
 use App\Document\Ad;
+use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ODM\MongoDB\Events;
@@ -21,7 +22,7 @@ class AdDocumentPrePersistListener
     {
         $ad = $args->getDocument();
         if($ad instanceof Ad && $ad->getCreatedAt() === null) {
-            $ad->setCreatedAt(new \DateTimeImmutable());
+            $ad->setCreatedAt(new DateTimeImmutable());
         }
     }
 }

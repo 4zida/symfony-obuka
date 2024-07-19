@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use App\Util\ContextGroup;
 use App\Util\UserRole;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -51,7 +52,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'string')]
     public ?string $passwordNoHash;
     #[ORM\Column(type: "simple_array", nullable: true)]
-    private array $roles;
+    private ?array $roles;
+    #[ORM\Column(type: 'date_immutable')]
+    private ?DateTimeImmutable $createdAt;
+
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
 
     public function getId(): ?int
     {

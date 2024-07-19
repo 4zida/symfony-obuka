@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use App\Entity\User;
+use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
@@ -12,7 +13,7 @@ class AdRepository extends DocumentRepository
     /**
      * @throws MongoDBException
      */
-    public function findBetween(\DateTimeImmutable $after, \DateTimeImmutable $before): array
+    public function findBetween(DateTimeImmutable $after, DateTimeImmutable $before): array
     {
         $ads = $this->createQueryBuilder()
             ->field('createdAt')->lte($before)
