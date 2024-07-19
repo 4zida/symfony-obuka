@@ -7,13 +7,10 @@ use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ODM\MongoDB\Events;
-use Symfony\Component\Clock\ClockAwareTrait;
 
 #[AsDocumentListener(event: Events::prePersist, connection: "default")]
 class AdDocumentPrePersistListener
 {
-    use ClockAwareTrait;
-
     public function __construct()
     {
     }
@@ -22,7 +19,7 @@ class AdDocumentPrePersistListener
     {
         $ad = $args->getDocument();
         if($ad instanceof Ad && $ad->getCreatedAt() === null) {
-            $ad->setCreatedAt(new DateTimeImmutable());
+            $ad->setCreatedAt(new DateTimeImmutable("now"));
         }
     }
 }

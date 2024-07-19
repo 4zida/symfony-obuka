@@ -16,6 +16,6 @@ class UserEntityPrePersistListener
 
     public function prePersist(User $user): void
     {
-        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setCreatedAt(new DateTimeImmutable("now"));
     }
 }

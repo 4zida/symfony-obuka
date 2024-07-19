@@ -12,6 +12,6 @@ class CompanyEntityPrePersistListener
 {
     public function prePersist(Company $company): void
     {
-        $company->setCreatedAt(new DateTimeImmutable());
+        $company->setCreatedAt(new DateTimeImmutable("now"));
     }
 }
