@@ -1,7 +1,0 @@
-{
-  "name":"test",
-  "surname":"test",
-  "role": {
-    "UserRole": "FrontEnd"
-  }
-}

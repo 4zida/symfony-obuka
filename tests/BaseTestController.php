@@ -32,7 +32,7 @@ class BaseTestController extends WebTestCase
             ->setPasswordNoHash("testPassword");
     }
 
-    protected static function createTestAd(Company $company, User $user): Ad
+    protected static function createTestAd(Company|null $company, User|null $user): Ad
     {
         return (new Ad())
             ->setName("AdTest")
@@ -40,7 +40,7 @@ class BaseTestController extends WebTestCase
             ->setDescription("Description test")
             ->setDateTime(date("Y-m-d H:i:s"))
             ->setUnixTime(time())
-            ->setUserId($user->getId())
-            ->setCompanyId($company->getId());
+            ->setUserId($user?->getId())
+            ->setCompanyId($company?->getId());
     }
 }
