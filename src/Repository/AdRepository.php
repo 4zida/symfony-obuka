@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Company;
 use App\Entity\User;
 use DateTimeImmutable;
+use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 
@@ -47,7 +48,7 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
-    protected function toArray($data): array
+    protected function toArray(Iterator|array $data): array
     {
         $array = [];
         foreach ($data as $datum){

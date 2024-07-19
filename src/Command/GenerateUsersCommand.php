@@ -39,9 +39,9 @@ class GenerateUsersCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $e = $this->entityManager;
+        $em = $this->entityManager;
         $faker = Factory::create();
-        $companyArray = $e->getRepository(Company::class)->getCompaniesAsArray();
+        $companyArray = $em->getRepository(Company::class)->getCompaniesAsArray();
         $counter = 0;
 
         for ($i = 0; $i < 100; $i++) {
@@ -50,17 +50,17 @@ class GenerateUsersCommand extends Command
                 $role = UserRole::cases()[array_rand(UserRole::cases())];
                 $pass = $faker->password;
 
-                $user = new User();
-                $user->setName($faker->firstName);
-                $user->setRole($role);
-                $user->setCompany($company);
-                $user->setSurname($faker->lastName);
-                $user->setEmail($faker->email);
-                $user->setPassword($this->passwordHasher->hashPassword($user, $pass));
-                $user->setPasswordNoHash($pass);
-                $e->persist($user);
+                $user = (new User())
+                    ->setName($faker->firstName)
+                    ->setRole($role)
+                    ->setCompany($company)
+                    ->setSurname($faker->lastName)
+                    ->setEmail($faker->email);
+                $user->setPassword($this->passwordHasher->hashPassword($user, $pass))
+                    ->setPasswordNoHash($pass);
+                $em->persist($user);
             } catch (Exception $e) {
-                $io->error($e->getMessage() . " Continuing...");
+                $io->error($e->getMessage() . "\n Continuing...");
                 continue;
             }
             $counter++;
@@ -70,7 +70,7 @@ class GenerateUsersCommand extends Command
             return Command::FAILURE;
         }
 
-        $e->flush();
+        $em->flush();
 
         $io->success(sprintf('Generated %s users!', $counter));
 

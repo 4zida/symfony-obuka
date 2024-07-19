@@ -3,12 +3,10 @@
 namespace App\Tests\Controller;
 
 use App\Entity\Company;
-use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -56,10 +54,6 @@ class CompanyControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::COMPANY_CREATED, $content);
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function testShow(): void
     {
         $response = RequestBuilder::create(self::createClient())
@@ -73,10 +67,6 @@ class CompanyControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $content['id']);
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function testUpdate(): void
     {
         $response = RequestBuilder::create(self::createClient())

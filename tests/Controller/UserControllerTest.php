@@ -8,7 +8,6 @@ use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\Exception\ORMException;
-use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -68,10 +67,6 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::USER_CREATED, $content);
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function testShow(): void
     {
         $response = RequestBuilder::create(self::createClient())
@@ -86,10 +81,6 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $content['id']);
     }
 
-    /**
-     * @throws OptimisticLockException
-     * @throws ORMException
-     */
     public function testUpdate(): void
     {
         $response = RequestBuilder::create(self::createClient())

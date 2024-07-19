@@ -34,16 +34,14 @@ class CleanCommand extends Command
 
         $users = $this->userRepository->findAll();
         foreach ($users as $user) {
-            $id = $user->getId();
-            $output->writeln(sprintf('User %s (%d) will be deleted', $user->getName(), $user->getId()));
+            $output->writeln(sprintf('User %s (%d) will be deleted', $user->getName(), $id = $user->getId()));
             $this->userRepository->deleteUser($user);
             $output->writeln(sprintf('User %s (%d) has been deleted', $user->getName(), $id));
         }
 
         $companies = $this->companyRepository->findAll();
         foreach ($companies as $company) {
-            $id = $company->getId();
-            $output->writeln(sprintf('Company %s (%d) will be deleted', $company->getName(), $company->getId()));
+            $output->writeln(sprintf('Company %s (%d) will be deleted', $company->getName(), $id = $company->getId()));
             $this->companyRepository->deleteCompany($company);
             $output->writeln(sprintf('Company %s (%d) has been deleted', $company->getName(), $id));
         }

@@ -18,7 +18,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 )]
 class GenerateCompaniesCommand extends Command
 {
-    public function __construct(private readonly EntityManagerInterface $entityManager)
+    public function __construct(
+        private readonly EntityManagerInterface $entityManager
+    )
     {
         parent::__construct();
     }
@@ -30,19 +32,18 @@ class GenerateCompaniesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
         $e = $this->entityManager;
         $faker = Factory::create();
         $counter = 0;
 
         for ($i = 0; $i < 10; $i++) {
             try {
-                $company = new Company();
-                $company->setName($faker->company);
-                $company->setAddress($faker->address);
+                $company = (new Company())
+                    ->setName($faker->company)
+                    ->setAddress($faker->address);
                 $e->persist($company);
             } catch (Exception $e) {
-                $io->error($e->getMessage() . " Continuing...");
+                $io->error($e->getMessage() . "\n Continuing...");
                 continue;
             }
             $counter++;
