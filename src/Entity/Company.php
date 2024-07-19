@@ -22,12 +22,12 @@ class Company
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_DETAILS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_DETAILS])]
     #[Assert\NotBlank]
     private ?string $address = null;
 

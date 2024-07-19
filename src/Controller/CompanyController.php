@@ -31,7 +31,7 @@ class CompanyController extends AbstractController
     #[Route('/api/company/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::COMPANY_USERS);
+        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::COMPANY_DETAILS);
     }
 
     #[Route('/api/company/{id}', methods: Request::METHOD_GET)]

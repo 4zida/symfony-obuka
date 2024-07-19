@@ -34,7 +34,7 @@ class UserController extends AbstractController
     #[Route('/api/user/', methods: Request::METHOD_GET)]
     public function index() : JsonResponse
     {
-        return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_COMPANY);
+        return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_DETAILS);
     }
 
     #[Route('/api/user/{id}', methods: Request::METHOD_GET)]

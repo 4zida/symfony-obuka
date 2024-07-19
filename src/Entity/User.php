@@ -24,12 +24,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS, ContextGroup::COMPANY_DETAILS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY])]
+    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_DETAILS])]
     private ?string $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
@@ -37,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS])]
+    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS, ContextGroup::COMPANY_DETAILS])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 
