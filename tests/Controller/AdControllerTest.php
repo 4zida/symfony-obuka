@@ -151,6 +151,32 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(self::$companyId, $content[0]["companyId"]);
     }
 
+    public function testFindByAddress(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search/address/'.self::$agent->getAddress())
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertEquals(self::$agent->getAddress(), $content[0]["address"]);
+    }
+
+    public function testFindByFloor(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search/floor/'.self::$agent->getFloor())
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertEquals(self::$agent->getFloor(), $content[0]["floor"]);
+    }
+
     /**
      * @throws MongoDBException
      * @throws RandomException

@@ -48,6 +48,30 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
+    /**
+     * @throws MongoDBException
+     */
+    public function findByAddress(string $address): array
+    {
+        $ads = $this->createQueryBuilder()
+            ->field('address')->equals($address)
+            ->getQuery()
+            ->execute();
+        return $this->toArray($ads);
+    }
+
+    /**
+     * @throws MongoDBException
+     */
+    public function findByFloor(int $floor): array
+    {
+        $ads = $this->createQueryBuilder()
+            ->field('floor')->equals($floor)
+            ->getQuery()
+            ->execute();
+        return $this->toArray($ads);
+    }
+
     protected function toArray(Iterator|array $data): array
     {
         $array = [];

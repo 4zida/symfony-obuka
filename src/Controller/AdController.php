@@ -111,4 +111,20 @@ class AdController extends AbstractController
 
         return $this->jsonWithGroup($ads, ContextGroup::AD_DETAILS);
     }
+
+    #[Route('/api/ad/search/address/{address}', methods: Request::METHOD_GET)]
+    public function findByAddress(string $address): JsonResponse
+    {
+        $ads = $this->documentManager->getRepository(Ad::class)->findByAddress($address);
+
+        return $this->jsonWithGroup($ads, ContextGroup::AD_DETAILS);
+    }
+
+    #[Route('/api/ad/search/floor/{floor}', methods: Request::METHOD_GET)]
+    public function findByFloor(int $floor): JsonResponse
+    {
+        $ads = $this->documentManager->getRepository(Ad::class)->findByFloor($floor);
+
+        return $this->jsonWithGroup($ads, ContextGroup::AD_DETAILS);
+    }
 }
