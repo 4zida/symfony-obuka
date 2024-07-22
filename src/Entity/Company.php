@@ -39,7 +39,7 @@ class Company
     private Collection $users;
 
     #[ORM\Column(type: 'date_immutable')]
-    private DateTimeImmutable $createdAt;
+    private ?DateTimeImmutable $createdAt;
 
     public function getCreatedAt(): DateTimeImmutable
     {

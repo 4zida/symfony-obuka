@@ -56,7 +56,7 @@ class GenerateAdsCommand extends Command
                 $ad->setName($faker->sentence);
                 $ad->setUrl($faker->url);
                 $ad->setDescription($faker->paragraph);
-                $ad->setFloor(random_int(0, 30));
+                $ad->setFloor(random_int(0, 10));
                 $ad->setAddress($faker->address);
 
                 $rand = random_int(0, 1);
