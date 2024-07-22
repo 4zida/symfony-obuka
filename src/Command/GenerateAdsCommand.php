@@ -13,6 +13,7 @@ use Exception;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -33,6 +34,7 @@ class GenerateAdsCommand extends Command
 
     protected function configure(): void
     {
+        $this->addArgument('amount', InputArgument::OPTIONAL, 'Amount of ads to be generated [int]', 1000);
     }
 
     /**
@@ -41,6 +43,13 @@ class GenerateAdsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+        $amount = $input->getArgument('amount');
+
+        if(!is_numeric($amount) || $amount < 1 || $amount > 9999) {
+            $io->error('Amount must be a positive integer less than 9999');
+            return Command::FAILURE;
+        }
+        $amount = (int) $amount;
 
         $em = $this->entityManager;
         $dm = $this->documentManager;
@@ -50,7 +59,7 @@ class GenerateAdsCommand extends Command
         $companyArray = $em->getRepository(Company::class)->getCompaniesAsArray();
         $userArray = $em->getRepository(User::class)->getUsersAsArray();
 
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < $amount; $i++) {
             try {
                 $ad = new Ad();
                 $ad->setName($faker->sentence);
@@ -61,13 +70,21 @@ class GenerateAdsCommand extends Command
 
                 $rand = random_int(0, 1);
                 if ($rand) {
-                    $user = $userArray[array_rand($userArray)];
-                    $ad->setUserId($user->getId());
+                    if (!empty($userArray)) {
+                        $user = $userArray[array_rand($userArray)];
+                        $ad->setUserId($user->getId());
+                    } else {
+                        $ad->setUserId(null);
+                    }
                     $ad->setCompanyId(null);
                 } else {
-                    $company = $companyArray[array_rand($companyArray)];
+                    if (!empty($companyArray)) {
+                        $company = $companyArray[array_rand($companyArray)];
+                        $ad->setCompanyId($company->getId());
+                    } else {
+                        $ad->setCompanyId(null);
+                    }
                     $ad->setUserId(null);
-                    $ad->setCompanyId($company->getId());
                 }
                 $randomTimestamp = random_int(
                     (new DateTimeImmutable("-3 months"))->getTimestamp(),

@@ -8,6 +8,7 @@ use Exception;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -27,6 +28,7 @@ class GenerateCompaniesCommand extends Command
 
     protected function configure(): void
     {
+        $this->addArgument('amount', InputArgument::OPTIONAL, "Amount of companies to be generated", 10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -35,8 +37,16 @@ class GenerateCompaniesCommand extends Command
         $e = $this->entityManager;
         $faker = Factory::create();
         $counter = 0;
+        $amount = $input->getArgument('amount');
 
-        for ($i = 0; $i < 10; $i++) {
+        if (!is_numeric($amount) || $amount < 1 || $amount > 100) {
+            $io->error("Amount must be between 1 and 100");
+            return Command::FAILURE;
+        }
+
+        $amount = (int) $amount;
+
+        for ($i = 0; $i < $amount; $i++) {
             try {
                 $company = (new Company())
                     ->setName($faker->company)
