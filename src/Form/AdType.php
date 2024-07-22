@@ -17,7 +17,9 @@ class AdType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextType::class)
             ->add('url', UrlType::class, ["default_protocol" => "http"])
-            ->add('createdAt');
+            ->add('createdAt')
+            ->add('address', TextType::class)
+            ->add('floor');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

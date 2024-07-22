@@ -14,6 +14,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use Nebkam\FluentTest\RequestBuilder;
+use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdControllerTest extends BaseTestController
@@ -29,6 +30,7 @@ class AdControllerTest extends BaseTestController
 
     /**
      * @throws MongoDBException
+     * @throws RandomException
      */
     public static function setUpBeforeClass(): void
     {
@@ -83,7 +85,9 @@ class AdControllerTest extends BaseTestController
             ->setJsonContent([
                 "name" => "test",
                 "description" => "test description",
-                "url" => "https://symfony.com/doc/current/testing/database.html"
+                "url" => "https://symfony.com/doc/current/testing/database.html",
+                "address" => "test address",
+                "floor" => 3
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
@@ -149,6 +153,7 @@ class AdControllerTest extends BaseTestController
 
     /**
      * @throws MongoDBException
+     * @throws RandomException
      */
     public function testDelete(): void
     {

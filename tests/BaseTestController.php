@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
+use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseTestController extends WebTestCase
@@ -32,6 +33,9 @@ class BaseTestController extends WebTestCase
             ->setPasswordNoHash("testPassword");
     }
 
+    /**
+     * @throws RandomException
+     */
     protected static function createTestAd(Company|null $company, User|null $user): Ad
     {
         return (new Ad())
@@ -41,6 +45,8 @@ class BaseTestController extends WebTestCase
             ->setDateTime(date("Y-m-d H:i:s"))
             ->setUnixTime(time())
             ->setUserId($user?->getId())
-            ->setCompanyId($company?->getId());
+            ->setCompanyId($company?->getId())
+            ->setFloor(random_int(1, 100))
+            ->setAddress("Test Address");
     }
 }

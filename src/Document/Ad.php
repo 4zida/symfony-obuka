@@ -16,17 +16,26 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Groups(ContextGroup::AD_DETAILS)]
 class Ad
 {
+    #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
-    protected string $id;
+    protected ?string $id;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    protected string $name;
+    protected ?string $name;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    protected string $description;
+    protected ?string $description;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
-    protected string $url;
+    protected ?string $address;
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank]
+    protected ?int $floor;
+    #[MongoDB\Field(type: 'bool')]
+    protected ?bool $isActive;
+    #[MongoDB\Field(type: 'string')]
+    #[Assert\NotBlank]
+    protected ?string $url;
     #[MongoDB\Field(type: 'string')]
     #[Deprecated]
     protected ?string $dateTime;
@@ -123,13 +132,47 @@ class Ad
         return $this;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt ?? null;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): self
+    {
+        $this->address = $address;
+        return $this;
+    }
+
+    public function getFloor(): ?int
+    {
+        return $this->floor;
+    }
+
+    public function setFloor(?int $floor): self
+    {
+        $this->floor = $floor;
+        return $this;
+    }
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive ?? null;
+    }
+
+    public function setIsActive(?bool $isActive): self
+    {
+        $this->isActive = $isActive;
+        return $this;
     }
 }
