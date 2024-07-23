@@ -75,12 +75,14 @@ class AdController extends AbstractController
     }
 
     /**
+     * @param Ad $ad
+     * @return Response
      * @throws MongoDBException
      */
     #[Route('/api/ad/{id}', methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad): Response
     {
-        $this->documentManager->remove($ad);  // TODO: active
+        $ad->setIsActive(false);
         $this->documentManager->flush();
 
         return $this->createOkResponse(ResponseMessage::AD_DELETED);
