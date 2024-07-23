@@ -4,10 +4,13 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use App\Entity\User;
+use App\Search\Filter\AdFilter;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Nebkam\OdmSearchParam\SearchParamParser;
+use ReflectionException;
 
 class AdRepository extends DocumentRepository
 {
@@ -79,5 +82,19 @@ class AdRepository extends DocumentRepository
             $array[] = $datum;
         }
         return $array;
+    }
+
+    /**
+     * @param AdFilter $filter
+     * @return array
+     * @throws MongoDBException
+     * @throws ReflectionException
+     */
+    public function search(AdFilter $filter): array
+    {
+        $builder = $this->createQueryBuilder();
+        SearchParamParser::parse($filter, $builder);
+
+        return $this->toArray($builder->getQuery()->execute());
     }
 }
