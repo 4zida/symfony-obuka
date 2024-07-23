@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Company;
 use App\Entity\User;
-use App\Search\Filter\AdFilter;
+use App\Search\Filter\AdSearchFilter;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
@@ -85,12 +85,12 @@ class AdRepository extends DocumentRepository
     }
 
     /**
-     * @param AdFilter $filter
+     * @param AdSearchFilter $filter
      * @return array
      * @throws MongoDBException
      * @throws ReflectionException
      */
-    public function search(AdFilter $filter): array
+    public function search(AdSearchFilter $filter): array
     {
         $builder = $this->createQueryBuilder();
         SearchParamParser::parse($filter, $builder);

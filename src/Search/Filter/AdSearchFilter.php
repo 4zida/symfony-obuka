@@ -7,7 +7,7 @@ use Nebkam\OdmSearchParam\SearchParamDirection;
 use Nebkam\OdmSearchParam\SearchParamType;
 use Symfony\Component\Validator\Constraints as Assert;
 
-class AdFilter
+class AdSearchFilter
 {
     #[Assert\Type('integer')]
     #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::From, field: 'floor')]
@@ -29,7 +29,7 @@ class AdFilter
         return $this->floorFrom;
     }
 
-    public function setFloorFrom(?int $floorFrom): AdFilter
+    public function setFloorFrom(?int $floorFrom): AdSearchFilter
     {
         $this->floorFrom = $floorFrom;
         return $this;
@@ -40,7 +40,7 @@ class AdFilter
         return $this->floorTo;
     }
 
-    public function setFloorTo(?int $floorTo): AdFilter
+    public function setFloorTo(?int $floorTo): AdSearchFilter
     {
         $this->floorTo = $floorTo;
         return $this;
@@ -51,7 +51,7 @@ class AdFilter
         return $this->m2From;
     }
 
-    public function setM2From(?int $m2From): AdFilter
+    public function setM2From(?int $m2From): AdSearchFilter
     {
         $this->m2From = $m2From;
         return $this;
@@ -62,7 +62,7 @@ class AdFilter
         return $this->m2To;
     }
 
-    public function setM2To(?int $m2To): AdFilter
+    public function setM2To(?int $m2To): AdSearchFilter
     {
         $this->m2To = $m2To;
         return $this;

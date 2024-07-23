@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Form\AdSearchFilterFormType;
-use App\Search\Filter\AdFilter;
+use App\Search\Filter\AdSearchFilter;
 use App\Service\AdSearchService;
 use App\Util\ContextGroup;
 use Doctrine\ODM\MongoDB\MongoDBException;
@@ -27,7 +27,7 @@ class AdSearchController extends AbstractController
     #[Route('/api/ad/search', name: 'ad_search', methods: Request::METHOD_GET)]
     public function search(Request $request, AdSearchService $adSearchService): JsonResponse
     {
-        $filter = new AdFilter();
+        $filter = new AdSearchFilter();
         $this->handleJSONForm($request, $filter, AdSearchFilterFormType::class);
 
         return $this->jsonWithGroup($adSearchService->search($filter), ContextGroup::AD_DETAILS);
