@@ -87,7 +87,8 @@ class AdControllerTest extends BaseTestController
                 "description" => "test description",
                 "url" => "https://symfony.com/doc/current/testing/database.html",
                 "address" => "test address",
-                "floor" => 3
+                "floor" => 3,
+                "m2" => 50
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();

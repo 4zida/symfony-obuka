@@ -80,7 +80,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/{id}', methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad): Response
     {
-        $this->documentManager->remove($ad);
+        $this->documentManager->remove($ad);  // TODO: active
         $this->documentManager->flush();
 
         return $this->createOkResponse(ResponseMessage::AD_DELETED);

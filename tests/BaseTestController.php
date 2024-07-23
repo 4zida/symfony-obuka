@@ -31,6 +31,7 @@ class BaseTestController extends WebTestCase
             ->setEmail("test@email.com")
             ->setCompany($company)
             ->setPasswordNoHash("testPassword");
+
     }
 
     /**
@@ -47,6 +48,7 @@ class BaseTestController extends WebTestCase
             ->setUserId($user?->getId())
             ->setCompanyId($company?->getId())
             ->setFloor(random_int(1, 100))
-            ->setAddress("Test Address");
+            ->setAddress("Test Address")
+            ->setM2(50);
     }
 }
