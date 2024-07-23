@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class CompanyController extends AbstractController
 {
@@ -34,13 +35,13 @@ class CompanyController extends AbstractController
         return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::COMPANY_DETAILS);
     }
 
-    #[Route('/api/company/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function show(Company $company) : JsonResponse
     {
         return $this->jsonWithGroup($company, ContextGroup::COMPANY_USERS);
     }
 
-    #[Route('/api/company/{id}', methods: Request::METHOD_PATCH)]
+    #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_PATCH)]
     public function update(Company $company, Request $request) : Response
     {
         $this->handleJSONForm($request, $company, CompanyType::class, [], false);
@@ -60,7 +61,7 @@ class CompanyController extends AbstractController
         return $this->createOkResponse(ResponseMessage::COMPANY_CREATED);
     }
 
-    #[Route('/api/company/{id}', methods: Request::METHOD_DELETE)]
+    #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
     public function delete(Company $company) : Response
     {
         foreach ($company->getUsers() as $user) {

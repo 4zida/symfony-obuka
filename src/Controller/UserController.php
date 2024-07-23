@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class UserController extends AbstractController
 {
@@ -37,13 +38,13 @@ class UserController extends AbstractController
         return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_DETAILS);
     }
 
-    #[Route('/api/user/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function show(User $user) : JsonResponse
     {
         return $this->jsonWithGroup($user, ContextGroup::USER_COMPANY);
     }
 
-    #[Route('/api/user/{id}', methods: Request::METHOD_PATCH)]
+    #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_PATCH)]
     public function update(User $user, Request $request) : Response
     {
         $this->handleJSONForm($request, $user, UserType::class, [], false);
@@ -63,7 +64,7 @@ class UserController extends AbstractController
         return $this->createOkResponse(ResponseMessage::USER_CREATED);
     }
 
-    #[Route('/api/user/{id}', methods: Request::METHOD_DELETE)]
+    #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
     public function delete(User $user) : Response
     {
         $this->entityManager->remove($user);
