@@ -46,6 +46,9 @@ class Ad
     protected int|null $userId;
     #[MongoDB\Field(type: 'int')]
     protected int|null $companyId;
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank]
+    protected ?int $m2;
 
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $createdAt;
@@ -173,6 +176,17 @@ class Ad
     public function setIsActive(?bool $isActive): self
     {
         $this->isActive = $isActive;
+        return $this;
+    }
+
+    public function getM2(): ?int
+    {
+        return $this->m2;
+    }
+
+    public function setM2(?int $m2): self
+    {
+        $this->m2 = $m2;
         return $this;
     }
 }
