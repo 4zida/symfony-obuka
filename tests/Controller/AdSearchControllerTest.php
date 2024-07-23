@@ -52,12 +52,17 @@ class AdSearchControllerTest extends BaseTestController
             ->setMethod(Request::METHOD_GET)
             ->setUri('api/ad/search')
             ->setJsonContent([
-
+                'floorFrom' => 5,
+                'floorTo' => 10
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
+        foreach ($content as $ad) {
+            self::assertGreaterThanOrEqual(5, $ad['floor']);
+            self::assertLessThanOrEqual(10, $ad['floor']);
+        }
     }
 
     /**
