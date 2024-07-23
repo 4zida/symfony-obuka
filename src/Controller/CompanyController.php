@@ -64,10 +64,7 @@ class CompanyController extends AbstractController
     #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
     public function delete(Company $company) : Response
     {
-        foreach ($company->getUsers() as $user) {
-            $user->setCompany(null);
-        }
-        $this->entityManager->remove($company);
+        $company->setIsActive(false);
         $this->entityManager->flush();
 
         return $this->createOkResponse(ResponseMessage::COMPANY_DELETED);

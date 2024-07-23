@@ -67,7 +67,7 @@ class UserController extends AbstractController
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
     public function delete(User $user) : Response
     {
-        $this->entityManager->remove($user);
+        $user->setIsActive(false);
         $this->entityManager->flush();
 
         return $this->createOkResponse(ResponseMessage::USER_DELETED);

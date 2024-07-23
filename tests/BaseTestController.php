@@ -17,7 +17,8 @@ class BaseTestController extends WebTestCase
     {
         return (new Company())
             ->setName("Test Company")
-            ->setAddress("Test Address");
+            ->setAddress("Test Address")
+            ;
     }
 
     protected static function createTestUser(Company|null $company): User
@@ -30,8 +31,8 @@ class BaseTestController extends WebTestCase
             ->setSurname("Test Surname")
             ->setEmail("test@email.com")
             ->setCompany($company)
-            ->setPasswordNoHash("testPassword");
-
+            ->setPasswordNoHash("testPassword")
+            ;
     }
 
     /**

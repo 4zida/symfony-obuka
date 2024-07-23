@@ -41,6 +41,20 @@ class Company
     #[ORM\Column(type: 'date_immutable')]
     private ?DateTimeImmutable $createdAt;
 
+    #[ORM\Column(type: 'boolean')]
+    private ?bool $isActive;
+
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(?bool $isActive): Company
+    {
+        $this->isActive = $isActive;
+        return $this;
+    }
+
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
