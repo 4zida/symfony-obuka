@@ -36,7 +36,7 @@ class AdControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany();
+        self::$company = self::createTestCompany()->setAddress("ad");
         self::$companyId = self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
@@ -178,15 +178,11 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(self::$agent->getFloor(), $content[0]["floor"]);
     }
 
-    /**
-     * @throws MongoDBException
-     * @throws RandomException
-     */
     public function testDelete(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/ad/'.self::persistDocument(self::createTestAd(self::$company, self::$user)))
+            ->setUri('/api/ad/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 

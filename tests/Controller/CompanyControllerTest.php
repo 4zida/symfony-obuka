@@ -20,7 +20,7 @@ class CompanyControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$agent = self::createTestCompany();
+        self::$agent = self::createTestCompany()->setAddress("company");
         self::$agentId = self::persistEntity(self::$agent);
 
         self::ensureKernelShutdown();
@@ -87,7 +87,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/company/'.self::persistEntity(self::createTestCompany()))
+            ->setUri('/api/company/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 

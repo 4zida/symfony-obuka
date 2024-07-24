@@ -23,7 +23,7 @@ class UserControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany();
+        self::$company = self::createTestCompany()->setAddress("user");
         self::$companyId = self::persistEntity(self::$company);
 
         self::$agent = self::createTestUser(self::$company);
@@ -101,7 +101,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/user/'.self::persistEntity(self::createTestUser(null)->setEmail("test@gmail.com")))
+            ->setUri('/api/user/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -155,7 +155,7 @@ class UserControllerTest extends BaseTestController
     public static function tearDownAfterClass(): void
     {
         self::removeEntityById(User::class, self::$agent->getId());
-        self::removeEntityById(Company::class, self::$companyId);
+        self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
     }
