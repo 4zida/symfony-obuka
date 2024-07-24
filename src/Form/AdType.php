@@ -18,7 +18,6 @@ class AdType extends AbstractType
             ->add('name', TextType::class)
             ->add('description', TextType::class)
             ->add('url', UrlType::class, ["default_protocol" => "http"])
-            ->add('createdAt')
             ->add('address', TextType::class)
             ->add('floor', IntegerType::class)
             ->add('m2', IntegerType::class);

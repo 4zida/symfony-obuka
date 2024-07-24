@@ -56,7 +56,6 @@ class UserControllerTest extends BaseTestController
                 "surname" => "Test Surname",
                 "password" => "Test Password",
                 "email" => "test@gmail.com",
-                "roles" => [],
                 "company" => null
             ])
             ->getResponse();

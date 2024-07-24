@@ -25,20 +25,6 @@ class UserRepository extends ServiceEntityRepository
         $em->flush();
     }
 
-    public function getUser($id) : User
-    {
-        $em = $this->getEntityManager();
-        return $em->getRepository(User::class)->find($id);
-    }
-
-    public function getUsers() : Generator
-    {
-        $em = $this->getEntityManager();
-        foreach ($em->getRepository(User::class)->findAll() as $user) {
-            yield $user;
-        }
-    }
-
     public function getUsersAsArray() : array
     {
         return $this->createQueryBuilder('u')

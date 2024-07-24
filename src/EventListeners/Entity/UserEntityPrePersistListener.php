@@ -10,10 +10,6 @@ use Doctrine\ORM\Events;
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: User::class)]
 class UserEntityPrePersistListener
 {
-    public function __construct()
-    {
-    }
-
     public function prePersist(User $user): void
     {
         $user->setCreatedAt(new DateTimeImmutable("now"));

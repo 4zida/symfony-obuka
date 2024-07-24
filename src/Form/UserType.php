@@ -22,7 +22,6 @@ class UserType extends AbstractType
             ->add('surname', TextType::class)
             ->add('email', EmailType::class)
             ->add('password', PasswordType::class)
-            ->add('roles', null, ["required" => false])
             ->add('company', EntityType::class, [
                 'class' => Company::class,
                 'choice_label' => 'id',

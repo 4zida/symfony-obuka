@@ -11,10 +11,6 @@ use Doctrine\ODM\MongoDB\Events;
 #[AsDocumentListener(event: Events::prePersist, connection: "default")]
 class AdDocumentPrePersistListener
 {
-    public function __construct()
-    {
-    }
-
     public function __invoke(LifecycleEventArgs $args): void
     {
         $ad = $args->getDocument();
