@@ -6,16 +6,18 @@ use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
-class CleanCommandTest extends KernelTestCase
+class GenerateAdsCommandTestCase extends KernelTestCase
 {
     public function testExecute(): void
     {
         $this->bootKernel();
         $application = new Application(self::$kernel);
 
-        $command = $application->find('app:clean');
+        $command = $application->find('app:generate-ads');
         $commandTester = new CommandTester($command);
-        $commandTester->execute([]);
+        $commandTester->execute([
+            'amount' => 10
+        ]);
 
         $commandTester->assertCommandIsSuccessful();
     }
