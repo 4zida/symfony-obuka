@@ -12,7 +12,7 @@ class CompanyEntityPrePersistListener
 {
     public function prePersist(Company $company): void
     {
-        $company->setCreatedAt(new DateTimeImmutable("now"));
+        $company->setCreatedAt(new DateTimeImmutable());
         $company->setIsActive(false);
     }
 }

@@ -16,7 +16,7 @@ class AdDocumentPrePersistListener
         $ad = $args->getDocument();
         if($ad instanceof Ad) {
             if ($ad->getCreatedAt() === null) {
-                $ad->setCreatedAt(new DateTimeImmutable("now"));
+                $ad->setCreatedAt(new DateTimeImmutable());
             }
             $ad->setIsActive(false);
         }
