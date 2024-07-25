@@ -7,6 +7,7 @@ use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
+use App\Util\UserRole;
 use Doctrine\ORM\Exception\ORMException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,7 +53,7 @@ class UserControllerTest extends BaseTestController
             ->setUri('/api/user/')
             ->setJsonContent([
                 "name" => "Test User",
-                "role" => "Test Role",
+                "role" => UserRole::BackEnd,
                 "surname" => "Test Surname",
                 "password" => "Test Password",
                 "email" => "test@gmail.com",
@@ -123,7 +124,7 @@ class UserControllerTest extends BaseTestController
 
     public function testFindByRole(): void
     {
-        $role = self::$agent->getRole();
+        $role = self::$agent->getRole()->value;
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/user/search/role/'.$role)

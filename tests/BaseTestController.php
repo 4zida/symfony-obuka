@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
+use App\Util\UserRole;
 use Random\RandomException;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -25,7 +26,7 @@ class BaseTestController extends WebTestCase
     {
         return (new User())
             ->setName("Test Agent")
-            ->setRole("Test Role")
+            ->setRole(UserRole::BackEnd)
             ->setPassword("testPassword")
             ->setSurname("Test Surname")
             ->setEmail("test@email.com")

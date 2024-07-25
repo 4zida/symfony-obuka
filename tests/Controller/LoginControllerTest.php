@@ -5,6 +5,7 @@ namespace App\Tests\Controller;
 use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
+use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Component\HttpKernel\KernelInterface;
@@ -41,7 +42,7 @@ class LoginControllerTest extends BaseTestController
         self::$user
             ->setEmail('email@example.com')
             ->setName('test')
-            ->setRole('test')
+            ->setRole(UserRole::BackEnd)
             ->setSurname('test')
             ->setRoles(['ROLE_USER'])
             ->setPassword($passwordHasher->hashPassword(self::$user, 'password'))

@@ -26,8 +26,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\NotBlank]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private ?string $role = null;
+    #[ORM\Column(type: 'string', enumType: UserRole::class)]
+    private ?UserRole $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
     private ?Company $company = null;
@@ -111,19 +111,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
     ])]
-    public function getRole(): ?string
+    public function getRole(): ?UserRole
     {
         return $this->role;
     }
 
-    public function setRole(UserRole|string $role): User
+    public function setRole(?UserRole $role): User
     {
-        if(is_string($role)){
-            $this->role = $role;
-        } else {
-            $this->role = $role->value;
-        }
-
+        $this->role = $role;
         return $this;
     }
 
