@@ -12,22 +12,19 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[Groups(ContextGroup::COMPANY_DETAILS)]
+#[Groups(ContextGroup::COMPANY_ALL_DETAILS)]
 class Company
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_DETAILS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups([ContextGroup::COMPANY_USERS, ContextGroup::USER_DETAILS])]
     #[Assert\NotBlank]
     private ?string $address = null;
 
@@ -35,7 +32,6 @@ class Company
      * @var Collection<int, User>
      */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
-    #[Groups(ContextGroup::COMPANY_USERS)]
     private Collection $users;
 
     #[ORM\Column(type: 'date_immutable')]
@@ -70,11 +66,17 @@ class Company
         $this->users = new ArrayCollection();
     }
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+    ])]
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+    ])]
     public function getName(): ?string
     {
         return $this->name;
@@ -87,6 +89,9 @@ class Company
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+    ])]
     public function getAddress(): ?string
     {
         return $this->address;

@@ -35,13 +35,13 @@ class UserController extends AbstractController
     #[Route('/api/user/', methods: Request::METHOD_GET)]
     public function index() : JsonResponse
     {
-        return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_DETAILS);
+        return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function show(User $user) : JsonResponse
     {
-        return $this->jsonWithGroup($user, ContextGroup::USER_COMPANY);
+        return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_PATCH)]
@@ -78,7 +78,7 @@ class UserController extends AbstractController
     {
         $user = $this->userRepository->find($id);
 
-        return $this->jsonWithGroup($user, ContextGroup::USER_COMPANY);
+        return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/search/role/{role}', methods: Request::METHOD_GET)]
@@ -86,7 +86,7 @@ class UserController extends AbstractController
     {
         $user = $this->userRepository->getUsersByRole($role);
 
-        return $this->jsonWithGroup($user, ContextGroup::USER_COMPANY);
+        return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/search/company/{id}', methods: Request::METHOD_GET)]
@@ -94,6 +94,6 @@ class UserController extends AbstractController
     {
         $user = $this->userRepository->getUsersByCompany($company);
 
-        return $this->jsonWithGroup($user, ContextGroup::USER_COMPANY);
+        return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 }

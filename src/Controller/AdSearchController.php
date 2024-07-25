@@ -30,6 +30,6 @@ class AdSearchController extends AbstractController
         $filter = new AdSearchFilter();
         $this->handleJSONForm($request, $filter, AdSearchFilterFormType::class);
 
-        return $this->jsonWithGroup($adSearchService->search($filter), ContextGroup::AD_DETAILS);
+        return $this->jsonWithGroup($adSearchService->search($filter), ContextGroup::AD_ALL_DETAILS);
     }
 }

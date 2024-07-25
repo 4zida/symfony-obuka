@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[MongoDB\Document(collection: 'ads', repositoryClass: AdRepository::class)]
 #[Unique(fields: 'url')]
-#[Groups(ContextGroup::AD_DETAILS)]
+#[Groups(ContextGroup::AD_ALL_DETAILS)]
 class Ad
 {
     #[MongoDB\Field(type: 'string')]

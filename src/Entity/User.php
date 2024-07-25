@@ -14,35 +14,29 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[Groups(ContextGroup::USER_DETAILS)]
+#[Groups(ContextGroup::USER_ALL_DETAILS)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups([ContextGroup::USER_COMPANY])]
     private ?int $id = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS, ContextGroup::COMPANY_DETAILS])]
     #[Assert\NotBlank]
     private ?string $name = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_DETAILS])]
     private ?string $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
-    #[Groups([ContextGroup::USER_COMPANY])]
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups([ContextGroup::USER_COMPANY, ContextGroup::COMPANY_USERS, ContextGroup::COMPANY_DETAILS])]
     #[Assert\NotBlank]
     private ?string $surname = null;
 
     #[ORM\Column(type: 'string', length: 255, unique: true)]
-    #[Groups([ContextGroup::USER_COMPANY])]
     #[Assert\NotBlank]
     private ?string $email;
 
@@ -79,11 +73,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = $createdAt;
     }
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+    ])]
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+    ])]
     public function getName(): ?string
     {
         return $this->name;
@@ -108,6 +108,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+    ])]
     public function getRole(): ?string
     {
         return $this->role;
@@ -124,6 +127,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+    ])]
     public function getSurname(): ?string
     {
         return $this->surname;
@@ -135,6 +141,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+    ])]
     public function getEmail(): ?string
     {
         return $this->email;
