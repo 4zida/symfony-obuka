@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Search;
 
 use App\Search\Filter\AdSearchFilter;
 use Symfony\Component\Form\AbstractType;

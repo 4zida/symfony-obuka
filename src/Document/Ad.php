@@ -43,9 +43,9 @@ class Ad
     #[Deprecated]
     protected ?int $unixTime;
     #[MongoDB\Field(type: 'int')]
-    protected int|null $userId;
+    protected ?int $userId;
     #[MongoDB\Field(type: 'int')]
-    protected int|null $companyId;
+    protected ?int $companyId;
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
     protected ?int $m2;
@@ -91,23 +91,23 @@ class Ad
         return $this;
     }
 
-    public function getUserId(): int|null
+    public function getUserId(): ?int
     {
         return $this->userId;
     }
 
-    public function setUserId(int|null $userId): Ad
+    public function setUserId(?int $userId): Ad
     {
         $this->userId = $userId;
         return $this;
     }
 
-    public function getCompanyId(): int|null
+    public function getCompanyId(): ?int
     {
         return $this->companyId;
     }
 
-    public function setCompanyId(int|null $companyId): Ad
+    public function setCompanyId(?int $companyId): Ad
     {
         $this->companyId = $companyId;
         return $this;

@@ -41,7 +41,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/{id}', requirements: ['id' => self::OBJECT_ID],methods: Request::METHOD_GET)]
+    #[Route('/api/ad/{id}', requirements: ['id' => self::OBJECT_ID], methods: Request::METHOD_GET)]
     public function show(Ad $ad): JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::AD_ALL_DETAILS);

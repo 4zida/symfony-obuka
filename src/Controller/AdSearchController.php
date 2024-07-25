@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Form\AdSearchFilterFormType;
+use App\Form\Search\AdSearchFilterFormType;
 use App\Search\Filter\AdSearchFilter;
 use App\Service\AdSearchService;
 use App\Util\ContextGroup;

@@ -13,8 +13,6 @@ trait DocumentManagerAwareTrait
     /**
      * @template T
      * @param class-string<T> $className
-     * @param string $id
-     * @param bool $refresh
      * @return T|null
      * @throws Exception
      */

@@ -11,7 +11,6 @@ trait EntityManagerAwareTrait
     /**
      * @template T
      * @param class-string<T> $className
-     * @param int $id
      * @return T|null
      * @throws ORMException
      * @throws OptimisticLockException
