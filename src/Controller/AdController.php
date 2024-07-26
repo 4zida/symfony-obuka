@@ -14,6 +14,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use JetBrains\PhpStorm\Deprecated;
 use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -116,6 +117,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ads, ContextGroup::AD_ALL_DETAILS);
     }
 
+    #[Deprecated]
     #[Route('/api/ad/search/address/{address}', methods: Request::METHOD_GET)]
     public function findByAddress(string $address): JsonResponse
     {
@@ -124,6 +126,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ads, ContextGroup::AD_ALL_DETAILS);
     }
 
+    #[Deprecated]
     #[Route('/api/ad/search/floor/{floor}', methods: Request::METHOD_GET)]
     public function findByFloor(int $floor): JsonResponse
     {

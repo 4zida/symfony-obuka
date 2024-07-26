@@ -50,18 +50,48 @@ class AdSearchControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('api/ad/search')
+            ->setUri('/api/ad/search')
             ->setJsonContent([
                 'floorFrom' => 5,
-                'floorTo' => 10
+                'floorTo' => 10,
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
-
         $content = $response->getJsonContent();
+        self::assertNotNull($content);
         foreach ($content as $ad) {
             self::assertGreaterThanOrEqual(5, $ad['floor']);
             self::assertLessThanOrEqual(10, $ad['floor']);
+        }
+
+        $response = RequestBuilder::create(self::getClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search')
+            ->setJsonContent([
+                'm2From' => 20,
+                'm2To' => 30,
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+        $content = $response->getJsonContent();
+        self::assertNotNull($content);
+        foreach ($content as $ad) {
+            self::assertGreaterThanOrEqual(20, $ad['m2']);
+            self::assertLessThanOrEqual(30, $ad['m2']);
+        }
+
+        $response = RequestBuilder::create(self::getClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search')
+            ->setJsonContent([
+                'address' => self::$agent->getAddress()
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+        $content = $response->getJsonContent();
+        self::assertNotNull($content);
+        foreach ($content as $ad) {
+            self::assertEquals(self::$agent->getAddress(), $ad['address']);
         }
     }
 

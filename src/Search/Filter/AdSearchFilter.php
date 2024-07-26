@@ -23,6 +23,20 @@ class AdSearchFilter
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::To, field: 'm2')]
     protected ?int $m2To = null;
+    #[Assert\Type('string')]
+    #[SearchParam(type: SearchParamType::String, field: 'address')]
+    protected ?string $address = null;
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?string $address): AdSearchFilter
+    {
+        $this->address = $address;
+        return $this;
+    }
 
     public function getFloorFrom(): ?int
     {
