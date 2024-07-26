@@ -48,6 +48,7 @@ class BaseTestController extends WebTestCase
             ->setCompanyId($company?->getId())
             ->setFloor(random_int(1, 100))
             ->setAddress("Test Address")
-            ->setM2(50);
+            ->setM2(50)
+            ;
     }
 }
