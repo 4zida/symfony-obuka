@@ -49,9 +49,10 @@ class Ad
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
     protected ?int $m2;
-
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $createdAt;
+    #[MongoDB\Field(type: 'date_immutable')]
+    protected ?DateTimeImmutable $lastUpdated;
 
     public function getId(): string
     {
@@ -187,6 +188,17 @@ class Ad
     public function setM2(?int $m2): self
     {
         $this->m2 = $m2;
+        return $this;
+    }
+
+    public function getLastUpdated(): ?DateTimeImmutable
+    {
+        return $this->lastUpdated;
+    }
+
+    public function setLastUpdated(?DateTimeImmutable $lastUpdated): Ad
+    {
+        $this->lastUpdated = $lastUpdated;
         return $this;
     }
 }
