@@ -111,7 +111,8 @@ class AdControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        self::assertEquals(ResponseMessage::AD_UPDATED, $response->getResponse()->getContent());
+        $content = $response->getRawContent();
+        self::assertEquals(ResponseMessage::AD_UPDATED, $content);
     }
 
     public function testFindById(): void
@@ -123,6 +124,7 @@ class AdControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
+        self::assertIsArray($content);
         self::assertEquals(self::$agentId, $content["id"]);
     }
 
@@ -136,6 +138,7 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$userId, $content[0]["userId"]);
     }
 
@@ -149,6 +152,7 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$companyId, $content[0]["companyId"]);
     }
 
@@ -162,6 +166,7 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$agent->getAddress(), $content[0]["address"]);
     }
 
@@ -175,6 +180,7 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$agent->getFloor(), $content[0]["floor"]);
     }
 

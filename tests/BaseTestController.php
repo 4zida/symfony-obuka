@@ -25,7 +25,7 @@ class BaseTestController extends WebTestCase
     protected static function createTestUser(Company|null $company): User
     {
         return (new User())
-            ->setName("Test Agent")
+            ->setName("Test Company")
             ->setRole(UserRole::BackEnd)
             ->setPassword("testPassword")
             ->setSurname("Test Surname")
@@ -41,7 +41,7 @@ class BaseTestController extends WebTestCase
     protected static function createTestAd(Company|null $company, User|null $user): Ad
     {
         return (new Ad())
-            ->setName("AdTest")
+            ->setName("Test Ad")
             ->setUrl("test.url")
             ->setDescription("Description test")
             ->setUserId($user?->getId())

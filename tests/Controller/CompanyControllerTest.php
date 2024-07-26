@@ -64,6 +64,7 @@ class CompanyControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$agentId, $content['id']);
     }
 
@@ -105,6 +106,7 @@ class CompanyControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$agentId, $content["id"]);
     }
 

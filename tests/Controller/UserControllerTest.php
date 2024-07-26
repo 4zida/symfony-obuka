@@ -119,6 +119,7 @@ class UserControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$agentId, $content["id"]);
     }
 
@@ -133,6 +134,7 @@ class UserControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals($role, $content[0]["role"]);
     }
 
@@ -146,6 +148,7 @@ class UserControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertIsArray($content);
         self::assertEquals(self::$companyId, $content[0]["company"]["id"]);
     }
 
