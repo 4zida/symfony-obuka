@@ -19,6 +19,14 @@ class UserControllerTest extends BaseTestController
     public static ?int $agentId;
     public static ?Company $company;
     public static ?int $companyId;
+    private ?array $agentJsonData = [
+        "name" => "Test User",
+        "role" => UserRole::BackEnd,
+        "surname" => "Test Surname",
+        "password" => "Test Password",
+        "email" => "test@gmail.com",
+        "company" => null
+    ];
 
     public static function setUpBeforeClass(): void
     {
@@ -51,14 +59,7 @@ class UserControllerTest extends BaseTestController
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/user/')
-            ->setJsonContent([
-                "name" => "Test User",
-                "role" => UserRole::BackEnd,
-                "surname" => "Test Surname",
-                "password" => "Test Password",
-                "email" => "test@gmail.com",
-                "company" => null
-            ])
+            ->setJsonContent($this->agentJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
 

@@ -15,6 +15,10 @@ class CompanyControllerTest extends BaseTestController
     use EntityManagerAwareTrait;
     private static ?Company $agent;
     private static ?int $agentId;
+    private ?array $agentJsonData = [
+        "name" => "test",
+        "address" => "address"
+    ];
 
     public static function setUpBeforeClass(): void
     {
@@ -42,10 +46,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
-            ->setJsonContent([
-                "name" => "test",
-                "address" => "address"
-            ])
+            ->setJsonContent($this->agentJsonData)
             ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();

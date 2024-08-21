@@ -27,6 +27,14 @@ class AdControllerTest extends BaseTestController
     private static ?int $userId;
     private static ?Company $company;
     private static ?int $companyId;
+    private ?array $agentJsonData = [
+        "name" => "test",
+        "description" => "test description",
+        "url" => "https://symfony.com/doc/current/testing/database.html",
+        "address" => "test address",
+        "floor" => -1,
+        "m2" => 50
+    ];
 
     /**
      * @throws MongoDBException
@@ -82,14 +90,7 @@ class AdControllerTest extends BaseTestController
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/ad/')
-            ->setJsonContent([
-                "name" => "test",
-                "description" => "test description",
-                "url" => "https://symfony.com/doc/current/testing/database.html",
-                "address" => "test address",
-                "floor" => 3,
-                "m2" => 50
-            ])
+            ->setJsonContent($this->agentJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
 

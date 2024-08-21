@@ -48,6 +48,7 @@ class AdSearchControllerTest extends BaseTestController
 
     public function testSearch(): void
     {
+        // floor search testing
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/search')
@@ -64,6 +65,7 @@ class AdSearchControllerTest extends BaseTestController
             self::assertLessThanOrEqual(10, $ad['floor']);
         }
 
+        // m2 search testing
         $response = RequestBuilder::create(self::getClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/search')
@@ -80,6 +82,7 @@ class AdSearchControllerTest extends BaseTestController
             self::assertLessThanOrEqual(30, $ad['m2']);
         }
 
+        // address search testing
         $response = RequestBuilder::create(self::getClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/search')
