@@ -7,7 +7,6 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\DocumentManagerAwareTrait;
-use DateTimeZone;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -31,7 +30,7 @@ class AdDocumentPrePersistListenerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany()->setAddress("ad");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
@@ -46,7 +45,6 @@ class AdDocumentPrePersistListenerTest extends BaseTestController
     public function testPrePersist(): void
     {
         self::assertNotEmpty(self::$agent->getCreatedAt());
-        dump(self::$agent->getCreatedAt()->setTimezone(new DateTimeZone("GMT+2")));
         self::assertFalse(self::$agent->getIsActive());
     }
 

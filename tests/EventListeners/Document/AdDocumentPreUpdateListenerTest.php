@@ -35,7 +35,7 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany()->setAddress("ad");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
