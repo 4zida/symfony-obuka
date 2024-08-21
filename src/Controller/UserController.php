@@ -73,7 +73,7 @@ class UserController extends AbstractController
         return $this->createOkResponse(ResponseMessage::USER_DELETED);
     }
 
-    #[Route('/api/user/search/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/user/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function findById(int $id) : JsonResponse
     {
         $user = $this->userRepository->find($id);
@@ -89,7 +89,7 @@ class UserController extends AbstractController
         return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
-    #[Route('/api/user/search/company/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/user/search/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : JsonResponse
     {
         $user = $this->userRepository->getUsersByCompany($company);

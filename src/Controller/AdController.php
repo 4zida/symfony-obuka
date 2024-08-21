@@ -9,6 +9,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdType;
 use App\Util\ContextGroup;
+use App\Util\CustomRequirement;
 use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
@@ -22,13 +23,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\Requirement\Requirement;
 
 class AdController extends AbstractController
 {
     use FormTrait;
     use ControllerTrait;
-
-    const OBJECT_ID = '^[a-f\d]{24}$';
 
     public function __construct(
         private readonly DocumentManager $documentManager,
@@ -42,7 +42,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/{id}', requirements: ['id' => self::OBJECT_ID], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
     public function show(Ad $ad): JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::AD_ALL_DETAILS);
@@ -51,7 +51,7 @@ class AdController extends AbstractController
     /**
      * @throws MongoDBException
      */
-    #[Route('/api/ad/{id}', methods: Request::METHOD_PATCH)]
+    #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request): Response
     {
         $this->handleJSONForm($request, $ad, AdType::class, [], false);
@@ -80,7 +80,7 @@ class AdController extends AbstractController
      * @return Response
      * @throws MongoDBException
      */
-    #[Route('/api/ad/{id}', methods: Request::METHOD_DELETE)]
+    #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad): Response
     {
         $ad->setIsActive(false);
@@ -93,7 +93,7 @@ class AdController extends AbstractController
      * @throws MappingException
      * @throws LockException
      */
-    #[Route('/api/ad/search/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
     public function findById(string $id): JsonResponse
     {
         $ad = $this->documentManager->getRepository(Ad::class)->find($id);
@@ -101,7 +101,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ad, ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/search/user/{user}', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/user/{user}', requirements: ['user' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function findByUser(User $user): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByUser($user);
@@ -109,7 +109,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ads, ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/search/company/{company}', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/company/{company}', requirements: ['company' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function findByCompany(Company $company): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
@@ -127,7 +127,7 @@ class AdController extends AbstractController
     }
 
     #[Deprecated]
-    #[Route('/api/ad/search/floor/{floor}', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/floor/{floor}', requirements: ['floor' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
     public function findByFloor(int $floor): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByFloor($floor);

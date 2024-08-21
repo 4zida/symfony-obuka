@@ -70,7 +70,7 @@ class CompanyController extends AbstractController
         return $this->createOkResponse(ResponseMessage::COMPANY_DELETED);
     }
 
-    #[Route('/api/company/search/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/company/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
         $company = $this->entityManager->getRepository(Company::class)->find($id);
