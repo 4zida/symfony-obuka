@@ -44,7 +44,7 @@ class AdControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany()->setAddress("ad");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
@@ -195,6 +195,32 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::AD_DELETED, $content);
+    }
+
+    public function testAdminIndex(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/ad')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertIsArray($content);
+    }
+
+    public function testAdminShow(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/ad/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertEquals(self::$agentId, $content['id']);
     }
 
     /**

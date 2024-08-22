@@ -111,6 +111,32 @@ class CompanyControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $content["id"]);
     }
 
+    public function testAdminIndex(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/company')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertIsArray($content);
+    }
+
+    public function testAdminShow(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/company/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertEquals(self::$agentId, $content['id']);
+    }
+
     /**
      * @throws ORMException
      */

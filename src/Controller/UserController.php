@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Util\ContextGroup;
+use App\Util\CustomRequirement;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Nebkam\SymfonyTraits\ControllerTrait;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class UserController extends AbstractController
 {
@@ -95,5 +97,19 @@ class UserController extends AbstractController
         $user = $this->userRepository->getUsersByCompany($company);
 
         return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/user', methods: Request::METHOD_GET)]
+    public function adminIndex() : JsonResponse
+    {
+        return $this->jsonWithGroup($this->entityManager->getRepository(User::class)->findAll(), ContextGroup::ADMIN_USER_SEARCH);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/user/{user}', requirements: ['id' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
+    public function adminShow(User $user) : JsonResponse
+    {
+        return $this->jsonWithGroup($user, ContextGroup::ADMIN_USER_SEARCH);
     }
 }

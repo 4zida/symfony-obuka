@@ -14,7 +14,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-#[Groups(ContextGroup::USER_ALL_DETAILS)]
+#[Groups(ContextGroup::ADMIN_USER_SEARCH)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -52,6 +52,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActive;
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+    ])]
     public function getIsActive(): ?bool
     {
         return $this->isActive;
@@ -63,6 +68,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+    ])]
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
@@ -75,6 +85,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
     ])]
     public function getId(): ?int
     {
@@ -83,6 +96,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
     ])]
     public function getName(): ?string
     {
@@ -96,6 +112,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getCompany(): ?Company
     {
         return $this->company;
@@ -110,6 +130,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
     ])]
     public function getRole(): ?UserRole
     {
@@ -124,6 +147,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
     ])]
     public function getSurname(): ?string
     {
@@ -139,6 +165,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
     ])]
     public function getEmail(): ?string
     {

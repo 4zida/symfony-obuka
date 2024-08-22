@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
-#[Groups(ContextGroup::COMPANY_ALL_DETAILS)]
+#[Groups(ContextGroup::ADMIN_COMPANY_SEARCH)]
 class Company
 {
     #[ORM\Id]
@@ -40,6 +40,11 @@ class Company
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActive;
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
+    ])]
     public function getIsActive(): ?bool
     {
         return $this->isActive;
@@ -51,6 +56,11 @@ class Company
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
+    ])]
     public function getCreatedAt(): DateTimeImmutable
     {
         return $this->createdAt;
@@ -68,6 +78,9 @@ class Company
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
     ])]
     public function getId(): ?int
     {
@@ -76,6 +89,9 @@ class Company
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
     ])]
     public function getName(): ?string
     {
@@ -91,6 +107,9 @@ class Company
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
     ])]
     public function getAddress(): ?string
     {
@@ -107,6 +126,10 @@ class Company
     /**
      * @return Collection<int, User>
      */
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getUsers(): Collection
     {
         return $this->users;

@@ -153,6 +153,32 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(self::$companyId, $content[0]["company"]["id"]);
     }
 
+    public function testAdminIndex(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/user')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertIsArray($content);
+    }
+
+    public function testAdminShow(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/admin/user/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+        self::assertEquals(self::$agentId, $content['id']);
+    }
+
     /**
      * @throws ORMException
      */

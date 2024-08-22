@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[MongoDB\Document(collection: 'ads', repositoryClass: AdRepository::class)]
 #[Unique(fields: 'url')]
-#[Groups(ContextGroup::AD_ALL_DETAILS)]
+#[Groups(ContextGroup::ADMIN_AD_SEARCH)]
 class Ad
 {
     #[MongoDB\Field(type: 'string')]
@@ -54,11 +54,19 @@ class Ad
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $lastUpdated;
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getId(): string
     {
         return $this->id;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getName(): string
     {
         return $this->name;
@@ -70,6 +78,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getDescription(): string
     {
         return $this->description;
@@ -81,6 +93,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getUrl(): string
     {
         return $this->url;
@@ -92,6 +108,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getUserId(): ?int
     {
         return $this->userId;
@@ -103,6 +123,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getCompanyId(): ?int
     {
         return $this->companyId;
@@ -142,11 +166,19 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt ?? null;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getAddress(): ?string
     {
         return $this->address;
@@ -158,6 +190,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getFloor(): ?int
     {
         return $this->floor;
@@ -169,6 +205,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getIsActive(): ?bool
     {
         return $this->isActive ?? null;
@@ -180,6 +220,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getM2(): ?int
     {
         return $this->m2;
@@ -191,6 +235,10 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
     public function getLastUpdated(): ?DateTimeImmutable
     {
         return $this->lastUpdated;

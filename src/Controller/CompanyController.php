@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\Entity\Company;
 use App\Form\CompanyType;
 use App\Util\ContextGroup;
+use App\Util\CustomRequirement;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\EntityManagerInterface;
 use Nebkam\SymfonyTraits\ControllerTrait;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class CompanyController extends AbstractController
 {
@@ -80,5 +82,19 @@ class CompanyController extends AbstractController
         }
 
         return $this->jsonWithGroup($company, ContextGroup::COMPANY_ALL_DETAILS);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/company', methods: Request::METHOD_GET)]
+    public function adminIndex() : JsonResponse
+    {
+        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::ADMIN_COMPANY_SEARCH);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/company/{company}', requirements: ['id' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
+    public function adminShow(Company $company) : JsonResponse
+    {
+        return $this->jsonWithGroup($company, ContextGroup::ADMIN_COMPANY_SEARCH);
     }
 }

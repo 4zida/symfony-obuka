@@ -24,6 +24,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdController extends AbstractController
 {
@@ -133,5 +134,19 @@ class AdController extends AbstractController
         $ads = $this->documentManager->getRepository(Ad::class)->findByFloor($floor);
 
         return $this->jsonWithGroup($ads, ContextGroup::AD_ALL_DETAILS);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/ad', methods: Request::METHOD_GET)]
+    public function adminIndex() : JsonResponse
+    {
+        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::ADMIN_AD_SEARCH);
+    }
+
+    // #[IsGranted('ROLE_ADMIN')]
+    #[Route('/api/admin/ad/{ad}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
+    public function adminShow(Ad $ad) : JsonResponse
+    {
+        return $this->jsonWithGroup($ad, ContextGroup::ADMIN_AD_SEARCH);
     }
 }
