@@ -68,8 +68,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/', methods: Request::METHOD_POST)]
     public function create(Request $request): Response
     {
-        $ad = new Ad();
-        $this->handleJSONForm($request, $ad, AdType::class);
+        $this->handleJSONForm($request, new Ad(), AdType::class);
 
         $this->documentManager->flush();
 
