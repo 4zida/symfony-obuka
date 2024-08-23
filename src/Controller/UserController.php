@@ -41,6 +41,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/user/{email}', methods: Request::METHOD_GET)]
     public function show(User $user) : JsonResponse
     {
         return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);

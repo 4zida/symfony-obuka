@@ -70,9 +70,10 @@ class UserControllerTest extends BaseTestController
 
     public function testShow(): void
     {
+        // id
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/'.self::$agentId)
+            ->setUri('/api/user/'.self::$agent->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
