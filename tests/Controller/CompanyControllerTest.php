@@ -24,7 +24,7 @@ class CompanyControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$agent = self::createTestCompany()->setAddress("company");
+        self::$agent = self::createTestCompany();
         self::$agentId = self::persistEntity(self::$agent);
 
         self::ensureKernelShutdown();

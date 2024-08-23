@@ -32,7 +32,7 @@ class UserControllerTest extends BaseTestController
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany()->setAddress("user");
+        self::$company = self::createTestCompany();
         self::$companyId = self::persistEntity(self::$company);
 
         self::$agent = self::createTestUser(self::$company);
