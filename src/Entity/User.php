@@ -51,6 +51,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?DateTimeImmutable $createdAt;
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActive;
+    #[ORM\Column(type: 'date_immutable')]
+    private ?DateTimeImmutable $lastSeenAt;
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+    ])]
+    public function getLastSeenAt(): ?DateTimeImmutable
+    {
+        return $this->lastSeenAt;
+    }
+
+    public function setLastSeenAt(?DateTimeImmutable $lastSeenAt): User
+    {
+        $this->lastSeenAt = $lastSeenAt;
+        return $this;
+    }
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,

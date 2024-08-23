@@ -14,5 +14,6 @@ class UserEntityPrePersistListener
     {
         $user->setCreatedAt(new DateTimeImmutable());
         $user->setIsActive(false);
+        $user->setLastSeenAt(new DateTimeImmutable());
     }
 }
