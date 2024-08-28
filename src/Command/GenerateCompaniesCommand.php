@@ -28,7 +28,11 @@ class GenerateCompaniesCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('amount', InputArgument::OPTIONAL, "Amount of companies to be generated", 10);
+        $this->addArgument(
+            'amount',
+            InputArgument::OPTIONAL,
+            "Amount of companies to be generated",
+            10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int

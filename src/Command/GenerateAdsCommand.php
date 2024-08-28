@@ -34,7 +34,11 @@ class GenerateAdsCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('amount', InputArgument::OPTIONAL, 'Amount of ads to be generated [int]', 1000);
+        $this->addArgument(
+            'amount',
+            InputArgument::OPTIONAL,
+            'Amount of ads to be generated [int]',
+            1000);
     }
 
     /**

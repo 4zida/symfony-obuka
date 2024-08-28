@@ -34,7 +34,11 @@ class GenerateUsersCommand extends Command
 
     protected function configure(): void
     {
-        $this->addArgument('amount', InputArgument::OPTIONAL, "Amount of users to be generated (higher values take longer)", 10);
+        $this->addArgument(
+            'amount',
+            InputArgument::OPTIONAL,
+            "Amount of users to be generated (higher values take longer)",
+            10);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
@@ -55,7 +59,10 @@ class GenerateUsersCommand extends Command
         $amount = (int) $amount;
 
         if ($amount > 100) {
-            $answer = $io->ask(sprintf("This will take approximately %s seconds, are you sure?", $amount * 0.5), "yes");
+            $answer = $io->ask(sprintf(
+                "This will take approximately %s seconds, are you sure?",
+                $amount * 0.5),
+                "yes");
 
             if (strtolower($answer) !== 'yes') {
                 return Command::FAILURE;

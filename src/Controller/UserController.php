@@ -90,7 +90,8 @@ class UserController extends AbstractController
         return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
-    #[Route('/api/user/search/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/user/search/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT],
+        methods: Request::METHOD_GET)]
     public function findByCompany(Company $company) : JsonResponse
     {
         $user = $this->userRepository->getUsersByCompany($company);
@@ -102,11 +103,13 @@ class UserController extends AbstractController
     #[Route('/api/admin/user', methods: Request::METHOD_GET)]
     public function adminIndex() : JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(User::class)->findAll(), ContextGroup::ADMIN_USER_SEARCH);
+        return $this->jsonWithGroup($this->entityManager->getRepository(User::class)->findAll(),
+            ContextGroup::ADMIN_USER_SEARCH);
     }
 
     // #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/user/{user}', requirements: ['id' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/admin/user/{user}', requirements: ['id' => CustomRequirement::SIGNED_INT],
+        methods: Request::METHOD_GET)]
     public function adminShow(User $user) : JsonResponse
     {
         return $this->jsonWithGroup($user, ContextGroup::ADMIN_USER_SEARCH);

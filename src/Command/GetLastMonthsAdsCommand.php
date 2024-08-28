@@ -34,7 +34,10 @@ class GetLastMonthsAdsCommand extends Command
 
         $ads = $this->documentManager
             ->getRepository(Ad::class)
-            ->findBetween(new DateTimeImmutable("-2 months"), new DateTimeImmutable("-1 month"));
+            ->findBetween(
+                new DateTimeImmutable("-2 months"),
+                new DateTimeImmutable("-1 month")
+            );
 
         $filename = 'ads.csv';
         $file = fopen($filename, 'w');

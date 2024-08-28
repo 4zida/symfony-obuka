@@ -34,7 +34,8 @@ class CompanyController extends AbstractController
     #[Route('/api/company/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::COMPANY_ALL_DETAILS);
+        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(),
+            ContextGroup::COMPANY_ALL_DETAILS);
     }
 
     #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
@@ -71,7 +72,8 @@ class CompanyController extends AbstractController
         return $this->createOkResponse(ResponseMessage::COMPANY_DELETED);
     }
 
-    #[Route('/api/company/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/company/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT],
+        methods: Request::METHOD_GET)]
     public function findById(int $id) : Response
     {
         $company = $this->entityManager->getRepository(Company::class)->find($id);
@@ -87,11 +89,13 @@ class CompanyController extends AbstractController
     #[Route('/api/admin/company', methods: Request::METHOD_GET)]
     public function adminIndex() : JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(), ContextGroup::ADMIN_COMPANY_SEARCH);
+        return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(),
+            ContextGroup::ADMIN_COMPANY_SEARCH);
     }
 
     // #[IsGranted('ROLE_ADMIN')]
-    #[Route('/api/admin/company/{company}', requirements: ['id' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/admin/company/{company}', requirements: ['id' => CustomRequirement::SIGNED_INT],
+        methods: Request::METHOD_GET)]
     public function adminShow(Company $company) : JsonResponse
     {
         return $this->jsonWithGroup($company, ContextGroup::ADMIN_COMPANY_SEARCH);

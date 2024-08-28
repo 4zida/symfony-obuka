@@ -40,7 +40,8 @@ class AdController extends AbstractController
     #[Route('/api/ad/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::AD_ALL_DETAILS);
+        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(),
+            ContextGroup::AD_ALL_DETAILS);
     }
 
     #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
@@ -101,7 +102,8 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ad, ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/search/user/{user}', requirements: ['user' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/user/{user}', requirements: ['user' => Requirement::POSITIVE_INT],
+        methods: Request::METHOD_GET)]
     public function findByUser(User $user): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByUser($user);
@@ -109,7 +111,8 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ads, ContextGroup::AD_ALL_DETAILS);
     }
 
-    #[Route('/api/ad/search/company/{company}', requirements: ['company' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/company/{company}', requirements: ['company' => Requirement::POSITIVE_INT],
+        methods: Request::METHOD_GET)]
     public function findByCompany(Company $company): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByCompany($company);
@@ -127,7 +130,8 @@ class AdController extends AbstractController
     }
 
     #[Deprecated]
-    #[Route('/api/ad/search/floor/{floor}', requirements: ['floor' => CustomRequirement::SIGNED_INT], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/search/floor/{floor}', requirements: ['floor' => CustomRequirement::SIGNED_INT],
+        methods: Request::METHOD_GET)]
     public function findByFloor(int $floor): JsonResponse
     {
         $ads = $this->documentManager->getRepository(Ad::class)->findByFloor($floor);
@@ -139,7 +143,8 @@ class AdController extends AbstractController
     #[Route('/api/admin/ad', methods: Request::METHOD_GET)]
     public function adminIndex() : JsonResponse
     {
-        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(), ContextGroup::ADMIN_AD_SEARCH);
+        return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(),
+            ContextGroup::ADMIN_AD_SEARCH);
     }
 
     // #[IsGranted('ROLE_ADMIN')]
