@@ -4,7 +4,6 @@ namespace App\EventListeners\Entity;
 
 use App\Entity\User;
 use DateTimeImmutable;
-use DateTimeInterface;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 
