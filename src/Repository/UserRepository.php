@@ -43,4 +43,11 @@ class UserRepository extends ServiceEntityRepository
         $em = $this->getEntityManager();
         return $em->getRepository(User::class)->findBy(['role' => $role]);
     }
+
+    public function updateUser(User $user) : void
+    {
+        $em = $this->getEntityManager();
+        $em->persist($user);
+        $em->flush();
+    }
 }
