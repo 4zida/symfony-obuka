@@ -56,7 +56,7 @@ class GenerateUsersCommand extends Command
             return Command::FAILURE;
         }
 
-        $amount = (int) $amount;
+        $amount = (int)$amount;
 
         if ($amount > 100) {
             $answer = $io->ask(sprintf(

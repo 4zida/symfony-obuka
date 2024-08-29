@@ -21,7 +21,7 @@ class CleanCommand extends Command
     public function __construct(
         private readonly CompanyRepository $companyRepository,
         private readonly UserRepository    $userRepository,
-        private readonly DocumentManager $documentManager,
+        private readonly DocumentManager   $documentManager,
     )
     {
         parent::__construct();

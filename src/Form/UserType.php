@@ -31,8 +31,7 @@ class UserType extends AbstractType
                 'choice_label' => 'id',
                 'required' => false,
                 'empty_data' => null,
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -141,7 +141,7 @@ class AdController extends AbstractController
 
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/ad', methods: Request::METHOD_GET)]
-    public function adminIndex() : JsonResponse
+    public function adminIndex(): JsonResponse
     {
         return $this->jsonWithGroup($this->documentManager->getRepository(Ad::class)->findAll(),
             ContextGroup::ADMIN_AD_SEARCH);
@@ -149,7 +149,7 @@ class AdController extends AbstractController
 
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/ad/{ad}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
-    public function adminShow(Ad $ad) : JsonResponse
+    public function adminShow(Ad $ad): JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::ADMIN_AD_SEARCH);
     }

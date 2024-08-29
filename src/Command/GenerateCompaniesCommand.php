@@ -50,7 +50,7 @@ class GenerateCompaniesCommand extends Command
             return Command::FAILURE;
         }
 
-        $amount = (int) $amount;
+        $amount = (int)$amount;
 
         for ($i = 0; $i < $amount; $i++) {
             try {

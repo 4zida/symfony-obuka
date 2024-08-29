@@ -39,13 +39,13 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
-    public function show(Company $company) : JsonResponse
+    public function show(Company $company): JsonResponse
     {
         return $this->jsonWithGroup($company, ContextGroup::COMPANY_ALL_DETAILS);
     }
 
     #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_PATCH)]
-    public function update(Company $company, Request $request) : Response
+    public function update(Company $company, Request $request): Response
     {
         $this->handleJSONForm($request, $company, CompanyType::class, [], false);
 
@@ -55,7 +55,7 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/api/company/', methods: Request::METHOD_POST)]
-    public function create(Request $request) : Response
+    public function create(Request $request): Response
     {
         $this->handleJSONForm($request, new Company(), CompanyType::class);
 
@@ -64,7 +64,7 @@ class CompanyController extends AbstractController
     }
 
     #[Route('/api/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
-    public function delete(Company $company) : Response
+    public function delete(Company $company): Response
     {
         $company->setIsActive(false);
         $this->entityManager->flush();
@@ -74,7 +74,7 @@ class CompanyController extends AbstractController
 
     #[Route('/api/company/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT],
         methods: Request::METHOD_GET)]
-    public function findById(int $id) : Response
+    public function findById(int $id): Response
     {
         $company = $this->entityManager->getRepository(Company::class)->find($id);
 
@@ -87,7 +87,7 @@ class CompanyController extends AbstractController
 
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/company', methods: Request::METHOD_GET)]
-    public function adminIndex() : JsonResponse
+    public function adminIndex(): JsonResponse
     {
         return $this->jsonWithGroup($this->entityManager->getRepository(Company::class)->findAll(),
             ContextGroup::ADMIN_COMPANY_SEARCH);
@@ -96,7 +96,7 @@ class CompanyController extends AbstractController
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/company/{company}', requirements: ['id' => CustomRequirement::SIGNED_INT],
         methods: Request::METHOD_GET)]
-    public function adminShow(Company $company) : JsonResponse
+    public function adminShow(Company $company): JsonResponse
     {
         return $this->jsonWithGroup($company, ContextGroup::ADMIN_COMPANY_SEARCH);
     }

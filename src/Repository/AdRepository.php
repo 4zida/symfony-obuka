@@ -78,7 +78,7 @@ class AdRepository extends DocumentRepository
     protected function toArray(Iterator|array $data): array
     {
         $array = [];
-        foreach ($data as $datum){
+        foreach ($data as $datum) {
             $array[] = $datum;
         }
         return $array;

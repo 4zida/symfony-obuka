@@ -18,9 +18,9 @@ class AdSearchFilterFormType extends AbstractType
             ->add('floorFrom', IntegerType::class)
             ->add('m2To', IntegerType::class)
             ->add('m2From', IntegerType::class)
-            ->add('address', TextType::class)
-        ;
+            ->add('address', TextType::class);
     }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefault('data_class', AdSearchFilter::class);

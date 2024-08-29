@@ -14,7 +14,7 @@ class AdDocumentPreUpdateListener
     public function __invoke(LifecycleEventArgs $args): void
     {
         $ad = $args->getDocument();
-        if ($ad instanceof Ad){
+        if ($ad instanceof Ad) {
             $ad->setLastUpdated(new DateTimeImmutable());
         }
     }

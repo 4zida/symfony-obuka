@@ -14,7 +14,7 @@ class AdDocumentPrePersistListener
     public function __invoke(LifecycleEventArgs $args): void
     {
         $ad = $args->getDocument();
-        if($ad instanceof Ad) {
+        if ($ad instanceof Ad) {
             if ($ad->getCreatedAt() === null) {
                 $ad->setCreatedAt(new DateTimeImmutable());
             }

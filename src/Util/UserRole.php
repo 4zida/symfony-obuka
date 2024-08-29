@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-enum UserRole : string
+enum UserRole: string
 {
     case BackEnd = "Back End";
     case FrontEnd = "Front End";

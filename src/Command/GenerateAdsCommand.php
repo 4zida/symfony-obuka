@@ -51,11 +51,11 @@ class GenerateAdsCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $amount = $input->getArgument('amount');
 
-        if(!is_numeric($amount) || $amount < 1 || $amount > 9999) {
+        if (!is_numeric($amount) || $amount < 1 || $amount > 9999) {
             $io->error('Amount must be a positive integer less than 9999');
             return Command::FAILURE;
         }
-        $amount = (int) $amount;
+        $amount = (int)$amount;
 
         $em = $this->entityManager;
         $dm = $this->documentManager;

@@ -28,27 +28,27 @@ class UserController extends AbstractController
     use ControllerTrait;
 
     public function __construct(
-        private readonly UserRepository      $userRepository,
+        private readonly UserRepository         $userRepository,
         private readonly EntityManagerInterface $entityManager
     )
     {
     }
 
     #[Route('/api/user/', methods: Request::METHOD_GET)]
-    public function index() : JsonResponse
+    public function index(): JsonResponse
     {
         return $this->jsonWithGroup($this->userRepository->findAll(), ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
     #[Route('/api/user/{email}', methods: Request::METHOD_GET)]
-    public function show(User $user) : JsonResponse
+    public function show(User $user): JsonResponse
     {
         return $this->jsonWithGroup($user, ContextGroup::USER_ALL_DETAILS);
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_PATCH)]
-    public function update(User $user, Request $request) : Response
+    public function update(User $user, Request $request): Response
     {
         $this->handleJSONForm($request, $user, UserType::class, [], false);
         $this->entityManager->flush();
@@ -57,7 +57,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/', methods: Request::METHOD_POST)]
-    public function create(Request $request) : Response
+    public function create(Request $request): Response
     {
         $this->handleJSONForm($request, new User(), UserType::class);
         $this->entityManager->flush();
@@ -66,7 +66,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_DELETE)]
-    public function delete(User $user) : Response
+    public function delete(User $user): Response
     {
         $user->setIsActive(false);
         $this->entityManager->flush();
@@ -75,7 +75,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/search/{id}', requirements: ['id' => Requirement::POSITIVE_INT], methods: Request::METHOD_GET)]
-    public function findById(int $id) : JsonResponse
+    public function findById(int $id): JsonResponse
     {
         $user = $this->userRepository->find($id);
 
@@ -83,7 +83,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/api/user/search/role/{role}', methods: Request::METHOD_GET)]
-    public function findByRole(string $role) : JsonResponse
+    public function findByRole(string $role): JsonResponse
     {
         $user = $this->userRepository->getUsersByRole($role);
 
@@ -92,7 +92,7 @@ class UserController extends AbstractController
 
     #[Route('/api/user/search/company/{id}', requirements: ['id' => Requirement::POSITIVE_INT],
         methods: Request::METHOD_GET)]
-    public function findByCompany(Company $company) : JsonResponse
+    public function findByCompany(Company $company): JsonResponse
     {
         $user = $this->userRepository->getUsersByCompany($company);
 
@@ -101,7 +101,7 @@ class UserController extends AbstractController
 
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/user', methods: Request::METHOD_GET)]
-    public function adminIndex() : JsonResponse
+    public function adminIndex(): JsonResponse
     {
         return $this->jsonWithGroup($this->entityManager->getRepository(User::class)->findAll(),
             ContextGroup::ADMIN_USER_SEARCH);
@@ -110,7 +110,7 @@ class UserController extends AbstractController
     // #[IsGranted('ROLE_ADMIN')]
     #[Route('/api/admin/user/{user}', requirements: ['id' => CustomRequirement::SIGNED_INT],
         methods: Request::METHOD_GET)]
-    public function adminShow(User $user) : JsonResponse
+    public function adminShow(User $user): JsonResponse
     {
         return $this->jsonWithGroup($user, ContextGroup::ADMIN_USER_SEARCH);
     }

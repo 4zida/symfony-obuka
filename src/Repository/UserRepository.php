@@ -17,14 +17,14 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
-    public function deleteUser(User $user) : void
+    public function deleteUser(User $user): void
     {
         $em = $this->getEntityManager();
         $em->remove($user);
         $em->flush();
     }
 
-    public function getUsersAsArray() : array
+    public function getUsersAsArray(): array
     {
         return $this->createQueryBuilder('u')
             ->select()
@@ -32,19 +32,19 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function getUsersByCompany(Company $company) : array
+    public function getUsersByCompany(Company $company): array
     {
         $em = $this->getEntityManager();
         return $em->getRepository(User::class)->findBy(['company' => $company]);
     }
 
-    public function getUsersByRole(string $role) : array
+    public function getUsersByRole(string $role): array
     {
         $em = $this->getEntityManager();
         return $em->getRepository(User::class)->findBy(['role' => $role]);
     }
 
-    public function updateUser(User $user) : void
+    public function updateUser(User $user): void
     {
         $em = $this->getEntityManager();
         $em->persist($user);

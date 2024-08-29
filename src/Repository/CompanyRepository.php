@@ -16,7 +16,7 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
-    public function getCompaniesAsArray() : array
+    public function getCompaniesAsArray(): array
     {
         return $this->createQueryBuilder('c')
             ->select()
@@ -31,7 +31,7 @@ class CompanyRepository extends ServiceEntityRepository
     }
 
 
-    public function getCompanyById(mixed $id) : Company
+    public function getCompanyById(mixed $id): Company
     {
         return $this->getEntityManager()->getRepository(Company::class)->find($id);
     }
