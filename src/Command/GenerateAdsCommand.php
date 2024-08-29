@@ -46,6 +46,8 @@ class GenerateAdsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $time = microtime(true);
+
         $io = new SymfonyStyle($input, $output);
         $amount = $input->getArgument('amount');
 
@@ -107,9 +109,9 @@ class GenerateAdsCommand extends Command
         if ($counter == 0) {
             return Command::FAILURE;
         }
-
         $dm->flush();
 
+        $io->info(sprintf('Took %s seconds!', microtime(true) - $time));
         $io->success(sprintf('Generated %s ads!', $counter));
 
         return Command::SUCCESS;

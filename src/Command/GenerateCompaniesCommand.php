@@ -37,6 +37,8 @@ class GenerateCompaniesCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        $time = microtime(true);
+
         $io = new SymfonyStyle($input, $output);
         $e = $this->entityManager;
         $faker = Factory::create();
@@ -69,6 +71,7 @@ class GenerateCompaniesCommand extends Command
 
         $e->flush();
 
+        $io->info(sprintf('Took %s seconds!', microtime(true) - $time));
         $io->success(sprintf('Generated %s companies!', $counter));
 
         return Command::SUCCESS;
