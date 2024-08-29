@@ -8,9 +8,11 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['name'])]
 #[ORM\Entity(repositoryClass: CompanyRepository::class)]
 #[Groups(ContextGroup::ADMIN_COMPANY_SEARCH)]
 class Company

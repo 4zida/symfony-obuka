@@ -7,11 +7,13 @@ use App\Util\ContextGroup;
 use App\Util\UserRole;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
+#[UniqueEntity(fields: ['email'], message: 'The email address already exists.')]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
 #[Groups(ContextGroup::ADMIN_USER_SEARCH)]
@@ -30,6 +32,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?UserRole $role = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?Company $company = null;
 
     #[ORM\Column(type: 'string', length: 255)]
