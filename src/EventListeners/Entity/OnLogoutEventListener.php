@@ -21,9 +21,8 @@ readonly class OnLogoutEventListener
     public function onLogout(LogoutEvent $event): void
     {
         $user = $event->getToken()->getUser();
-        if (is_null($user)) return;
+        if (!$user instanceof User) return;
 
-        /** @var User $user */
         $user->setLastSeenAt(new \DateTimeImmutable());
         $this->userRepository->updateUser($user);
     }
