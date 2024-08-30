@@ -9,12 +9,17 @@ use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\Iterator\Iterator;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use JetBrains\PhpStorm\Deprecated;
 use Nebkam\OdmSearchParam\SearchParamParser;
 use ReflectionException;
 
 class AdRepository extends DocumentRepository
 {
+
     /**
+     * @param DateTimeImmutable $after
+     * @param DateTimeImmutable $before
+     * @return array
      * @throws MongoDBException
      */
     public function findBetween(DateTimeImmutable $after, DateTimeImmutable $before): array
@@ -27,7 +32,10 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
+
     /**
+     * @param User $user
+     * @return array
      * @throws MongoDBException
      */
     public function findByUser(User $user): array
@@ -40,6 +48,8 @@ class AdRepository extends DocumentRepository
     }
 
     /**
+     * @param Company $company
+     * @return array
      * @throws MongoDBException
      */
     public function findByCompany(Company $company): array
@@ -51,9 +61,13 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
+
     /**
+     * @param string $address
+     * @return array
      * @throws MongoDBException
      */
+    #[Deprecated]
     public function findByAddress(string $address): array
     {
         $ads = $this->createQueryBuilder()
@@ -63,9 +77,13 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
+
     /**
+     * @param int $floor
+     * @return array
      * @throws MongoDBException
      */
+    #[Deprecated]
     public function findByFloor(int $floor): array
     {
         $ads = $this->createQueryBuilder()
@@ -75,6 +93,10 @@ class AdRepository extends DocumentRepository
         return $this->toArray($ads);
     }
 
+    /**
+     * @param Iterator|array $data
+     * @return array
+     */
     protected function toArray(Iterator|array $data): array
     {
         $array = [];
@@ -83,6 +105,7 @@ class AdRepository extends DocumentRepository
         }
         return $array;
     }
+
 
     /**
      * @param AdSearchFilter $filter

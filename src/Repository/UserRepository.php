@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace App\Repository;
 
@@ -17,6 +17,10 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    /**
+     * @param User $user
+     * @return void
+     */
     public function deleteUser(User $user): void
     {
         $em = $this->getEntityManager();
@@ -24,6 +28,9 @@ class UserRepository extends ServiceEntityRepository
         $em->flush();
     }
 
+    /**
+     * @return array
+     */
     public function getUsersAsArray(): array
     {
         return $this->createQueryBuilder('u')
@@ -32,18 +39,30 @@ class UserRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param Company $company
+     * @return array
+     */
     public function getUsersByCompany(Company $company): array
     {
         $em = $this->getEntityManager();
         return $em->getRepository(User::class)->findBy(['company' => $company]);
     }
 
+    /**
+     * @param string $role
+     * @return array
+     */
     public function getUsersByRole(string $role): array
     {
         $em = $this->getEntityManager();
         return $em->getRepository(User::class)->findBy(['role' => $role]);
     }
 
+    /**
+     * @param User $user
+     * @return void
+     */
     public function updateUser(User $user): void
     {
         $em = $this->getEntityManager();

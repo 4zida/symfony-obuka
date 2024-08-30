@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
 
 namespace App\Repository;
 
@@ -16,6 +16,9 @@ class CompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, Company::class);
     }
 
+    /**
+     * @return array
+     */
     public function getCompaniesAsArray(): array
     {
         return $this->createQueryBuilder('c')
@@ -24,14 +27,21 @@ class CompanyRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    /**
+     * @param Company $company
+     * @return void
+     */
     public function deleteCompany(Company $company): void
     {
         $this->getEntityManager()->remove($company);
         $this->getEntityManager()->flush();
     }
 
-
-    public function getCompanyById(mixed $id): Company
+    /**
+     * @param int $id
+     * @return Company
+     */
+    public function getCompanyById(int $id): Company
     {
         return $this->getEntityManager()->getRepository(Company::class)->find($id);
     }
