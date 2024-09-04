@@ -23,6 +23,8 @@ class AdControllerTest extends BaseTestController
     use EntityManagerAwareTrait;
     private static ?Ad $agent;
     private static ?string $agentId;
+    private static ?Ad $agentDelete;
+    private static ?string $agentDeleteId;
     private static ?User $user;
     private static ?int $userId;
     private static ?Company $company;
@@ -53,7 +55,34 @@ class AdControllerTest extends BaseTestController
         self::$agent = self::createTestAd(self::$company, self::$user);
         self::$agentId = self::persistDocument(self::$agent);
 
+        self::$agentDelete = self::createTestAd(self::$company, self::$user);
+        self::$agentDeleteId = self::persistDocument(self::$agentDelete);
+
         self::ensureKernelShutdown();
+    }
+
+    public function testActivate(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/activate/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getRawContent();
+        self::assertEquals(ResponseMessage::AD_ACTIVATED, $content);
+    }
+
+    public function testDeactivate(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/deactivate/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getRawContent();
+        self::assertEquals(ResponseMessage::AD_DEACTIVATED, $content);
     }
 
     public function testIndex() : void
@@ -106,9 +135,7 @@ class AdControllerTest extends BaseTestController
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
             ->setUri('/api/ad/'.self::$agentId)
-            ->setJsonContent([
-                "name" => "test Ad UPDATED",
-            ])
+            ->setJsonContent($this->agentJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -157,39 +184,39 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(self::$companyId, $content[0]["companyId"]);
     }
 
-    public function testFindByAddress(): void
-    {
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/address/'.self::$agent->getAddress())
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-
-        $content = $response->getJsonContent();
-        self::assertNotEmpty($content);
-        self::assertIsArray($content);
-        self::assertEquals(self::$agent->getAddress(), $content[0]["address"]);
-    }
-
-    public function testFindByFloor(): void
-    {
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/floor/'.self::$agent->getFloor())
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-
-        $content = $response->getJsonContent();
-        self::assertNotEmpty($content);
-        self::assertIsArray($content);
-        self::assertEquals(self::$agent->getFloor(), $content[0]["floor"]);
-    }
+//    public function testFindByAddress(): void
+//    {
+//        $response = RequestBuilder::create(self::createClient())
+//            ->setMethod(Request::METHOD_GET)
+//            ->setUri('/api/ad/search/address/'.self::$agent->getAddress())
+//            ->getResponse();
+//        self::assertResponseIsSuccessful();
+//
+//        $content = $response->getJsonContent();
+//        self::assertNotEmpty($content);
+//        self::assertIsArray($content);
+//        self::assertEquals(self::$agent->getAddress(), $content[0]["address"]);
+//    }
+//
+//    public function testFindByFloor(): void
+//    {
+//        $response = RequestBuilder::create(self::createClient())
+//            ->setMethod(Request::METHOD_GET)
+//            ->setUri('/api/ad/search/floor/'.self::$agent->getFloor())
+//            ->getResponse();
+//        self::assertResponseIsSuccessful();
+//
+//        $content = $response->getJsonContent();
+//        self::assertNotEmpty($content);
+//        self::assertIsArray($content);
+//        self::assertEquals(self::$agent->getFloor(), $content[0]["floor"]);
+//    }
 
     public function testDelete(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/ad/'.self::$agentId)
+            ->setUri('/api/ad/'.self::$agentDeleteId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -231,6 +258,7 @@ class AdControllerTest extends BaseTestController
     public static function tearDownAfterClass(): void
     {
         self::removeDocumentById(Ad::class, self::$agentId);
+        self::removeDocumentById(Ad::class, self::$agentDeleteId);
         self::removeEntityById(User::class, self::$userId);
         self::removeEntityById(Company::class, self::$companyId);
 

@@ -8,6 +8,7 @@ use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdType;
+use App\Service\AdManager;
 use App\Util\ContextGroup;
 use App\Util\CustomRequirement;
 use App\Util\ResponseMessage;
@@ -33,8 +34,33 @@ class AdController extends AbstractController
 
     public function __construct(
         private readonly DocumentManager $documentManager,
+        readonly AdManager $adManager,
     )
     {
+    }
+
+    /**
+     * @throws MongoDBException
+     */
+    #[Route('/api/ad/activate/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID],
+        methods: Request::METHOD_GET)]
+    public function activate(Ad $ad): Response
+    {
+        $this->adManager->activate($ad);
+
+        return $this->createOkResponse(ResponseMessage::AD_ACTIVATED);
+    }
+
+    /**
+     * @throws MongoDBException
+     */
+    #[Route('/api/ad/deactivate/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID],
+        methods: Request::METHOD_GET)]
+    public function deactivate(Ad $ad): Response
+    {
+        $this->adManager->deactivate($ad);
+
+        return $this->createOkResponse(ResponseMessage::AD_DEACTIVATED);
     }
 
     #[Route('/api/ad/', methods: Request::METHOD_GET)]
@@ -84,8 +110,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_DELETE)]
     public function delete(Ad $ad): Response
     {
-        $ad->setIsActive(false);
-        $this->documentManager->flush();
+        $this->adManager->remove($ad);
 
         return $this->createOkResponse(ResponseMessage::AD_DELETED);
     }

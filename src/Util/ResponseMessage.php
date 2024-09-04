@@ -13,4 +13,6 @@ interface ResponseMessage
     public const AD_CREATED = 'Ad created';
     public const AD_UPDATED = 'Ad updated';
     public const AD_DELETED = 'Ad deleted';
+    public const AD_ACTIVATED = "Ad activated";
+    public const AD_DEACTIVATED = "Ad deactivated";
 }
