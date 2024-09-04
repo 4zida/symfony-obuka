@@ -3,6 +3,7 @@
 namespace App\Document;
 
 use App\Repository\AdRepository;
+use App\Util\AdStatus;
 use App\Util\ContextGroup;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
@@ -31,8 +32,8 @@ class Ad
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
     protected ?int $floor;
-    #[MongoDB\Field(type: 'bool')]
-    protected ?bool $isActive;
+    #[MongoDB\Field(type: 'string', enumType: AdStatus::class)]
+    protected ?AdStatus $status;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     protected ?string $url;
@@ -209,14 +210,14 @@ class Ad
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH
     ])]
-    public function getIsActive(): ?bool
+    public function getStatus(): ?AdStatus
     {
-        return $this->isActive ?? null;
+        return $this->status ?? null;
     }
 
-    public function setIsActive(?bool $isActive): self
+    public function setStatus(?AdStatus $status): self
     {
-        $this->isActive = $isActive;
+        $this->status = $status;
         return $this;
     }
 

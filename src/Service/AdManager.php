@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Document\Ad;
+use App\Util\AdStatus;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
@@ -20,7 +21,7 @@ readonly class AdManager
      */
     public function activate(Ad $ad): void
     {
-        $ad->setIsActive(true);
+        $ad->setStatus(AdStatus::ACTIVE);
         $ad->setLastUpdated(new DateTimeImmutable());
         $this->documentManager->flush();
     }
@@ -30,7 +31,7 @@ readonly class AdManager
      */
     public function deactivate(Ad $ad): void
     {
-        $ad->setIsActive(false);
+        $ad->setStatus(AdStatus::DELETED);
         $ad->setLastUpdated(new DateTimeImmutable());
         $this->documentManager->flush();
     }

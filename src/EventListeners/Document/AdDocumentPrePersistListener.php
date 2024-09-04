@@ -3,6 +3,7 @@
 namespace App\EventListeners\Document;
 
 use App\Document\Ad;
+use App\Util\AdStatus;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
@@ -19,7 +20,7 @@ class AdDocumentPrePersistListener
                 $ad->setCreatedAt(new DateTimeImmutable());
             }
             $ad->setLastUpdated($ad->getCreatedAt());
-            $ad->setIsActive(false);
+            $ad->setStatus(AdStatus::HIDDEN);
         }
     }
 }

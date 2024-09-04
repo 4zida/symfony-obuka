@@ -7,6 +7,7 @@ use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\DocumentManagerAwareTrait;
+use App\Util\AdStatus;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -45,7 +46,7 @@ class AdDocumentPrePersistListenerTest extends BaseTestController
     public function testPrePersist(): void
     {
         self::assertNotEmpty(self::$agent->getCreatedAt());
-        self::assertFalse(self::$agent->getIsActive());
+        self::assertEquals(AdStatus::HIDDEN, self::$agent->getStatus());
     }
 
     /**
