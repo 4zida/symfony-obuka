@@ -10,37 +10,29 @@ enum AdStatus: string
     case DRAFT = 'draft';
     case HIDDEN = 'hidden';
 
-    public function isActive(): bool
-    {
-        return match ($this)
-        {
+    public function isActive(): bool {
+        return match ($this) {
             self::ACTIVE => true,
             default => false
         };
     }
 
-    public function isDeleted(): bool
-    {
-        return match ($this)
-        {
+    public function isDeleted(): bool {
+        return match ($this) {
             self::DELETED => true,
             default => false
         };
     }
 
-    public function isDraft(): bool
-    {
-        return match ($this)
-        {
+    public function isDraft(): bool {
+        return match ($this) {
             self::DRAFT => true,
             default => false
         };
     }
 
-    public function isHidden(): bool
-    {
-        return match ($this)
-        {
+    public function isHidden(): bool {
+        return match ($this) {
             self::HIDDEN => true,
             default => false
         };
