@@ -178,4 +178,31 @@ class AdController extends AbstractController
     {
         return $this->jsonWithGroup($ad, ContextGroup::ADMIN_AD_SEARCH);
     }
+
+    #[Route('/api/ad/aggregate', methods: Request::METHOD_GET)]
+    public function aggregationTest(): JsonResponse
+    {
+        $result = $this->documentManager->createAggregationBuilder(Ad::class)
+            ->match()
+                ->field('floor')
+            ->group()
+                ->field('id')
+                ->expression('$floor')
+                ->field('count')
+                ->sum(1)
+            ->sort('id', 'ASC')
+            ->getAggregation();
+
+        return $this->json($result);
+    }
+
+    #[Route('/api/ad/count', methods: Request::METHOD_GET)]
+    public function countAds(): JsonResponse
+    {
+        $result = $this->documentManager->createAggregationBuilder(Ad::class)
+            ->count("id")
+            ->getAggregation();
+
+        return $this->json($result);
+    }
 }
