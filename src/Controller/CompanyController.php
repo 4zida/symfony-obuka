@@ -48,7 +48,6 @@ class CompanyController extends AbstractController
     public function update(Company $company, Request $request): Response
     {
         $this->handleJSONForm($request, $company, CompanyType::class, [], false);
-
         $this->entityManager->flush();
 
         return $this->createOkResponse(ResponseMessage::COMPANY_UPDATED);
@@ -58,8 +57,8 @@ class CompanyController extends AbstractController
     public function create(Request $request): Response
     {
         $this->handleJSONForm($request, new Company(), CompanyType::class);
-
         $this->entityManager->flush();
+
         return $this->createOkResponse(ResponseMessage::COMPANY_CREATED);
     }
 
