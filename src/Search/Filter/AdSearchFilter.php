@@ -2,6 +2,7 @@
 
 namespace App\Search\Filter;
 
+use App\Document\AdFor;
 use Nebkam\OdmSearchParam\SearchParam;
 use Nebkam\OdmSearchParam\SearchParamDirection;
 use Nebkam\OdmSearchParam\SearchParamType;
@@ -26,6 +27,8 @@ class AdSearchFilter
     #[Assert\Type('string')]
     #[SearchParam(type: SearchParamType::String, field: 'address')]
     protected ?string $address = null;
+    #[SearchParam(type: SearchParamType::StringEnum, field: 'for')]
+    protected ?AdFor $for = null;
 
     public function getAddress(): ?string
     {
@@ -82,5 +85,14 @@ class AdSearchFilter
         return $this;
     }
 
+    public function getFor(): ?AdFor
+    {
+        return $this->for;
+    }
 
+    public function setFor(?AdFor $for): AdSearchFilter
+    {
+        $this->for = $for;
+        return $this;
+    }
 }

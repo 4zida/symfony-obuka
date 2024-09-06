@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Document\Ad;
+use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
@@ -95,6 +96,20 @@ class AdSearchControllerTest extends BaseTestController
         self::assertNotNull($content);
         foreach ($content as $ad) {
             self::assertEquals(self::$agent->getAddress(), $ad['address']);
+        }
+
+        $response = RequestBuilder::create(self::getClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search')
+            ->setJsonContent([
+                'for' => AdFor::RENT
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+        $content = $response->getJsonContent();
+        self::assertNotNull($content);
+        foreach ($content as $ad) {
+            self::assertEquals(self::$agent->getFor()->value, $ad['for']);
         }
     }
 

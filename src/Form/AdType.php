@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Document\Ad;
+use App\Document\AdFor;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
@@ -20,7 +22,10 @@ class AdType extends AbstractType
             ->add('url', UrlType::class, ["default_protocol" => "http"])
             ->add('address', TextType::class)
             ->add('floor', IntegerType::class)
-            ->add('m2', IntegerType::class);
+            ->add('m2', IntegerType::class)
+            ->add('for', EnumType::class, [
+                'class' => AdFor::class
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

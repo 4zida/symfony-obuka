@@ -3,6 +3,7 @@
 namespace App\Tests\Controller;
 
 use App\Document\Ad;
+use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
@@ -35,7 +36,8 @@ class AdControllerTest extends BaseTestController
         "url" => "https://symfony.com/doc/current/testing/database.html",
         "address" => "test address",
         "floor" => -1,
-        "m2" => 50
+        "m2" => 50,
+        "for" => AdFor::RENT
     ];
 
     /**

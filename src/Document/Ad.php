@@ -2,6 +2,7 @@
 
 namespace App\Document;
 
+use App\Form\AdType;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
@@ -54,6 +55,24 @@ class Ad
     protected ?DateTimeImmutable $createdAt;
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $lastUpdated;
+    #[MongoDB\Field(type: 'string', enumType: AdFor::class)]
+    #[Assert\NotBlank]
+    protected ?AdFor $for;
+
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
+    public function getFor(): ?AdFor
+    {
+        return $this->for;
+    }
+
+    public function setFor(?AdFor $for): Ad
+    {
+        $this->for = $for;
+        return $this;
+    }
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,

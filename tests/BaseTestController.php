@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Document\Ad;
+use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UserRole;
@@ -49,6 +50,7 @@ class BaseTestController extends WebTestCase
             ->setFloor(random_int(1, 100))
             ->setAddress("Test Address")
             ->setM2(50)
+            ->setFor(AdFor::RENT)
             ;
     }
 }
