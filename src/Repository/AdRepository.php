@@ -17,86 +17,72 @@ class AdRepository extends DocumentRepository
 {
 
     /**
-     * @param DateTimeImmutable $after
-     * @param DateTimeImmutable $before
-     * @return array
      * @throws MongoDBException
      */
     public function findBetween(DateTimeImmutable $after, DateTimeImmutable $before): array
     {
-        $ads = $this->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('createdAt')->lte($before)
             ->field('createdAt')->gte($after)
             ->getQuery()
-            ->execute();
-        return $this->toArray($ads);
+            ->execute()
+            ->toArray();
     }
 
 
     /**
-     * @param User $user
-     * @return array
      * @throws MongoDBException
      */
     public function findByUser(User $user): array
     {
-        $ads = $this->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('userId')->equals($user->getId())
             ->getQuery()
-            ->execute();
-        return $this->toArray($ads);
+            ->execute()
+            ->toArray();
     }
 
     /**
-     * @param Company $company
-     * @return array
      * @throws MongoDBException
      */
     public function findByCompany(Company $company): array
     {
-        $ads = $this->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('companyId')->equals($company->getId())
             ->getQuery()
-            ->execute();
-        return $this->toArray($ads);
+            ->execute()
+            ->toArray();
     }
 
 
     /**
-     * @param string $address
-     * @return array
      * @throws MongoDBException
      */
     #[Deprecated]
     public function findByAddress(string $address): array
     {
-        $ads = $this->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('address')->equals($address)
             ->getQuery()
-            ->execute();
-        return $this->toArray($ads);
+            ->execute()
+            ->toArray();
     }
 
 
     /**
-     * @param int $floor
-     * @return array
      * @throws MongoDBException
      */
     #[Deprecated]
     public function findByFloor(int $floor): array
     {
-        $ads = $this->createQueryBuilder()
+        return $this->createQueryBuilder()
             ->field('floor')->equals($floor)
             ->getQuery()
-            ->execute();
-        return $this->toArray($ads);
+            ->execute()
+            ->toArray();
     }
 
-    /**
-     * @param Iterator|array $data
-     * @return array
-     */
+    #[Deprecated]
     protected function toArray(Iterator|array $data): array
     {
         $array = [];
@@ -108,8 +94,6 @@ class AdRepository extends DocumentRepository
 
 
     /**
-     * @param AdSearchFilter $filter
-     * @return array
      * @throws MongoDBException
      * @throws ReflectionException
      */
@@ -118,6 +102,6 @@ class AdRepository extends DocumentRepository
         $builder = $this->createQueryBuilder();
         SearchParamParser::parse($filter, $builder);
 
-        return $this->toArray($builder->getQuery()->execute());
+        return $builder->getQuery()->execute()->toArray();
     }
 }
