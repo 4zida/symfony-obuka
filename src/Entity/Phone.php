@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\PhoneRepository;
+use App\Util\ContextGroup;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\Groups;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
@@ -17,7 +19,7 @@ class Phone
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column(name: 'phone', type: 'string', length: 64)]
+    #[ORM\Column(name: 'full', type: 'string', length: 64)]
     private ?string $full = null;
     #[ORM\Column(name: 'national', type: 'string', length: 64)]
     private ?string $national = null;
@@ -33,16 +35,17 @@ class Phone
         return $this->id;
     }
 
-    public function getFromPhoneNumber(PhoneNumber $phoneNumber): Phone
+    public function setFromPhoneNumber(PhoneNumber $phoneNumber): Phone
     {
         $phone = new self();
-        $phone->setFull(self::formatToFull($phoneNumber));
         $countryCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($phoneNumber);
-        $phone->setCountryCode($countryCode);
         $national = $countryCode === self::REGION_CODE ?
             self::formatToNational($phoneNumber) :
             self::formatToInternational($phoneNumber);
-        $phone->setNational($national);
+
+        $phone->setNational($national)
+            ->setCountryCode($countryCode)
+            ->setFull(self::formatToFull($phoneNumber));
 
         return $phone;
     }
@@ -60,6 +63,9 @@ class Phone
         return PhoneNumberUtil::getInstance()->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL);
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS
+    ])]
     public function getFull(): ?string
     {
         return $this->full;
@@ -71,6 +77,9 @@ class Phone
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS
+    ])]
     public function getNational(): ?string
     {
         return $this->national;
@@ -82,6 +91,9 @@ class Phone
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS
+    ])]
     public function getInternational(): ?string
     {
         return $this->international;
@@ -93,6 +105,9 @@ class Phone
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS
+    ])]
     public function getIsViber(): ?bool
     {
         return $this->isViber;
@@ -104,14 +119,18 @@ class Phone
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS
+    ])]
     public function getCountryCode(): ?string
     {
         return $this->countryCode;
     }
 
-    public function setCountryCode(?string $countryCode): void
+    public function setCountryCode(?string $countryCode): Phone
     {
         $this->countryCode = $countryCode;
+        return $this;
     }
 
 

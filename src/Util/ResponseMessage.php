@@ -15,4 +15,7 @@ interface ResponseMessage
     public const AD_DELETED = 'Ad deleted';
     public const AD_ACTIVATED = "Ad activated";
     public const AD_DEACTIVATED = "Ad deactivated";
+    const PHONE_UPDATED = 'Phone updated';
+    const PHONE_CREATED = 'Phone created';
+    const PHONE_DELETED = 'Phone deleted';
 }

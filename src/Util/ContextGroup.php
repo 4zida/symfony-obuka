@@ -12,6 +12,7 @@ interface ContextGroup
     public final const ADMIN_AD_SEARCH = 'admin_ad_search';
     public final const ADMIN_USER_SEARCH = 'admin_user_search';
     public final const ADMIN_COMPANY_SEARCH = 'admin_company_search';
+    public final const PHONE_DETAILS = 'phone_details';
 
 
 }
