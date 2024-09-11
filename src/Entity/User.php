@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use App\Util\ContextGroup;
 use App\Util\UserRole;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -58,6 +59,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isActive;
     #[ORM\Column(type: 'date_immutable')]
     private ?DateTimeImmutable $lastSeenAt;
+    #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user')]
+    private ?Collection $phones;
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+    ])]
+    public function getPhones(): ?Collection
+    {
+        return $this->phones;
+    }
+
+    public function setPhones(?Collection $phones): User
+    {
+        $this->phones = $phones;
+        return $this;
+    }
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,
