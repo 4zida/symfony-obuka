@@ -13,6 +13,7 @@
         "doctrine/orm": "^3.2",
         "friendsofsymfony/rest-bundle": "*",
         "fzaninotto/faker": "^1.5",
+        "giggsey/libphonenumber-for-php": "^8.13",
         "jms/serializer-bundle": "*",
         "nebkam/fluent-test": "^4.2",
         "nebkam/odm-search-param": "^6.0",
