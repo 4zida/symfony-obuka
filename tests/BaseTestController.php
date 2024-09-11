@@ -47,7 +47,7 @@ class BaseTestController extends WebTestCase
             ->setDescription("Description test")
             ->setUserId($user?->getId())
             ->setCompanyId($company?->getId())
-            ->setFloor(random_int(1, 100))
+            ->setFloor(5)
             ->setAddress("Test Address")
             ->setM2(50)
             ->setFor(AdFor::RENT)
