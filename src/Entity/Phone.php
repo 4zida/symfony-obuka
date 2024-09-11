@@ -21,14 +21,17 @@ class Phone
     private ?int $id = null;
     #[ORM\Column(name: 'full', type: 'string', length: 64)]
     private ?string $full = null;
-    #[ORM\Column(name: 'national', type: 'string', length: 64)]
+    #[ORM\Column(name: 'national', type: 'string', length: 64, nullable: true)]
     private ?string $national = null;
-    #[ORM\Column(name: 'international', type: 'string', length: 64)]
+    #[ORM\Column(name: 'international', type: 'string', length: 64, nullable: true)]
     private ?string $international = null;
-    #[ORM\Column(name: 'isViber', type: 'boolean')]
+    #[ORM\Column(name: 'isViber', type: 'boolean', nullable: true)]
     private ?bool $isViber = null;
     #[ORM\Column(name: 'countryCode', type: 'string', length: 64)]
     private ?string $countryCode = null;
+    #[ORM\ManyToOne(inversedBy: 'phones')]
+    #[ORM\JoinColumn(onDelete: 'CASCADE')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -64,7 +67,8 @@ class Phone
     }
 
     #[Groups([
-        ContextGroup::PHONE_DETAILS
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getFull(): ?string
     {
@@ -78,7 +82,8 @@ class Phone
     }
 
     #[Groups([
-        ContextGroup::PHONE_DETAILS
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getNational(): ?string
     {
@@ -92,7 +97,8 @@ class Phone
     }
 
     #[Groups([
-        ContextGroup::PHONE_DETAILS
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getInternational(): ?string
     {
@@ -106,7 +112,8 @@ class Phone
     }
 
     #[Groups([
-        ContextGroup::PHONE_DETAILS
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getIsViber(): ?bool
     {
@@ -120,7 +127,8 @@ class Phone
     }
 
     #[Groups([
-        ContextGroup::PHONE_DETAILS
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getCountryCode(): ?string
     {
@@ -130,6 +138,17 @@ class Phone
     public function setCountryCode(?string $countryCode): Phone
     {
         $this->countryCode = $countryCode;
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): Phone
+    {
+        $this->user = $user;
         return $this;
     }
 

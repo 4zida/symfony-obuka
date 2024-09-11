@@ -61,7 +61,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getFor(): ?AdFor
     {
@@ -76,7 +77,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getId(): string
     {
@@ -85,7 +87,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getName(): string
     {
@@ -100,7 +103,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getDescription(): string
     {
@@ -115,7 +119,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getUrl(): string
     {
@@ -130,7 +135,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO
     ])]
     public function getUserId(): ?int
     {
@@ -188,7 +194,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getCreatedAt(): ?DateTimeImmutable
     {
@@ -197,7 +204,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getAddress(): ?string
     {
@@ -212,7 +220,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getFloor(): ?int
     {
@@ -227,7 +236,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getStatus(): ?AdStatus
     {
@@ -242,7 +252,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getM2(): ?int
     {
@@ -257,7 +268,8 @@ class Ad
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getLastUpdated(): ?DateTimeImmutable
     {

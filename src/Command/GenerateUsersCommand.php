@@ -5,11 +5,13 @@ namespace App\Command;
 require_once __DIR__ . '/../../vendor/fzaninotto/faker/src/autoload.php';
 
 use App\Entity\Company;
+use App\Entity\Phone;
 use App\Entity\User;
 use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Faker\Factory;
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -61,7 +63,7 @@ class GenerateUsersCommand extends Command
         if ($amount > 100) {
             $answer = $io->ask(sprintf(
                 "This will take approximately %s seconds, are you sure?",
-                $amount * 0.5),
+                $amount * 0.45),
                 "yes");
 
             if (strtolower($answer) !== 'yes') {
@@ -78,6 +80,8 @@ class GenerateUsersCommand extends Command
                 $role = UserRole::cases()[array_rand(UserRole::cases())];
                 $pass = $faker->password;
 
+                $phoneUtil = PhoneNumberUtil::getInstance();
+
                 $user = (new User())
                     ->setName($faker->firstName)
                     ->setRole($role)
@@ -86,7 +90,11 @@ class GenerateUsersCommand extends Command
                     ->setEmail($faker->email);
                 $user->setPassword($this->passwordHasher->hashPassword($user, $pass))
                     ->setPasswordNoHash($pass);
+                $phone = (new Phone())
+                    ->setFromPhoneNumber($phoneUtil->getExampleNumber(Phone::REGION_CODE))
+                    ->setUser($user);
                 $em->persist($user);
+                $em->persist($phone);
             } catch (Exception $e) {
                 $io->error($e->getMessage() . "\n Continuing...");
                 continue;
