@@ -54,6 +54,20 @@
 - HINT: https://symfony.com/doc/current/doctrine.html#querying-for-objects-the-repository
 - Napisati cleanup komandu.
 
+# jedanaesti zadatak
+- Napraviti phone tabelu, svaki user moze imati vise brojeva telefona
+- Sa jedne strane oneToMany user vise brojeva tel
+- biblioteka za validaciju telefona
+- napraviti get za ad gde se vraca podaci o adu i podatke o useru ciji je ad i njeove brojeve telefona
+- nad telefonom napraviti bool da li je viber broj
+- formatiranje responsa
+
+# dvanaesti zadatak
+- nad adom je moguce dodati slike
+- slike se storuju lokalno u folder, ali u bazi da se upise gde se slika nalazi
+- svaki ad ima kolekciju imagea
+- u formi dodavanje slika
+
 # BONUS zadatak x
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
