@@ -22,5 +22,11 @@ class PhoneRepository extends ServiceEntityRepository
         return self::getEntityManager()->getRepository(Phone::class)->findBy(['user' => $user]);
     }
 
+    public function deletePhone(mixed $phone): void
+    {
+        $this->getEntityManager()->remove($phone);
+        $this->getEntityManager()->flush();
+    }
+
 
 }

@@ -3,9 +3,11 @@
 namespace App\Command;
 
 use App\Repository\CompanyRepository;
+use App\Repository\PhoneRepository;
 use App\Repository\UserRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -19,9 +21,10 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CleanCommand extends Command
 {
     public function __construct(
-        private readonly CompanyRepository $companyRepository,
-        private readonly UserRepository    $userRepository,
-        private readonly DocumentManager   $documentManager,
+        private readonly CompanyRepository      $companyRepository,
+        private readonly UserRepository         $userRepository,
+        private readonly EntityManagerInterface $entityManager,
+        private readonly PhoneRepository       $phoneRepository,
     )
     {
         parent::__construct();
@@ -56,7 +59,16 @@ class CleanCommand extends Command
             $output->writeln(sprintf('Company %s (%d) has been deleted', $name, $id));
         }
 
-        $this->documentManager->flush();
+        $phones = $this->phoneRepository->findAll();
+        foreach ($phones as $phone) {
+            $name = $phone->getFull();
+            $id = $phone->getId();
+            $output->writeln(sprintf('Phone %s (%d) will be deleted', $name, $id));
+            $this->phoneRepository->deletePhone($phone);
+            $output->writeln(sprintf('Phone %s (%d) has been deleted', $name, $id));
+        }
+
+        $this->entityManager->flush();
 
         $io->success('The database has been wiped.');
 
