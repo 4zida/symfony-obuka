@@ -4,14 +4,16 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use App\Util\ContextGroup;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation\Groups;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Attribute\Groups;
 
+#[UniqueEntity(fields: ['full'])]
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
+#[Groups(ContextGroup::PHONE_DETAILS)]
 class Phone
 {
     public const REGION_CODE = 'RS';
@@ -37,6 +39,12 @@ class Phone
     {
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
+    ])]
     public function getId(): ?int
     {
         return $this->id;
@@ -72,7 +80,9 @@ class Phone
 
     #[Groups([
         ContextGroup::PHONE_DETAILS,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
     ])]
     public function getFull(): ?string
     {
@@ -87,7 +97,9 @@ class Phone
 
     #[Groups([
         ContextGroup::PHONE_DETAILS,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
     ])]
     public function getNational(): ?string
     {
@@ -102,7 +114,9 @@ class Phone
 
     #[Groups([
         ContextGroup::PHONE_DETAILS,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
     ])]
     public function getInternational(): ?string
     {
@@ -117,7 +131,9 @@ class Phone
 
     #[Groups([
         ContextGroup::PHONE_DETAILS,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
     ])]
     public function getIsViber(): ?bool
     {
@@ -132,7 +148,9 @@ class Phone
 
     #[Groups([
         ContextGroup::PHONE_DETAILS,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
     ])]
     public function getCountryCode(): ?string
     {
@@ -155,36 +173,4 @@ class Phone
         $this->user = $user;
         return $this;
     }
-
-    /**
-     * @return Collection<int, User>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(User $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->setPhones($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(User $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
-            if ($user->getPhones() === $this) {
-                $user->setPhones(null);
-            }
-        }
-
-        return $this;
-    }
-
-
 }

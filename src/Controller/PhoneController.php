@@ -26,8 +26,8 @@ class PhoneController extends AbstractController
     use ControllerTrait;
 
     public function __construct(
-        private PhoneRepository $phoneRepository,
-        private EntityManagerInterface $entityManager,
+        private readonly PhoneRepository        $phoneRepository,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
     }

@@ -41,6 +41,15 @@ class CleanCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
+        $phones = $this->phoneRepository->findAll();
+        foreach ($phones as $phone) {
+            $name = $phone->getFull();
+            $id = $phone->getId();
+            $output->writeln(sprintf('Phone %s (%d) will be deleted', $name, $id));
+            $this->phoneRepository->deletePhone($phone);
+            $output->writeln(sprintf('Phone %s (%d) has been deleted', $name, $id));
+        }
+
         $users = $this->userRepository->findAll();
         foreach ($users as $user) {
             $name = $user->getName();
@@ -57,15 +66,6 @@ class CleanCommand extends Command
             $output->writeln(sprintf('Company %s (%d) will be deleted', $name, $id));
             $this->companyRepository->deleteCompany($company);
             $output->writeln(sprintf('Company %s (%d) has been deleted', $name, $id));
-        }
-
-        $phones = $this->phoneRepository->findAll();
-        foreach ($phones as $phone) {
-            $name = $phone->getFull();
-            $id = $phone->getId();
-            $output->writeln(sprintf('Phone %s (%d) will be deleted', $name, $id));
-            $this->phoneRepository->deletePhone($phone);
-            $output->writeln(sprintf('Phone %s (%d) has been deleted', $name, $id));
         }
 
         $this->entityManager->flush();
