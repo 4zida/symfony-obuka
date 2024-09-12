@@ -114,4 +114,10 @@ class UserController extends AbstractController
     {
         return $this->jsonWithGroup($user, ContextGroup::ADMIN_USER_SEARCH);
     }
+
+    #[Route('/api/user/phone/{id}', methods: Request::METHOD_GET)]
+    public function showWithPhone(User $user): JsonResponse
+    {
+        return $this->jsonWithGroup($user, ContextGroup::USER_WITH_PHONE);
+    }
 }
