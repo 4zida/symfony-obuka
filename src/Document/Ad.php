@@ -2,12 +2,12 @@
 
 namespace App\Document;
 
-use App\Form\AdType;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -58,6 +58,8 @@ class Ad
     #[MongoDB\Field(type: 'string', enumType: AdFor::class)]
     #[Assert\NotBlank]
     protected ?AdFor $for;
+    #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
+    protected ?Collection $images;
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
@@ -279,6 +281,13 @@ class Ad
     public function setLastUpdated(?DateTimeImmutable $lastUpdated): Ad
     {
         $this->lastUpdated = $lastUpdated;
+        return $this;
+    }
+
+    public function addImage(Image $image): self
+    {
+        $image->setAd($this);
+        $this->images[] = $image;
         return $this;
     }
 }
