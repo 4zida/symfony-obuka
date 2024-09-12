@@ -16,6 +16,7 @@ use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\LockException;
 use Doctrine\ODM\MongoDB\Mapping\MappingException;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use Doctrine\ORM\EntityManagerInterface;
 use JetBrains\PhpStorm\Deprecated;
 use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
@@ -34,7 +35,8 @@ class AdController extends AbstractController
 
     public function __construct(
         private readonly DocumentManager $documentManager,
-        readonly AdManager $adManager,
+        readonly AdManager               $adManager,
+        private readonly EntityManagerInterface $entityManager,
     )
     {
     }
@@ -204,5 +206,18 @@ class AdController extends AbstractController
             ->getAggregation();
 
         return $this->json($result);
+    }
+
+    #[Route('/api/ad/details/{id}', methods: Request::METHOD_GET)]
+    public function getDetails(Ad $ad): JsonResponse
+    {
+        $adResult = $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO)->getContent();
+        $user = $this->entityManager->getRepository(User::class)->find($ad->getUserId());
+        $userResult = $this->jsonWithGroup($user, ContextGroup::USER_WITH_PHONE)->getContent();
+
+        $adJson = json_decode($adResult, true);
+        $adJson['userId'] = json_decode($userResult, true);
+
+        return $this->json($adJson);
     }
 }

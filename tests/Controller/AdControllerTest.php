@@ -262,6 +262,18 @@ class AdControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
     }
 
+    public function testGetDetails(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/details/'.self::$agentId)
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
+    }
+
     /**
      * @throws MongoDBException
      * @throws ORMException
