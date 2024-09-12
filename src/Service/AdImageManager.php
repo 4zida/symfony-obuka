@@ -28,5 +28,7 @@ readonly class AdImageManager
         $ad->addImage($image);
         $this->documentManager->persist($image);
         $this->documentManager->flush();
+
+        return $ad;
     }
 }
