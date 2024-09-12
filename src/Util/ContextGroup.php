@@ -15,6 +15,7 @@ interface ContextGroup
     public final const PHONE_DETAILS = 'phone_details';
     const AD_COMPLETE_INFO = 'ad_complete_info';
     const USER_WITH_PHONE = 'user_with_phone';
+    const IMAGE_DETAILS = 'image_details';
 
 
 }
