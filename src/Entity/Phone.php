@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use App\Util\ContextGroup;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation\Groups;
 use libphonenumber\PhoneNumber;
@@ -30,8 +31,11 @@ class Phone
     #[ORM\Column(name: 'countryCode', type: 'string', length: 64)]
     private ?string $countryCode = null;
     #[ORM\ManyToOne(inversedBy: 'phones')]
-    #[ORM\JoinColumn(onDelete: 'CASCADE')]
     private ?User $user = null;
+
+    public function __construct()
+    {
+    }
 
     public function getId(): ?int
     {
@@ -149,6 +153,36 @@ class Phone
     public function setUser(?User $user): Phone
     {
         $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setPhones($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getPhones() === $this) {
+                $user->setPhones(null);
+            }
+        }
+
         return $this;
     }
 

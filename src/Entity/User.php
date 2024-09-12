@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use App\Util\ContextGroup;
 use App\Util\UserRole;
 use DateTimeImmutable;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -59,13 +60,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isActive;
     #[ORM\Column(type: 'date_immutable')]
     private ?DateTimeImmutable $lastSeenAt;
+
+    /**
+     * @var Collection<int, Phone>
+     */
     #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user')]
-    private ?Collection $phones;
+    private Collection $phones;
+
+    public function __construct()
+    {
+        $this->phones = new ArrayCollection();
+    }
 
     #[Groups([
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getPhones(): ?Collection
     {
@@ -130,6 +142,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
     ])]
     public function getId(): ?int
     {
@@ -141,6 +154,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getName(): ?string
     {
@@ -192,6 +207,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getSurname(): ?string
     {
@@ -210,6 +227,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::USER_WITH_PHONE
     ])]
     public function getEmail(): ?string
     {
@@ -273,6 +292,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPasswordNoHash(?string $passwordNoHash): User
     {
         $this->passwordNoHash = $passwordNoHash;
+        return $this;
+    }
+
+    public function addPhone(Phone $phone): static
+    {
+        if (!$this->phones->contains($phone)) {
+            $this->phones->add($phone);
+            $phone->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): static
+    {
+        if ($this->phones->removeElement($phone)) {
+            // set the owning side to null (unless already changed)
+            if ($phone->getUser() === $this) {
+                $phone->setUser(null);
+            }
+        }
+
         return $this;
     }
 }
