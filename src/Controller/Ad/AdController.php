@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Ad;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdType;
@@ -26,7 +26,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Requirement\Requirement;
-use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class AdController extends AbstractController
 {

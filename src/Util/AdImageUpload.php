@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 

@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use App\Util\AdStatus;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;

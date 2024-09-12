@@ -1,51 +1,39 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Company;
 
 use App\Entity\Company;
-use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
-use App\Util\UserRole;
 use Doctrine\ORM\Exception\ORMException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
 
-class UserControllerTest extends BaseTestController
+class CompanyControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
-    public static ?User $agent;
-    public static ?int $agentId;
-    public static ?Company $company;
-    public static ?int $companyId;
+    private static ?Company $agent;
+    private static ?int $agentId;
     private ?array $agentJsonData = [
-        "name" => "Test User",
-        "role" => UserRole::BackEnd,
-        "surname" => "Test Surname",
-        "password" => "Test Password",
-        "email" => "test@gmail.com",
-        "company" => null
+        "name" => "test",
+        "address" => "address"
     ];
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$company = self::createTestCompany();
-        self::$companyId = self::persistEntity(self::$company);
-
-        self::$agent = self::createTestUser(self::$company);
+        self::$agent = self::createTestCompany();
         self::$agentId = self::persistEntity(self::$agent);
 
         self::ensureKernelShutdown();
     }
-
-    public function testIndex(): void
+    public function testIndex()
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/')
+            ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -58,24 +46,22 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
-            ->setUri('/api/user/')
             ->setJsonContent($this->agentJsonData)
+            ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getRawContent();
-        self::assertNotEmpty($content);
-        self::assertEquals(ResponseMessage::USER_CREATED, $content);
+        self::assertEquals(ResponseMessage::COMPANY_CREATED, $content);
     }
 
     public function testShow(): void
     {
-        // id
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/'.self::$agent->getId())
+            ->setUri('/api/company/'.self::$agentId)
             ->getResponse();
-        self::assertResponseIsSuccessful();
+        $this->assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
@@ -87,35 +73,35 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/user/'.self::$agentId)
+            ->setUri('/api/company/'.self::$agentId)
             ->setJsonContent([
-                "name" => "Test User UPDATED"
+                "name" => "Test Company UPDATED",
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getRawContent();
         self::assertNotEmpty($content);
-        self::assertEquals(ResponseMessage::USER_UPDATED, $content);
+        self::assertEquals(ResponseMessage::COMPANY_UPDATED, $content);
     }
 
     public function testDelete(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/user/'.self::$agentId)
+            ->setUri('/api/company/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getRawContent();
-        self::assertEquals(ResponseMessage::USER_DELETED, $content);
+        self::assertEquals(ResponseMessage::COMPANY_DELETED, $content);
     }
 
     public function testFindById(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/'.self::$agentId)
+            ->setUri('/api/company/search/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -125,40 +111,11 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(self::$agentId, $content["id"]);
     }
 
-    public function testFindByRole(): void
-    {
-        $role = self::$agent->getRole()->value;
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/role/'.$role)
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-
-        $content = $response->getJsonContent();
-        self::assertNotEmpty($content);
-        self::assertIsArray($content);
-        self::assertEquals($role, $content[0]["role"]);
-    }
-
-    public function testFindByCompany(): void
-    {
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/company/'.self::$companyId)
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-
-        $content = $response->getJsonContent();
-        self::assertNotEmpty($content);
-        self::assertIsArray($content);
-        self::assertEquals(self::$companyId, $content[0]["company"]["id"]);
-    }
-
     public function testAdminIndex(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/user')
+            ->setUri('/api/admin/company')
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -171,7 +128,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/user/'.self::$agentId)
+            ->setUri('/api/admin/company/'.self::$agentId)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -185,8 +142,7 @@ class UserControllerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeEntityById(User::class, self::$agent->getId());
-        self::removeEntityById(Company::class, self::$company->getId());
+        self::removeEntityById(Company::class, self::$agent->getId());
 
         parent::tearDownAfterClass();
     }

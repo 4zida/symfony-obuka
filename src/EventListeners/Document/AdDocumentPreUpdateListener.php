@@ -2,7 +2,7 @@
 
 namespace App\EventListeners\Document;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;

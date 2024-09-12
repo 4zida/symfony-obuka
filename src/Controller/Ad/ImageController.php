@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Ad;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use App\Form\AdImageUploadType;
 use App\Service\AdImageManager;
 use App\Util\AdImageUpload;

@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Document;
+namespace App\Document\Ad;
 
+use App\Document\AdFor;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;

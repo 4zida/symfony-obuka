@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Console\Attribute\AsCommand;

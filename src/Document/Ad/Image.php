@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Document;
+namespace App\Document\Ad;
 
 use App\Repository\ImageRepository;
 use App\Util\ContextGroup;

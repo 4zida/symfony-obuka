@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Ad;
 
 use App\Form\Search\AdSearchFilterFormType;
 use App\Search\Filter\AdSearchFilter;

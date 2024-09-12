@@ -2,7 +2,7 @@
 
 namespace App\Command;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use DateTimeImmutable;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Tests\Controller;
+namespace App\Tests\Controller\Ad;
 
-use App\Document\Ad;
+use App\Document\Ad\Ad;
 use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
@@ -17,7 +17,6 @@ use Exception;
 use Nebkam\FluentTest\RequestBuilder;
 use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\RequestEvent;
 
 class AdControllerTest extends BaseTestController
 {
