@@ -5,13 +5,12 @@ namespace App\Command;
 require_once __DIR__ . '/../../vendor/fzaninotto/faker/src/autoload.php';
 
 use App\Entity\Company;
-use App\Entity\Phone;
 use App\Entity\User;
 use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Faker\Factory;
-use libphonenumber\PhoneNumberUtil;
+use Faker\Generator;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -80,21 +79,7 @@ class GenerateUsersCommand extends Command
                 $role = UserRole::cases()[array_rand(UserRole::cases())];
                 $pass = $faker->password;
 
-                $phoneUtil = PhoneNumberUtil::getInstance();
-
-                $user = (new User())
-                    ->setName($faker->firstName)
-                    ->setRole($role)
-                    ->setCompany($company)
-                    ->setSurname($faker->lastName)
-                    ->setEmail($faker->email);
-                $user->setPassword($this->passwordHasher->hashPassword($user, $pass))
-                    ->setPasswordNoHash($pass);
-                $phone = (new Phone())
-                    ->setFromPhoneNumber($phoneUtil->getExampleNumber(Phone::REGION_CODE))
-                    ->setUser($user);
-                $em->persist($user);
-                $em->persist($phone);
+                $this->generateUser($faker, $role, $company, $pass, $em);
             } catch (Exception $e) {
                 $io->error($e->getMessage() . "\n Continuing...");
                 continue;
@@ -115,5 +100,28 @@ class GenerateUsersCommand extends Command
         $io->writeln(sprintf('Took: %s seconds.', $time));
 
         return Command::SUCCESS;
+    }
+
+
+    /**
+     * @param Generator $faker
+     * @param UserRole $role
+     * @param mixed $company
+     * @param string $pass
+     * @param EntityManagerInterface $em
+     * @return void
+     */
+    public function generateUser(Generator $faker, UserRole $role, mixed $company, string $pass,
+                                 EntityManagerInterface $em): void
+    {
+        $user = (new User())
+            ->setName($faker->firstName)
+            ->setRole($role)
+            ->setCompany($company)
+            ->setSurname($faker->lastName)
+            ->setEmail($faker->email);
+        $user->setPassword($this->passwordHasher->hashPassword($user, $pass))
+            ->setPasswordNoHash($pass);
+        $em->persist($user);
     }
 }
