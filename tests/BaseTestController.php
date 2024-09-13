@@ -7,13 +7,23 @@ use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UserRole;
-use Random\RandomException;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseTestController extends WebTestCase
 {
     use EntityManagerAwareTrait;
     use DocumentManagerAwareTrait;
+
+    protected ?array $adJsonData = [
+        "name" => "test",
+        "description" => "test description",
+        "url" => "https://symfony.com/doc/current/testing/database.html",
+        "address" => "test address",
+        "floor" => -1,
+        "m2" => 50,
+        "for" => AdFor::RENT
+    ];
 
     protected static function createTestCompany(): Company
     {
@@ -37,7 +47,6 @@ class BaseTestController extends WebTestCase
     }
 
     /**
-     * @throws RandomException
      */
     protected static function createTestAd(Company|null $company, User|null $user): Ad
     {
@@ -52,5 +61,24 @@ class BaseTestController extends WebTestCase
             ->setM2(50)
             ->setFor(AdFor::RENT)
             ;
+    }
+
+    protected static function getImagePath(): string
+    {
+        return self::getContainer()->getParameter('test_ad_images_path');
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected static function mockRemoveImage(string $adId, string $imageId): void
+    {
+        $ad = self::findDocumentById(Ad::class, $adId);
+        $ad->removeImage($ad->getImages()->get($imageId));
+        self::flushDocuments();
+        self::ensureKernelShutdown();
+
+        unlink(self::getImagePath() . sprintf('/%s/%s', $adId, $imageId));
+        rmdir(self::getImagePath() . sprintf('/%s', $adId));
     }
 }
