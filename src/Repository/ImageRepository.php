@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
-class ImageRepository
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+
+class ImageRepository extends DocumentRepository
 {
 
 }

@@ -18,6 +18,7 @@ class CompanyEntityPrePersistListenerTest extends BaseTestController
         parent::setUpBeforeClass();
 
         self::$company = self::createTestCompany();
+        self::persistEntity(self::$company);
 
         self::ensureKernelShutdown();
     }
