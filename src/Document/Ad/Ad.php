@@ -8,6 +8,7 @@ use App\Util\AdStatus;
 use App\Util\ContextGroup;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JetBrains\PhpStorm\Deprecated;
@@ -60,7 +61,7 @@ class Ad
     #[Assert\NotBlank]
     protected ?AdFor $for;
     #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
-    protected ?Collection $images;
+    protected ?Collection $images = null;
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
@@ -287,8 +288,22 @@ class Ad
 
     public function addImage(Image $image): self
     {
-        $image->setAd($this);
-        $this->images[] = $image;
+        if($this->images == null) {
+            $this->images = new ArrayCollection();
+        }
+        $this->images->add($image);
         return $this;
+    }
+
+    public function removeImage($getById): self
+    {
+        $this->images->removeElement($getById);
+
+        return $this;
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
     }
 }
