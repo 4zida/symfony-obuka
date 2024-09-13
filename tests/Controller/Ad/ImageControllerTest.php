@@ -13,6 +13,8 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use libphonenumber\PhoneNumberUtil;
+use Nebkam\FluentTest\RequestBuilder;
+use Symfony\Component\HttpFoundation\Request;
 
 class ImageControllerTest extends BaseTestController
 {
@@ -69,6 +71,15 @@ class ImageControllerTest extends BaseTestController
         self::assertFileExists($image->getLocation());
 
         self::mockRemoveImage(self::$ad->getId(), $image->getId());
+    }
+
+    public function testShowAll(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/images')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
     }
 
     /**

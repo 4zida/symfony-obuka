@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Ad;
 
 use App\Document\Ad\Ad;
+use App\Document\Ad\Image;
 use App\Form\AdImageUploadType;
 use App\Service\AdImageManager;
 use App\Util\AdImageUpload;
@@ -42,5 +43,13 @@ class ImageController extends AbstractController
         $adImageManager->upload($ad, $adImageUpload->image);
 
         return $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO, Response::HTTP_CREATED);
+    }
+
+    #[Route('/api/ad/images', methods: Request::METHOD_GET)]
+    public function showAll(): JsonResponse
+    {
+        $result = $this->documentManager->getRepository(Image::class)->findAll();
+
+        return $this->jsonWithGroup($result, ContextGroup::IMAGE_DETAILS);
     }
 }
