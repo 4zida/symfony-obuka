@@ -3,7 +3,6 @@
 namespace App\Tests\Controller\Ad;
 
 use App\Document\Ad\Ad;
-use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
@@ -15,7 +14,6 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
 use Nebkam\FluentTest\RequestBuilder;
-use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdControllerTest extends BaseTestController
@@ -30,19 +28,10 @@ class AdControllerTest extends BaseTestController
     private static ?int $userId;
     private static ?Company $company;
     private static ?int $companyId;
-    private ?array $agentJsonData = [
-        "name" => "test",
-        "description" => "test description",
-        "url" => "https://symfony.com/doc/current/testing/database.html",
-        "address" => "test address",
-        "floor" => -1,
-        "m2" => 50,
-        "for" => AdFor::RENT
-    ];
+
 
     /**
      * @throws MongoDBException
-     * @throws RandomException
      */
     public static function setUpBeforeClass(): void
     {
@@ -121,7 +110,7 @@ class AdControllerTest extends BaseTestController
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
             ->setUri('/api/ad/')
-            ->setJsonContent($this->agentJsonData)
+            ->setJsonContent($this->adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -137,7 +126,7 @@ class AdControllerTest extends BaseTestController
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
             ->setUri('/api/ad/'.self::$agentId)
-            ->setJsonContent($this->agentJsonData)
+            ->setJsonContent($this->adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
