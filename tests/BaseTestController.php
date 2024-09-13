@@ -15,7 +15,7 @@ class BaseTestController extends WebTestCase
     use EntityManagerAwareTrait;
     use DocumentManagerAwareTrait;
 
-    protected ?array $adJsonData = [
+    protected static ?array $adJsonData = [
         "name" => "test",
         "description" => "test description",
         "url" => "https://symfony.com/doc/current/testing/database.html",
@@ -23,6 +23,20 @@ class BaseTestController extends WebTestCase
         "floor" => -1,
         "m2" => 50,
         "for" => AdFor::RENT
+    ];
+
+    protected static ?array $userJsonData = [
+        "name" => "Test User",
+        "role" => UserRole::BackEnd,
+        "surname" => "Test Surname",
+        "password" => "Test Password",
+        "email" => "test@gmail.com",
+        "company" => null
+    ];
+
+    protected static ?array $companyJsonData = [
+        "name" => "test",
+        "address" => "address"
     ];
 
     protected static function createTestCompany(): Company

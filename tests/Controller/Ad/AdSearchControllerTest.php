@@ -20,29 +20,25 @@ class AdSearchControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
-    private static ?Ad $agent;
-    private static ?string $agentId;
+    private static ?Ad $ad;
     private static ?User $user;
-    private static ?int $userId;
     private static ?Company $company;
-    private static ?int $companyId;
 
     /**
      * @throws MongoDBException
-     * @throws RandomException
      */
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         self::$company = self::createTestCompany();
-        self::$companyId = self::persistEntity(self::$company);
+        self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
-        self::$userId = self::persistEntity(self::$user);
+        self::persistEntity(self::$user);
 
-        self::$agent = self::createTestAd(self::$company, self::$user);
-        self::$agentId = self::persistDocument(self::$agent);
+        self::$ad = self::createTestAd(self::$company, self::$user);
+        self::persistDocument(self::$ad);
 
         self::ensureKernelShutdown();
     }
@@ -88,14 +84,14 @@ class AdSearchControllerTest extends BaseTestController
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/search')
             ->setJsonContent([
-                'address' => self::$agent->getAddress()
+                'address' => self::$ad->getAddress()
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
         $content = $response->getJsonContent();
         self::assertNotNull($content);
         foreach ($content as $ad) {
-            self::assertEquals(self::$agent->getAddress(), $ad['address']);
+            self::assertEquals(self::$ad->getAddress(), $ad['address']);
         }
 
         $response = RequestBuilder::create(self::getClient())
@@ -109,7 +105,7 @@ class AdSearchControllerTest extends BaseTestController
         $content = $response->getJsonContent();
         self::assertNotNull($content);
         foreach ($content as $ad) {
-            self::assertEquals(self::$agent->getFor()->value, $ad['for']);
+            self::assertEquals(self::$ad->getFor()->value, $ad['for']);
         }
     }
 
@@ -120,9 +116,9 @@ class AdSearchControllerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeDocumentById(Ad::class, self::$agentId);
-        self::removeEntityById(User::class, self::$userId);
-        self::removeEntityById(Company::class, self::$companyId);
+        self::removeDocumentById(Ad::class, self::$ad->getId());
+        self::removeEntityById(User::class, self::$user->getId());
+        self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
     }

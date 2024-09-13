@@ -10,23 +10,22 @@ use Doctrine\ORM\Exception\ORMException;
 class CompanyEntityPrePersistListenerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
-    private static ?Company $agent;
+    private static ?Company $company;
     private static ?int $agentId;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$agent = self::createTestCompany();
-        self::$agentId = self::persistEntity(self::$agent);
+        self::$company = self::createTestCompany();
 
         self::ensureKernelShutdown();
     }
 
     public function testPrePersist(): void
     {
-        self::assertNotEmpty(self::$agent->getCreatedAt());
-        self::assertFalse(self::$agent->getIsActive());
+        self::assertNotEmpty(self::$company->getCreatedAt());
+        self::assertFalse(self::$company->getIsActive());
     }
 
     /**
@@ -34,7 +33,7 @@ class CompanyEntityPrePersistListenerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeEntityById(Company::class, self::$agent->getId());
+        self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
     }

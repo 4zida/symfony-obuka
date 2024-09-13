@@ -11,28 +11,26 @@ use Doctrine\ORM\Exception\ORMException;
 class UserEntityPrePersistListenerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
-    public static ?User $agent;
-    public static ?int $agentId;
+    public static ?User $user;
     public static ?Company $company;
-    public static ?int $companyId;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
         self::$company = self::createTestCompany();
-        self::$companyId = self::persistEntity(self::$company);
+        self::persistEntity(self::$company);
 
-        self::$agent = self::createTestUser(self::$company);
-        self::$agentId = self::persistEntity(self::$agent);
+        self::$user = self::createTestUser(self::$company);
+        self::persistEntity(self::$user);
 
         self::ensureKernelShutdown();
     }
 
     public function testPrePersist(): void
     {
-        self::assertNotEmpty(self::$agent->getCreatedAt());
-        self::assertFalse(self::$agent->getIsActive());
+        self::assertNotEmpty(self::$user->getCreatedAt());
+        self::assertFalse(self::$user->getIsActive());
     }
 
     /**
@@ -40,7 +38,7 @@ class UserEntityPrePersistListenerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeEntityById(User::class, self::$agent->getId());
+        self::removeEntityById(User::class, self::$user->getId());
         self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();

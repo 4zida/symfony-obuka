@@ -3,14 +3,17 @@
 namespace App\Form;
 
 use App\Document\Ad\Ad;
+use App\Document\Ad\Image;
 use App\Document\AdFor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\UrlType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AdType extends AbstractType
 {
@@ -25,6 +28,21 @@ class AdType extends AbstractType
             ->add('m2', IntegerType::class)
             ->add('for', EnumType::class, [
                 'class' => AdFor::class
+            ])
+            ->add('image', FileType::class, [
+                'label' => 'Image',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png'
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid image'
+                    ])
+                ]
             ]);
     }
 

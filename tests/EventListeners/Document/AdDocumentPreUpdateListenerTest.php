@@ -20,12 +20,9 @@ use Symfony\Component\HttpFoundation\Request;
 class AdDocumentPreUpdateListenerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
-    private static ?Ad $agent;
-    private static ?string $agentId;
+    private static ?Ad $ad;
     private static ?User $user;
-    private static ?int $userId;
     private static ?Company $company;
-    private static ?int $companyId;
 
     /**
      * @throws MongoDBException
@@ -35,13 +32,13 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
         parent::setUpBeforeClass();
 
         self::$company = self::createTestCompany();
-        self::$companyId = self::persistEntity(self::$company);
+        self::persistEntity(self::$company);
 
         self::$user = self::createTestUser(self::$company);
-        self::$userId = self::persistEntity(self::$user);
+        self::persistEntity(self::$user);
 
-        self::$agent = self::createTestAd(self::$company, self::$user);
-        self::$agentId = self::persistDocument(self::$agent);
+        self::$ad = self::createTestAd(self::$company, self::$user);
+        self::persistDocument(self::$ad);
 
         self::ensureKernelShutdown();
     }
@@ -52,14 +49,14 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
      */
     public function testPreUpdate() {
         $date = new DateTimeImmutable("-1 day");
-        self::$agent->setLastUpdated($date);
+        self::$ad->setLastUpdated($date);
         RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/ad/'.self::$agentId)
-            ->setJsonContent($this->adJsonData)
+            ->setUri('/api/ad/'.self::$ad->getId())
+            ->setJsonContent(self::$adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
-        $updatedAd = self::getDocumentManager()->getRepository(Ad::class)->find(self::$agentId);
+        $updatedAd = self::getDocumentManager()->getRepository(Ad::class)->find(self::$ad->getId());
         self::assertNotEquals($date, $updatedAd->getLastUpdated());
     }
 
@@ -70,9 +67,9 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeDocumentById(Ad::class, self::$agentId);
-        self::removeEntityById(User::class, self::$userId);
-        self::removeEntityById(Company::class, self::$companyId);
+        self::removeDocumentById(Ad::class, self::$ad->getId());
+        self::removeEntityById(User::class, self::$user->getId());
+        self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
     }

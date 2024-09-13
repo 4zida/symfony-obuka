@@ -13,19 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 class CompanyControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
-    private static ?Company $agent;
-    private static ?int $agentId;
-    private ?array $agentJsonData = [
-        "name" => "test",
-        "address" => "address"
-    ];
+    private static ?Company $company;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$agent = self::createTestCompany();
-        self::$agentId = self::persistEntity(self::$agent);
+        self::$company = self::createTestCompany();
+        self::persistEntity(self::$company);
 
         self::ensureKernelShutdown();
     }
@@ -46,7 +41,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
-            ->setJsonContent($this->agentJsonData)
+            ->setJsonContent(self::$companyJsonData)
             ->setUri('/api/company/')
             ->getResponse();
         self::assertResponseIsSuccessful();
@@ -59,21 +54,21 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/company/'.self::$agentId)
+            ->setUri('/api/company/'.self::$company->getId())
             ->getResponse();
         $this->assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
         self::assertIsArray($content);
-        self::assertEquals(self::$agentId, $content['id']);
+        self::assertEquals(self::$company->getId(), $content['id']);
     }
 
     public function testUpdate(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/company/'.self::$agentId)
+            ->setUri('/api/company/'.self::$company->getId())
             ->setJsonContent([
                 "name" => "Test Company UPDATED",
             ])
@@ -89,7 +84,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/company/'.self::$agentId)
+            ->setUri('/api/company/'.self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -101,14 +96,14 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/company/search/'.self::$agentId)
+            ->setUri('/api/company/search/'.self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
         self::assertIsArray($content);
-        self::assertEquals(self::$agentId, $content["id"]);
+        self::assertEquals(self::$company->getId(), $content["id"]);
     }
 
     public function testAdminIndex(): void
@@ -128,13 +123,13 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/company/'.self::$agentId)
+            ->setUri('/api/admin/company/'.self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
-        self::assertEquals(self::$agentId, $content['id']);
+        self::assertEquals(self::$company->getId(), $content['id']);
     }
 
     /**
@@ -142,7 +137,7 @@ class CompanyControllerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
-        self::removeEntityById(Company::class, self::$agent->getId());
+        self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
     }
