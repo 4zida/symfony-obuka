@@ -21,7 +21,22 @@ class Image
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     protected ?string $location;
+    #[MongoDB\Field(type: 'date_immutable')]
+    protected ?DateTimeImmutable $createdAt;
+    #[MongoDB\ReferenceOne(targetDocument: Ad::class, orphanRemoval: true)]
+    protected ?Ad $ad;
 
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
     public function getLocation(): ?string
     {
         return $this->location;
@@ -32,21 +47,9 @@ class Image
         $this->location = $location;
         return $this;
     }
-    #[MongoDB\Field(type: 'date_immutable')]
-    protected ?DateTimeImmutable $createdAt;
-    #[MongoDB\ReferenceOne(targetDocument: Ad::class, orphanRemoval: true)]
-    protected ?Ad $ad;
 
     #[Groups([
-
-    ])]
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    #[Groups([
-
+        ContextGroup::IMAGE_DETAILS,
     ])]
     public function getAlias(): string
     {
@@ -66,7 +69,7 @@ class Image
     }
 
     #[Groups([
-
+        ContextGroup::IMAGE_DETAILS,
     ])]
     public function getCreatedAt(): ?DateTimeImmutable
     {
@@ -77,5 +80,13 @@ class Image
     {
         $this->ad = $ad;
         return $this;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getAd(): ?Ad
+    {
+        return $this->ad;
     }
 }
