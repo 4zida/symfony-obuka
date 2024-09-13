@@ -29,7 +29,6 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
 
     /**
      * @throws MongoDBException
-     * @throws RandomException
      */
     public static function setUpBeforeClass(): void
     {
@@ -57,9 +56,7 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
         RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
             ->setUri('/api/ad/'.self::$agentId)
-            ->setJsonContent([
-                "name" => "test Ad UPDATED",
-            ])
+            ->setJsonContent($this->adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
         $updatedAd = self::getDocumentManager()->getRepository(Ad::class)->find(self::$agentId);
