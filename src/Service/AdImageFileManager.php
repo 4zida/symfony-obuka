@@ -22,13 +22,13 @@ class AdImageFileManager
     public function moveUploadedFile(UploadedFile $file, string $adId, string $imageId): File
     {
         $dir = $this->resolveDir($adId);
-        $this->fs->mkdir($dir, 0775);
+        mkdir($dir, 0775, true);
 
-        return $file->move($dir, $imageId);
+        return $file->move($dir, $imageId.'.'.$file->guessExtension());
     }
 
     private function resolveDir(string $adId): string
     {
-        return $this->adImagesPath.DIRECTORY_SEPARATOR.$adId;
+        return __DIR__."/../..".$this->adImagesPath.DIRECTORY_SEPARATOR.$adId;
     }
 }

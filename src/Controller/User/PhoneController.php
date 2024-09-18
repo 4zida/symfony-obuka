@@ -35,8 +35,7 @@ class PhoneController extends AbstractController
     #[Route('/api/phone/', methods: Request::METHOD_GET)]
     public function index(): JsonResponse
     {
-        return $this->jsonWithGroup($this->phoneRepository->findAll(),
-            ContextGroup::PHONE_DETAILS);
+        return $this->jsonWithGroup($this->phoneRepository->findAll(), ContextGroup::PHONE_DETAILS);
     }
 
     #[Route('/api/phone/{id}', methods: Request::METHOD_PATCH)]

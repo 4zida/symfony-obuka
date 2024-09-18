@@ -207,7 +207,7 @@ class AdController extends AbstractController
         return $this->json($result);
     }
 
-    #[Route('/api/ad/details/{id}', methods: Request::METHOD_GET)]
+    #[Route('/api/ad/details/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
     public function getDetails(Ad $ad): JsonResponse
     {
         $adResult = $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO)->getContent();

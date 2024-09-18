@@ -23,6 +23,7 @@ readonly class AdImageManager
     public function upload(Ad $ad, UploadedFile $file): Ad
     {
         $image = new Image();
+        $this->documentManager->persist($image);
         $file = $this->fileManager->moveUploadedFile($file, $ad->getId(), $image->getId());
         $image->setLocation($file->getPath());
         $ad->addImage($image);

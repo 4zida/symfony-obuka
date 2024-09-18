@@ -17,6 +17,7 @@ class AdImageUpload
         corruptedMessage: 'This image is corrupted.'
     )]
     public UploadedFile $image;
+
     public function __construct(Ad $ad)
     {
         $this->ad = $ad;

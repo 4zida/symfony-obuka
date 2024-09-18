@@ -21,6 +21,7 @@ class AdImageUploadType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => AdImageUpload::class,
+            'csrf_protection' => false
         ]);
     }
 

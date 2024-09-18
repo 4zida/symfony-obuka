@@ -18,3 +18,4 @@ phpunit.xml.dist
 ###< symfony/phpunit-bridge ###
 
 /ads.csv
+/images
