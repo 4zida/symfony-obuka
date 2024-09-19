@@ -32,7 +32,6 @@ class ImageController extends AbstractController
     public function __construct(
         private readonly DocumentManager $documentManager,
         private readonly AdImageManager $adImageManager,
-        private readonly LoggerInterface $logger
     )
     {
     }
