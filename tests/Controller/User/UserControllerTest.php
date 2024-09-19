@@ -170,6 +170,15 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(self::$user->getId(), $content['id']);
     }
 
+    public function testShowWithPhone(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/user/phone/'.self::$user->getId())
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+    }
+
     /**
      * @throws ORMException
      */
