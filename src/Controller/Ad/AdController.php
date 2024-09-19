@@ -207,20 +207,18 @@ class AdController extends AbstractController
         return $this->json($result);
     }
 
-    #[Route('/api/ad/details/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/details/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID],
+        methods: Request::METHOD_GET)]
     public function getDetails(Ad $ad): JsonResponse
     {
         return $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO);
     }
 
-    /**
-     * @throws MappingException
-     * @throws LockException
-     */
-    #[Route('/api/ad/details/{id}/user-info', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_GET)]
+    #[Route('/api/ad/details/{id}/user-info', requirements: ['id' => CustomRequirement::OBJECT_ID],
+        methods: Request::METHOD_GET)]
     public function getAdUserInfo(Ad $ad): JsonResponse
     {
-        $user = $this->documentManager->getRepository(User::class)->find($ad->getUserId());
+        $user = $this->entityManager->getRepository(User::class)->find($ad->getUserId());
 
         return $this->jsonWithGroup($user, ContextGroup::USER_WITH_PHONE);
     }
