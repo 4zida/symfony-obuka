@@ -19,8 +19,7 @@ trait DocumentManagerAwareTrait
     protected static function findDocumentById(string $className, string $id, bool $refresh = false)
     {
         $document = self::getDocumentManager()->find($className, $id);
-        if ($document && $refresh)
-        {
+        if ($document && $refresh) {
             self::refreshDocument($document);
         }
 
@@ -70,8 +69,7 @@ trait DocumentManagerAwareTrait
     protected static function removeDocumentById(string $className, string $id): void
     {
         $document = self::findDocumentById($className, $id);
-        if ($document)
-        {
+        if ($document) {
             self::getDocumentManager()->remove($document);
             self::getDocumentManager()->flush();
         }

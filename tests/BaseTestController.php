@@ -7,6 +7,7 @@ use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UserRole;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Exception;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -44,8 +45,7 @@ class BaseTestController extends WebTestCase
     {
         return (new Company())
             ->setName("Test Company")
-            ->setAddress("Test Address")
-            ;
+            ->setAddress("Test Address");
     }
 
     protected static function createTestUser(Company|null $company): User
@@ -57,12 +57,9 @@ class BaseTestController extends WebTestCase
             ->setSurname("Test Surname")
             ->setEmail("test@email.com")
             ->setCompany($company)
-            ->setPasswordNoHash("testPassword")
-            ;
+            ->setPasswordNoHash("testPassword");
     }
 
-    /**
-     */
     protected static function createTestAd(Company|null $company, User|null $user): Ad
     {
         return (new Ad())
@@ -75,8 +72,7 @@ class BaseTestController extends WebTestCase
             ->setPrice(1000)
             ->setAddress("Test Address")
             ->setM2(50)
-            ->setFor(AdFor::RENT)
-            ;
+            ->setFor(AdFor::RENT);
     }
 
     protected static function getImagePath(): string
@@ -85,6 +81,7 @@ class BaseTestController extends WebTestCase
     }
 
     /**
+     * @throws MongoDBException
      * @throws Exception
      */
     protected static function mockRemoveImage(string $adId, string $imageId): void

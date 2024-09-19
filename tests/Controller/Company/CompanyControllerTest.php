@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 class CompanyControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
+
     private static ?Company $company;
 
     public static function setUpBeforeClass(): void
@@ -24,6 +25,7 @@ class CompanyControllerTest extends BaseTestController
 
         self::ensureKernelShutdown();
     }
+
     public function testIndex()
     {
         $response = RequestBuilder::create(self::createClient())
@@ -54,7 +56,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/company/'.self::$company->getId())
+            ->setUri('/api/company/' . self::$company->getId())
             ->getResponse();
         $this->assertResponseIsSuccessful();
 
@@ -68,7 +70,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/company/'.self::$company->getId())
+            ->setUri('/api/company/' . self::$company->getId())
             ->setJsonContent([
                 "name" => "Test Company UPDATED",
             ])
@@ -84,7 +86,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/company/'.self::$company->getId())
+            ->setUri('/api/company/' . self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -96,7 +98,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/company/search/'.self::$company->getId())
+            ->setUri('/api/company/search/' . self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -123,7 +125,7 @@ class CompanyControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/company/'.self::$company->getId())
+            ->setUri('/api/admin/company/' . self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 

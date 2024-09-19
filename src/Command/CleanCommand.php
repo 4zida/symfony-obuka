@@ -24,7 +24,7 @@ class CleanCommand extends Command
         private readonly CompanyRepository      $companyRepository,
         private readonly UserRepository         $userRepository,
         private readonly EntityManagerInterface $entityManager,
-        private readonly PhoneRepository       $phoneRepository,
+        private readonly PhoneRepository        $phoneRepository,
     )
     {
         parent::__construct();
@@ -34,9 +34,6 @@ class CleanCommand extends Command
     {
     }
 
-    /**
-     * @throws MongoDBException
-     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);

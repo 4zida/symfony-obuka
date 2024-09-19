@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Request;
 class AdDocumentPreUpdateListenerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
+
     private static ?Ad $ad;
     private static ?User $user;
     private static ?Company $company;
@@ -47,12 +48,13 @@ class AdDocumentPreUpdateListenerTest extends BaseTestController
      * @throws MappingException
      * @throws LockException
      */
-    public function testPreUpdate() {
+    public function testPreUpdate()
+    {
         $date = new DateTimeImmutable("-1 day");
         self::$ad->setLastUpdated($date);
         RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/ad/'.self::$ad->getId())
+            ->setUri('/api/ad/' . self::$ad->getId())
             ->setJsonContent(self::$adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();

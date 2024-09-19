@@ -33,8 +33,8 @@ class AdController extends AbstractController
     use ControllerTrait;
 
     public function __construct(
-        private readonly DocumentManager $documentManager,
-        readonly AdManager               $adManager,
+        private readonly DocumentManager        $documentManager,
+        readonly AdManager                      $adManager,
         private readonly EntityManagerInterface $entityManager,
     )
     {
@@ -185,12 +185,12 @@ class AdController extends AbstractController
     {
         $result = $this->documentManager->createAggregationBuilder(Ad::class)
             ->match()
-                ->field('floor')
+            ->field('floor')
             ->group()
-                ->field('id')
-                ->expression('$floor')
-                ->field('count')
-                ->sum(1)
+            ->field('id')
+            ->expression('$floor')
+            ->field('count')
+            ->sum(1)
             ->sort('id', 'ASC')
             ->getAggregation();
 

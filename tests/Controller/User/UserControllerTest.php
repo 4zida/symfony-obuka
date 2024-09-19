@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
+
     public static ?User $user;
     public static ?Company $company;
 
@@ -63,7 +64,7 @@ class UserControllerTest extends BaseTestController
         // id
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/'.self::$user->getId())
+            ->setUri('/api/user/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -77,7 +78,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/user/'.self::$user->getId())
+            ->setUri('/api/user/' . self::$user->getId())
             ->setJsonContent([
                 "name" => "Test User UPDATED"
             ])
@@ -93,7 +94,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/user/'.self::$user->getId())
+            ->setUri('/api/user/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -105,7 +106,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/'.self::$user->getId())
+            ->setUri('/api/user/search/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -120,7 +121,7 @@ class UserControllerTest extends BaseTestController
         $role = self::$user->getRole()->value;
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/role/'.$role)
+            ->setUri('/api/user/search/role/' . $role)
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -134,7 +135,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/search/company/'.self::$company->getId())
+            ->setUri('/api/user/search/company/' . self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -161,7 +162,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/user/'.self::$user->getId())
+            ->setUri('/api/admin/user/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -174,7 +175,7 @@ class UserControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/user/phone/'.self::$user->getId())
+            ->setUri('/api/user/phone/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
     }

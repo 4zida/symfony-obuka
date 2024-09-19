@@ -29,9 +29,10 @@ class ImageController extends AbstractController
 {
     use ControllerTrait;
     use FormTrait;
+
     public function __construct(
         private readonly DocumentManager $documentManager,
-        private readonly AdImageManager $adImageManager,
+        private readonly AdImageManager  $adImageManager,
     )
     {
     }

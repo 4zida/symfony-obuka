@@ -21,6 +21,7 @@ class AdSearchControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
+
     private static ?Ad $ad;
     private static ?User $user;
     private static ?Company $company;

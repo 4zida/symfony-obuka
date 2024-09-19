@@ -11,6 +11,7 @@ use Doctrine\ORM\Exception\ORMException;
 class UserEntityPrePersistListenerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
+
     public static ?User $user;
     public static ?Company $company;
 

@@ -20,6 +20,7 @@ class AdControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
+
     private static ?Ad $ad;
     private static ?Ad $adDelete;
     private static ?User $user;
@@ -52,7 +53,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/activate/'.self::$ad->getId())
+            ->setUri('/api/ad/activate/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -64,7 +65,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/deactivate/'.self::$ad->getId())
+            ->setUri('/api/ad/deactivate/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -72,7 +73,7 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::AD_DEACTIVATED, $content);
     }
 
-    public function testIndex() : void
+    public function testIndex(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
@@ -92,7 +93,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/'.self::$ad->getId())
+            ->setUri('/api/ad/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -101,7 +102,7 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(self::$ad->getId(), $content['id']);
     }
 
-    public function testCreate() : void
+    public function testCreate(): void
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_POST)
@@ -121,7 +122,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_PATCH)
-            ->setUri('/api/ad/'.self::$ad->getId())
+            ->setUri('/api/ad/' . self::$ad->getId())
             ->setJsonContent(self::$adJsonData)
             ->getResponse();
         self::assertResponseIsSuccessful();
@@ -134,7 +135,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/'.self::$ad->getId())
+            ->setUri('/api/ad/search/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -147,7 +148,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/user/'.self::$user->getId())
+            ->setUri('/api/ad/search/user/' . self::$user->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -161,7 +162,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/company/'.self::$company->getId())
+            ->setUri('/api/ad/search/company/' . self::$company->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -175,7 +176,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/address/'.self::$ad->getAddress())
+            ->setUri('/api/ad/search/address/' . self::$ad->getAddress())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -189,7 +190,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search/floor/'.self::$ad->getFloor())
+            ->setUri('/api/ad/search/floor/' . self::$ad->getFloor())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -203,7 +204,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_DELETE)
-            ->setUri('/api/ad/'.self::$adDelete->getId())
+            ->setUri('/api/ad/' . self::$adDelete->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -228,7 +229,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/admin/ad/'.self::$ad->getId())
+            ->setUri('/api/admin/ad/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
 
@@ -262,7 +263,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/details/'.self::$ad->getId())
+            ->setUri('/api/ad/details/' . self::$ad->getId())
             ->getResponse();
         self::assertResponseIsSuccessful();
     }
@@ -271,7 +272,7 @@ class AdControllerTest extends BaseTestController
     {
         $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/details/'.self::$ad->getId().'/user-info')
+            ->setUri('/api/ad/details/' . self::$ad->getId() . '/user-info')
             ->getResponse();
         self::assertResponseIsSuccessful();
     }

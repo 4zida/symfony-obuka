@@ -10,6 +10,7 @@ use Doctrine\ORM\Exception\ORMException;
 class CompanyEntityPrePersistListenerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
+
     private static ?Company $company;
     private static ?int $agentId;
 

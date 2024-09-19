@@ -21,11 +21,11 @@ readonly class AdImageFileManager
         $dir = $this->resolveDir($adId);
         mkdir($dir, 0775, true);
 
-        return $file->move($dir, $imageId.'.'.$file->guessExtension());
+        return $file->move($dir, $imageId . '.' . $file->guessExtension());
     }
 
     private function resolveDir(string $adId): string
     {
-        return __DIR__."/../..".$this->adImagesPath.DIRECTORY_SEPARATOR.$adId;
+        return __DIR__ . "/../.." . $this->adImagesPath . DIRECTORY_SEPARATOR . $adId;
     }
 }

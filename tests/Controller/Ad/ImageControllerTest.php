@@ -64,7 +64,7 @@ class ImageControllerTest extends BaseTestController
 
         mkdir(self::getImagePath() . sprintf('/%s', self::$ad->getId()), 0775);
         $imagePath = self::getImagePath() . sprintf('/%s/%s', self::$ad->getId(), $image->getId());
-        copy(__DIR__.'/../../mock_ad_image.jpg', $imagePath);
+        copy(__DIR__ . '/../../mock_ad_image.jpg', $imagePath);
         $image->setLocation($imagePath);
         self::$ad->addImage($image);
         self::persistDocument($image);

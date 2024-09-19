@@ -69,10 +69,12 @@ class Phone
     {
         return PhoneNumberUtil::getInstance()->format($phoneNumber, PhoneNumberFormat::E164);
     }
+
     public function formatToNational(PhoneNumber $phoneNumber): string
     {
         return PhoneNumberUtil::getInstance()->format($phoneNumber, PhoneNumberFormat::NATIONAL);
     }
+
     public function formatToInternational(PhoneNumber $phoneNumber): string
     {
         return PhoneNumberUtil::getInstance()->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL);

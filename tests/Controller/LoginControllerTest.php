@@ -14,6 +14,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 class LoginControllerTest extends BaseTestController
 {
     use EntityManagerAwareTrait;
+
     protected static ?KernelBrowser $client;
     protected static ?KernelInterface $kernel;
     protected static ?User $user;

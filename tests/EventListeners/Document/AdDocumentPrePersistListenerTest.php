@@ -16,6 +16,7 @@ use Random\RandomException;
 class AdDocumentPrePersistListenerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
+
     private static ?Ad $ad;
     private static ?User $user;
     private static ?Company $company;
