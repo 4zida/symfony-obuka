@@ -20,6 +20,8 @@ class AdSearchFilterFormType extends AbstractType
             ->add('floorFrom', IntegerType::class)
             ->add('m2To', IntegerType::class)
             ->add('m2From', IntegerType::class)
+            ->add('priceFrom', IntegerType::class)
+            ->add('priceTo', IntegerType::class)
             ->add('address', TextType::class)
             ->add('for', EnumType::class, [
                 'class' => AdFor::class

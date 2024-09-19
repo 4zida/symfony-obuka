@@ -20,6 +20,7 @@ class BaseTestController extends WebTestCase
         "description" => "test description",
         "url" => "https://symfony.com/doc/current/testing/database.html",
         "address" => "test address",
+        "price" => 1000,
         "floor" => -1,
         "m2" => 50,
         "for" => AdFor::RENT
@@ -71,6 +72,7 @@ class BaseTestController extends WebTestCase
             ->setUserId($user?->getId())
             ->setCompanyId($company?->getId())
             ->setFloor(5)
+            ->setPrice(1000)
             ->setAddress("Test Address")
             ->setM2(50)
             ->setFor(AdFor::RENT)

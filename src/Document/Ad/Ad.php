@@ -53,6 +53,8 @@ class Ad
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
     protected ?int $m2;
+    #[MongoDB\Field(type: 'int')]
+    protected ?int $price;
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $createdAt;
     #[MongoDB\Field(type: 'date_immutable')]
@@ -62,6 +64,22 @@ class Ad
     protected ?AdFor $for;
     #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
     protected ?Collection $images = null;
+
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): Ad
+    {
+        $this->price = $price;
+        return $this;
+    }
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,

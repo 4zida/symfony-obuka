@@ -13,6 +13,7 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
+use Nebkam\FluentTest\ResponseWrapper;
 use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -45,15 +46,12 @@ class AdSearchControllerTest extends BaseTestController
 
     public function testSearch(): void
     {
+        self::createClient();
         // floor search testing
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search')
-            ->setJsonContent([
-                'floorFrom' => 5,
-                'floorTo' => 10,
-            ])
-            ->getResponse();
+        $response = $this->adSearchResponseBuilder([
+            'floorFrom' => 5,
+            'floorTo' => 10,
+        ]);
         self::assertResponseIsSuccessful();
         $content = $response->getJsonContent();
         self::assertNotNull($content);
@@ -63,14 +61,10 @@ class AdSearchControllerTest extends BaseTestController
         }
 
         // m2 search testing
-        $response = RequestBuilder::create(self::getClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search')
-            ->setJsonContent([
-                'm2From' => 20,
-                'm2To' => 30,
-            ])
-            ->getResponse();
+        $response = $this->adSearchResponseBuilder([
+            'm2From' => 20,
+            'm2To' => 30,
+        ]);
         self::assertResponseIsSuccessful();
         $content = $response->getJsonContent();
         self::assertNotNull($content);
@@ -80,13 +74,9 @@ class AdSearchControllerTest extends BaseTestController
         }
 
         // address search testing
-        $response = RequestBuilder::create(self::getClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search')
-            ->setJsonContent([
-                'address' => self::$ad->getAddress()
-            ])
-            ->getResponse();
+        $response = $this->adSearchResponseBuilder([
+            'address' => self::$ad->getAddress()
+        ]);
         self::assertResponseIsSuccessful();
         $content = $response->getJsonContent();
         self::assertNotNull($content);
@@ -94,18 +84,26 @@ class AdSearchControllerTest extends BaseTestController
             self::assertEquals(self::$ad->getAddress(), $ad['address']);
         }
 
-        $response = RequestBuilder::create(self::getClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/search')
-            ->setJsonContent([
-                'for' => AdFor::RENT
-            ])
-            ->getResponse();
+        $response = $this->adSearchResponseBuilder([
+            'for' => AdFor::RENT
+        ]);
         self::assertResponseIsSuccessful();
         $content = $response->getJsonContent();
         self::assertNotNull($content);
         foreach ($content as $ad) {
             self::assertEquals(self::$ad->getFor()->value, $ad['for']);
+        }
+
+        $response = $this->adSearchResponseBuilder([
+            'priceFrom' => 500,
+            'priceTo' => 1500
+        ]);
+        self::assertResponseIsSuccessful();
+        $content = $response->getJsonContent();
+        self::assertNotNull($content);
+        foreach ($content as $ad) {
+            self::assertGreaterThanOrEqual(500, $ad['price']);
+            self::assertLessThanOrEqual(1500, $ad['price']);
         }
     }
 
@@ -121,5 +119,14 @@ class AdSearchControllerTest extends BaseTestController
         self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
+    }
+
+    public function adSearchResponseBuilder(array $jsonContent): ResponseWrapper
+    {
+        return RequestBuilder::create(self::getClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/search')
+            ->setJsonContent($jsonContent)
+            ->getResponse();
     }
 }

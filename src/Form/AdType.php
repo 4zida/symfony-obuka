@@ -29,6 +29,7 @@ class AdType extends AbstractType
             ->add('for', EnumType::class, [
                 'class' => AdFor::class
             ])
+            ->add('price', IntegerType::class)
             ->add('image', FileType::class, [
                 'label' => 'Image',
                 'mapped' => false,

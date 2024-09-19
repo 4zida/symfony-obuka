@@ -24,11 +24,41 @@ class AdSearchFilter
     #[Assert\GreaterThanOrEqual(value: 0)]
     #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::To, field: 'm2')]
     protected ?int $m2To = null;
+    #[Assert\Type('integer')]
+    #[Assert\GreaterThanOrEqual(value: 0)]
+    #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::From, field: 'price')]
+    protected ?int $priceFrom = null;
+    #[Assert\Type('integer')]
+    #[Assert\GreaterThanOrEqual(value: 0)]
+    #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::To, field: 'price')]
+    protected ?int $priceTo = null;
     #[Assert\Type('string')]
     #[SearchParam(type: SearchParamType::String, field: 'address')]
     protected ?string $address = null;
     #[SearchParam(type: SearchParamType::StringEnum, field: 'for')]
     protected ?AdFor $for = null;
+
+    public function getPriceTo(): ?int
+    {
+        return $this->priceTo;
+    }
+
+    public function setPriceTo(?int $priceTo): AdSearchFilter
+    {
+        $this->priceTo = $priceTo;
+        return $this;
+    }
+
+    public function getPriceFrom(): ?int
+    {
+        return $this->priceFrom;
+    }
+
+    public function setPriceFrom(?int $priceFrom): AdSearchFilter
+    {
+        $this->priceFrom = $priceFrom;
+        return $this;
+    }
 
     public function getAddress(): ?string
     {
