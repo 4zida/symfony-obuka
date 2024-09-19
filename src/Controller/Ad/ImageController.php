@@ -11,6 +11,7 @@ use App\Service\AdImageManager;
 use App\Util\AdImageUpload;
 use App\Util\ContextGroup;
 use App\Util\CustomRequirement;
+use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Nebkam\SymfonyTraits\ControllerTrait;
@@ -55,5 +56,13 @@ class ImageController extends AbstractController
         $result = $this->documentManager->getRepository(Image::class)->findAll();
 
         return $this->jsonWithGroup($result, ContextGroup::IMAGE_DETAILS);
+    }
+
+    #[Route('/api/image/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_DELETE)]
+    public function remove(Image $image): Response
+    {
+        $this->documentManager->getRepository(Image::class)->remove($image);
+
+        return self::createOkResponse(ResponseMessage::IMAGE_REMOVED);
     }
 }

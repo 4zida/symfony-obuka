@@ -18,4 +18,5 @@ interface ResponseMessage
     const PHONE_UPDATED = 'Phone updated';
     const PHONE_CREATED = 'Phone created';
     const PHONE_DELETED = 'Phone deleted';
+    const IMAGE_REMOVED = 'Image removed';
 }
