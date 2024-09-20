@@ -240,7 +240,7 @@ class AdControllerTest extends BaseTestController
 
     public function testCountAds(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/count')
             ->getResponse();
@@ -261,7 +261,7 @@ class AdControllerTest extends BaseTestController
 
     public function testGetDetails(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/details/' . self::$ad->getId())
             ->getResponse();
@@ -270,9 +270,18 @@ class AdControllerTest extends BaseTestController
 
     public function testGetAdUserInfo(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/details/' . self::$ad->getId() . '/user-info')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+    }
+
+    public function testAggregationTest(): void
+    {
+        RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/aggregate')
             ->getResponse();
         self::assertResponseIsSuccessful();
     }
