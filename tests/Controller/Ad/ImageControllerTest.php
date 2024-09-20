@@ -32,10 +32,13 @@ class ImageControllerTest extends BaseTestController
 
         $company = self::createTestCompany();
         self::persistEntity($company);
+
         $user = self::createTestUser($company);
         self::persistEntity($user);
+
         $ad = self::createTestAd($company, $user);
         self::persistDocument($ad);
+
         $phone = (new Phone())
             ->setFromPhoneNumber(PhoneNumberUtil::getInstance()->getExampleNumber(Phone::REGION_CODE))
             ->setUser($user);
@@ -76,7 +79,7 @@ class ImageControllerTest extends BaseTestController
 
     public function testShowAll(): void
     {
-        $response = RequestBuilder::create(self::createClient())
+        RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/images')
             ->getResponse();
