@@ -24,8 +24,13 @@ readonly class AdImageFileManager
         return $file->move($dir, $imageId . '.' . $file->guessExtension());
     }
 
-    private function resolveDir(string $adId): string
+    private function resolveDir(string $id): string
     {
-        return __DIR__ . "/../.." . $this->adImagesPath . DIRECTORY_SEPARATOR . $adId;
+        return __DIR__ . "/../.." . $this->adImagesPath . DIRECTORY_SEPARATOR . $id;
+    }
+
+    public function removeDir(string $id): void
+    {
+        rmdir($this->resolveDir($id));
     }
 }
