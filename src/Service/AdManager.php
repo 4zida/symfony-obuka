@@ -3,17 +3,19 @@
 namespace App\Service;
 
 use App\Document\Ad\Ad;
-use App\Service\AdImageFileManager;
 use App\Util\AdStatus;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use Exception;
+use Psr\Log\LoggerInterface;
 
 readonly class AdManager
 {
     public function __construct(
-        private DocumentManager $documentManager,
-        private AdImageFileManager $adImageFileManager
+        private DocumentManager    $documentManager,
+        private AdImageFileManager $adImageFileManager,
+        private LoggerInterface $logger
     )
     {
     }
@@ -43,7 +45,11 @@ readonly class AdManager
      */
     public function remove(Ad $ad): void
     {
-        $this->adImageFileManager->removeDir($ad->getId());
+        try {
+            $this->adImageFileManager->removeDir($ad->getId());
+        } catch (Exception $e) {
+            $this->logger->warning($e->getMessage());
+        }
         $this->documentManager->remove($ad);
         $this->documentManager->flush();
     }
