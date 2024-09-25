@@ -247,18 +247,6 @@ class AdControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
     }
 
-//    public function testGetDetails(): void
-//    {
-//        $response = RequestBuilder::create(self::createClient())
-//            ->setMethod(Request::METHOD_GET)
-//            ->setUri('/api/ad/details/'.self::$ad->getId())
-//            ->getResponse();
-//        self::assertResponseIsSuccessful();
-//
-//        $content = $response->getJsonContent();
-//        self::assertNotEmpty($content);
-//    }
-
     public function testGetDetails(): void
     {
         RequestBuilder::create(self::createClient())
