@@ -63,7 +63,7 @@ class Ad
     #[Assert\NotBlank]
     protected ?AdFor $for;
     #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
-    protected ?Collection $images = null;
+    protected ?ArrayCollection $images = null;
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
