@@ -36,7 +36,7 @@ readonly class AdImageManager
         $image = new Image();
         $this->documentManager->persist($image);
         $file = $this->fileManager->moveUploadedFile($file, $ad->getId(), $image->getId());
-        $image->setLocation($file->getPath());
+        $image->populateFromFile($file);
         $ad->addImage($image);
         $this->documentManager->persist($image);
         $this->documentManager->flush();

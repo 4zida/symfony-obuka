@@ -4,8 +4,10 @@ namespace App\Document\Ad;
 
 use App\Repository\ImageRepository;
 use App\Util\ContextGroup;
+use App\Util\ImageHelper;
 use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -16,6 +18,8 @@ class Image
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     protected ?string $id;
+    #[MongoDB\ReferenceOne(targetDocument: Ad::class, orphanRemoval: true)]
+    protected ?Ad $ad;
     #[MongoDB\Field(type: 'string')]
     protected ?string $alias;
     #[MongoDB\Field(type: 'string')]
@@ -23,8 +27,18 @@ class Image
     protected ?string $location;
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $createdAt;
-    #[MongoDB\ReferenceOne(targetDocument: Ad::class, orphanRemoval: true)]
-    protected ?Ad $ad;
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank]
+    protected ?int $height = null;
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank]
+    protected ?int $width = null;
+    #[MongoDB\Field(type: 'string')]
+    #[Assert\NotBlank]
+    protected ?string $mimeType = null;
+    #[MongoDB\Field(type: 'int')]
+    #[Assert\NotBlank]
+    protected ?int $size = null;
 
     #[Groups([
         ContextGroup::IMAGE_DETAILS,
@@ -32,6 +46,62 @@ class Image
     public function getId(): string
     {
         return $this->id;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getSize(): ?int
+    {
+        return $this->size;
+    }
+
+    public function setSize(?int $size): self
+    {
+        $this->size = $size;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getHeight(): ?int
+    {
+        return $this->height;
+    }
+
+    public function setHeight(?int $height): Image
+    {
+        $this->height = $height;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getWidth(): ?int
+    {
+        return $this->width;
+    }
+
+    public function setWidth(?int $width): Image
+    {
+        $this->width = $width;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::IMAGE_DETAILS,
+    ])]
+    public function getMimeType(): ?string
+    {
+        return $this->mimeType;
+    }
+
+    public function setMimeType(?string $mimeType): Image
+    {
+        $this->mimeType = $mimeType;
+        return $this;
     }
 
     #[Groups([
@@ -88,5 +158,19 @@ class Image
     public function getAd(): ?Ad
     {
         return $this->ad;
+    }
+
+    public function populateFromFile(File $file): self
+    {
+        [$width, $height] = ImageHelper::getDimensions($file);
+
+        $this
+            ->setLocation($file->getRealPath())
+            ->setMimeType($file->getMimeType())
+            ->setHeight($height)
+            ->setWidth($width)
+            ->setSize($file->getSize());
+
+        return $this;
     }
 }
