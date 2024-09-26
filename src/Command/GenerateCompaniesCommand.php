@@ -45,8 +45,8 @@ class GenerateCompaniesCommand extends Command
         $counter = 0;
         $amount = $input->getArgument('amount');
 
-        if (!is_numeric($amount) || $amount < 1 || $amount > 100) {
-            $io->error("Amount must be between 1 and 100");
+        if (!is_numeric($amount) || $amount < 1) {
+            $io->error("Amount must be a positive integer");
             return Command::FAILURE;
         }
 

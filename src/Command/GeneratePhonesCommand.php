@@ -29,6 +29,7 @@ class GeneratePhonesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
+
         $users = $this->entityManager->getRepository(User::class)->findAll();
         $count = 0;
 
@@ -59,6 +60,7 @@ class GeneratePhonesCommand extends Command
     public function generatePhone(array $users): void
     {
         $user = $users[array_rand($users)];
+
         $phone = (new Phone())
             ->setFromPhoneNumber(PhoneNumberUtil::getInstance()->getExampleNumber(Phone::REGION_CODE))
             ->setUser($user);

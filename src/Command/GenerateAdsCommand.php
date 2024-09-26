@@ -49,10 +49,10 @@ class GenerateAdsCommand extends Command
         $time = microtime(true);
 
         $io = new SymfonyStyle($input, $output);
-        $amount = $input->getArgument('amount');
 
-        if (!is_numeric($amount) || $amount < 1 || $amount > 9999) {
-            $io->error('Amount must be a positive integer less than 9999');
+        $amount = $input->getArgument('amount');
+        if (!is_numeric($amount) || $amount < 1) {
+            $io->error('Amount must be a positive integer!');
             return Command::FAILURE;
         }
         $amount = (int)$amount;
@@ -93,6 +93,7 @@ class GenerateAdsCommand extends Command
                     }
                     $ad->setUserId(null);
                 }
+
                 $randomTimestamp = random_int(
                     (new DateTimeImmutable("-3 months"))->getTimestamp(),
                     (new DateTimeImmutable())->getTimestamp());

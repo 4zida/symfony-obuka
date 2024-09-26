@@ -77,6 +77,7 @@ class GenerateUsersCommand extends Command
             try {
                 $company = $companyArray[array_rand($companyArray)];
                 $role = UserRole::cases()[array_rand(UserRole::cases())];
+
                 $pass = $faker->password;
 
                 $this->generateUser($faker, $role, $company, $pass, $em);
