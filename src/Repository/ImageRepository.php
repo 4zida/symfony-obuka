@@ -5,20 +5,18 @@ namespace App\Repository;
 use App\Document\Ad\Image;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Exception;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class ImageRepository extends DocumentRepository
 {
-    public function remove(Image $image): bool
+    public function remove(Image $image): void
     {
         try {
-            // unlink($image->getLocation());
-            // rmdir($image->getLocation() . "/..");
+            unlink($image->getLocation());
             self::getDocumentManager()->remove($image);
             self::getDocumentManager()->flush();
         } catch (Exception $e) {
-            return false;
+            throw new BadRequestHttpException($e->getMessage());
         }
-
-        return true;
     }
 }

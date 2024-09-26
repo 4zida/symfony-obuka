@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use App\Document\Ad\Ad;
+use App\Document\Ad\Image;
+use App\Repository\AdRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -35,12 +37,18 @@ class CleanAdsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $ads = $this->documentManager->getRepository(Ad::class)->findAll();
+        /** @var AdRepository $adRepository */
+        $adRepository = $this->documentManager->getRepository(Ad::class);
+        $ads = $adRepository->findAll();
+
         foreach ($ads as $ad) {
             $id = $ad->getId();
             $name = $ad->getName();
+            foreach ($ad->getImages() as $image) {
+                $this->documentManager->getRepository(Image::class)->remove($image);
+            }
             $output->writeln(sprintf('Ad %s (%s) will be deleted', $name, $id));
-            $this->documentManager->remove($ad);
+            $adRepository->remove($ad);
             $output->writeln(sprintf('Ad %s (%s) has been deleted', $name, $id));
         }
 

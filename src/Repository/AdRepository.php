@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Document\Ad\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Search\Filter\AdSearchFilter;
@@ -103,5 +104,10 @@ class AdRepository extends DocumentRepository
         SearchParamParser::parse($filter, $builder);
 
         return $builder->getQuery()->execute()->toArray();
+    }
+
+    public function remove(Ad $ad): void
+    {
+        $this->getDocumentManager()->remove($ad);
     }
 }
