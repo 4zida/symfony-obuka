@@ -15,7 +15,7 @@ readonly class AdManager
     public function __construct(
         private DocumentManager    $documentManager,
         private AdImageFileManager $adImageFileManager,
-        private LoggerInterface $logger
+        private LoggerInterface    $logger
     )
     {
     }
