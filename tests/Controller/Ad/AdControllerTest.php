@@ -26,7 +26,6 @@ class AdControllerTest extends BaseTestController
     private static ?User $user;
     private static ?Company $company;
 
-
     /**
      * @throws MongoDBException
      */

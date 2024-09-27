@@ -3,6 +3,7 @@
 namespace App\Tests;
 
 use App\Document\Ad\Ad;
+use App\Document\Ad\Image;
 use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
@@ -75,23 +76,23 @@ class BaseTestController extends WebTestCase
             ->setFor(AdFor::RENT);
     }
 
-    protected static function getImagePath(): string
+    public static function getImagePath(): string
     {
         return self::getContainer()->getParameter('test_ad_images_path');
     }
 
-    /**
-     * @throws MongoDBException
-     * @throws Exception
-     */
-    protected static function mockRemoveImage(string $adId, string $imageId): void
-    {
-        $ad = self::findDocumentById(Ad::class, $adId);
-        $ad->removeImage($ad->getImages()->get($imageId));
-        self::flushDocuments();
-        self::ensureKernelShutdown();
-
-        unlink(self::getImagePath() . sprintf('/%s/%s', $adId, $imageId));
-        rmdir(self::getImagePath() . sprintf('/%s', $adId));
-    }
+//    /**
+//     * @throws MongoDBException
+//     * @throws Exception
+//     */
+//    protected static function mockRemoveImage(string $adId, string $imageId): void
+//    {
+//        $ad = self::findDocumentById(Ad::class, $adId);
+//        $ad->removeImage($ad->getImages()->get($imageId));
+//        self::flushDocuments();
+//        self::ensureKernelShutdown();
+//
+//        unlink(self::getImagePath() . sprintf('/%s/%s', $adId, $imageId));
+//        rmdir(self::getImagePath() . sprintf('/%s', $adId));
+//    }
 }

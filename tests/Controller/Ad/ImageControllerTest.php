@@ -3,21 +3,30 @@
 namespace App\Tests\Controller\Ad;
 
 use App\Document\Ad\Ad;
-use App\Document\Ad\Image;
 use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
 use App\Tests\BaseTestController;
+use App\Tests\DocumentManagerAwareTrait;
+use App\Tests\EntityManagerAwareTrait;
+use App\Tests\ImageTestTrait;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Exception;
+use FilesystemIterator;
 use libphonenumber\PhoneNumberUtil;
 use Nebkam\FluentTest\RequestBuilder;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 
 class ImageControllerTest extends BaseTestController
 {
+    use DocumentManagerAwareTrait;
+    use EntityManagerAwareTrait;
+    use ImageTestTrait;
     private static ?Ad $ad = null;
     private static ?User $user = null;
     private static ?Company $company = null;
@@ -53,28 +62,39 @@ class ImageControllerTest extends BaseTestController
     }
 
     /**
-     * @throws MongoDBException
      * @throws Exception
      */
     public function testUpload(): void
     {
-        // TODO
-        $image = (new Image())
-            ->setAd(self::$ad)
-            ->setAlias("test");
-        self::persistDocument(self::$ad);
-        self::persistDocument($image);
+        $client = static::createClient();
+        $mockAdImagePath = self::getMockAdImagePath();
 
-        mkdir(self::getImagePath() . sprintf('/%s', self::$ad->getId()), 0775);
-        $imagePath = self::getImagePath() . sprintf('/%s/%s', self::$ad->getId(), $image->getId());
-        copy(__DIR__ . '/../../mock_ad_image.jpg', $imagePath);
-        $image->setLocation($imagePath);
-        self::$ad->addImage($image);
-        self::persistDocument($image);
+        // Upload file and create a copy of it by renaming it
+        $file = new UploadedFile($mockAdImagePath, "mock_ad_image.jpg");
+        copy($mockAdImagePath, $mockAdImagePath . ".tmp");
 
-        self::assertFileExists($image->getLocation());
+        RequestBuilder::create($client)
+            ->setMethod(Request::METHOD_POST)
+            ->setUri("/api/ad/" . self::$ad->getId() . "/images")
+            ->setFiles([
+                "image" => $file
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
 
-        self::mockRemoveImage(self::$ad->getId(), $image->getId());
+        // Rename the copied file back to the original
+        copy($mockAdImagePath . ".tmp", $mockAdImagePath);
+
+        // Delete the temporary files
+        $dir = "/home/veljko-bogdan/PhpstormProjects/symfony-obuka/tmp";
+        if(file_exists($dir)){
+            $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
+            $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
+            foreach ( $ri as $file ) {
+                $file->isDir() ?  rmdir($file) : unlink($file);
+            }
+        }
+        unlink($mockAdImagePath . ".tmp");
     }
 
     public function testShowAll(): void
@@ -97,7 +117,6 @@ class ImageControllerTest extends BaseTestController
         self::removeEntityById(Phone::class, self::$phone->getId());
         self::removeEntityById(User::class, self::$user->getId());
         self::removeEntityById(Company::class, self::$company->getId());
-
 
         parent::tearDownAfterClass();
     }
