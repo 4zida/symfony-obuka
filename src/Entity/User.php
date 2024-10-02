@@ -143,6 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::PHONE_DETAILS
     ])]
     public function getId(): ?int
     {
@@ -155,7 +156,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::PHONE_DETAILS
     ])]
     public function getName(): ?string
     {
@@ -208,7 +210,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::PHONE_DETAILS
     ])]
     public function getSurname(): ?string
     {
@@ -228,7 +231,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
-        ContextGroup::USER_WITH_PHONE
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::PHONE_DETAILS
     ])]
     public function getEmail(): ?string
     {

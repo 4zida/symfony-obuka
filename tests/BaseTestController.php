@@ -6,10 +6,14 @@ use App\Document\Ad\Ad;
 use App\Document\Ad\Image;
 use App\Document\AdFor;
 use App\Entity\Company;
+use App\Entity\Phone;
 use App\Entity\User;
 use App\Util\UserRole;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Exception;
+use libphonenumber\NumberParseException;
+use libphonenumber\PhoneNumber;
+use libphonenumber\PhoneNumberUtil;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BaseTestController extends WebTestCase
@@ -17,6 +21,7 @@ class BaseTestController extends WebTestCase
     use EntityManagerAwareTrait;
     use DocumentManagerAwareTrait;
 
+    protected static string $testPhoneNumber = "+381651112233";
     protected static ?array $adJsonData = [
         "name" => "test",
         "description" => "test description",
@@ -40,6 +45,10 @@ class BaseTestController extends WebTestCase
     protected static ?array $companyJsonData = [
         "name" => "test",
         "address" => "address"
+    ];
+
+    protected static ?array $phoneJsonData = [
+        "full" => "+381651112233"
     ];
 
     protected static function createTestCompany(): Company
@@ -74,6 +83,16 @@ class BaseTestController extends WebTestCase
             ->setAddress("Test Address")
             ->setM2(50)
             ->setFor(AdFor::RENT);
+    }
+
+    /**
+     * @throws NumberParseException
+     */
+    protected static function createTestPhone(User $user): Phone
+    {
+        return (new Phone())
+            ->setFromPhoneNumber(PhoneNumberUtil::getInstance()->parse(self::$testPhoneNumber))
+            ->setUser($user);
     }
 
     public static function getImagePath(): string
