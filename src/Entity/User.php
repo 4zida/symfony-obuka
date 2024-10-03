@@ -78,6 +78,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::PHONE_DETAILS
+    ])]
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    #[Groups([
         ContextGroup::USER_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
@@ -89,10 +102,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phones;
     }
 
-    public function setPhones(?Collection $phones): User
+    public function setPhones(?Collection $phones): self
     {
         $this->phones = $phones;
         return $this;
+    }
+
+    public function addPhone(Phone $phone): self
+    {
+        if (!$this->phones->contains($phone)) {
+            $this->phones->add($phone);
+            $phone->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhone(Phone $phone): self
+    {
+        if ($this->phones->removeElement($phone)) {
+            // set the owning side to null (unless already changed)
+            if ($phone->getUser() === $this) {
+                $phone->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function hasPhones(): ?bool
+    {
+        return !empty($this->phones);
     }
 
     #[Groups([
@@ -105,7 +145,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->lastSeenAt;
     }
 
-    public function setLastSeenAt(?DateTimeImmutable $lastSeenAt): User
+    public function setLastSeenAt(?DateTimeImmutable $lastSeenAt): self
     {
         $this->lastSeenAt = $lastSeenAt;
         return $this;
@@ -121,7 +161,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isActive;
     }
 
-    public function setIsActive(?bool $isActive): User
+    public function setIsActive(?bool $isActive): self
     {
         $this->isActive = $isActive;
         return $this;
@@ -148,19 +188,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         ContextGroup::SEARCH,
         ContextGroup::ADMIN_COMPANY_SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
-        ContextGroup::PHONE_DETAILS
-    ])]
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    #[Groups([
-        ContextGroup::COMPANY_ALL_DETAILS,
-        ContextGroup::USER_ALL_DETAILS,
-        ContextGroup::SEARCH,
-        ContextGroup::ADMIN_COMPANY_SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
         ContextGroup::USER_WITH_PHONE,
         ContextGroup::PHONE_DETAILS
     ])]
@@ -169,43 +196,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
-        return $this;
-    }
-
-    #[Groups([
-        ContextGroup::USER_ALL_DETAILS,
-        ContextGroup::SEARCH
-    ])]
-    public function getCompany(): ?Company
-    {
-        return $this->company;
-    }
-
-    public function setCompany(?Company $company): static
-    {
-        $this->company = $company;
-
-        return $this;
-    }
-
-    #[Groups([
-        ContextGroup::COMPANY_ALL_DETAILS,
-        ContextGroup::USER_ALL_DETAILS,
-        ContextGroup::SEARCH,
-        ContextGroup::ADMIN_COMPANY_SEARCH,
-    ])]
-    public function getRole(): ?UserRole
-    {
-        return $this->role;
-    }
-
-    public function setRole(?UserRole $role): User
-    {
-        $this->role = $role;
         return $this;
     }
 
@@ -223,10 +217,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->surname;
     }
 
-    public function setSurname(string $surname): static
+    public function setSurname(string $surname): self
     {
         $this->surname = $surname;
 
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->name . " " . $this->surname;
+    }
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH
+    ])]
+    public function getCompany(): ?Company
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?Company $company): self
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_COMPANY_SEARCH,
+    ])]
+    public function getRole(): ?UserRole
+    {
+        return $this->role;
+    }
+
+    public function setRole(?UserRole $role): self
+    {
+        $this->role = $role;
         return $this;
     }
 
@@ -277,6 +309,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -292,37 +330,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string)$this->email;
     }
 
-    public function setRoles(array $roles): User
-    {
-        $this->roles = $roles;
-        return $this;
-    }
-
-    public function setPasswordNoHash(?string $passwordNoHash): User
+    public function setPasswordNoHash(?string $passwordNoHash): self
     {
         $this->passwordNoHash = $passwordNoHash;
         return $this;
     }
 
-    public function addPhone(Phone $phone): static
+    public function isInTheSameCompanyAs(User $user): bool
     {
-        if (!$this->phones->contains($phone)) {
-            $this->phones->add($phone);
-            $phone->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removePhone(Phone $phone): static
-    {
-        if ($this->phones->removeElement($phone)) {
-            // set the owning side to null (unless already changed)
-            if ($phone->getUser() === $this) {
-                $phone->setUser(null);
-            }
-        }
-
-        return $this;
+        return $this->company === $user->getCompany();
     }
 }
