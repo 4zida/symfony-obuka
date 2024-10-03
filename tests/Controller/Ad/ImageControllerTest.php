@@ -9,7 +9,6 @@ use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\DocumentManagerAwareTrait;
 use App\Tests\EntityManagerAwareTrait;
-use App\Tests\ImageTestTrait;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -26,7 +25,6 @@ class ImageControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
-    use ImageTestTrait;
     private static ?Ad $ad = null;
     private static ?User $user = null;
     private static ?Company $company = null;
@@ -67,7 +65,7 @@ class ImageControllerTest extends BaseTestController
     public function testUpload(): void
     {
         $client = static::createClient();
-        $mockAdImagePath = self::getMockAdImagePath();
+        $mockAdImagePath = "/home/veljko-bogdan/PhpstormProjects/symfony-obuka/tests/mock_ad_image.jpg";
 
         // Upload file and create a copy of it by renaming it
         $file = new UploadedFile($mockAdImagePath, "mock_ad_image.jpg");

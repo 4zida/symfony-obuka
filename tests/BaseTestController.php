@@ -99,19 +99,4 @@ class BaseTestController extends WebTestCase
     {
         return self::getContainer()->getParameter('test_ad_images_path');
     }
-
-//    /**
-//     * @throws MongoDBException
-//     * @throws Exception
-//     */
-//    protected static function mockRemoveImage(string $adId, string $imageId): void
-//    {
-//        $ad = self::findDocumentById(Ad::class, $adId);
-//        $ad->removeImage($ad->getImages()->get($imageId));
-//        self::flushDocuments();
-//        self::ensureKernelShutdown();
-//
-//        unlink(self::getImagePath() . sprintf('/%s/%s', $adId, $imageId));
-//        rmdir(self::getImagePath() . sprintf('/%s', $adId));
-//    }
 }
