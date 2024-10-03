@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Event\LogoutEvent;
 readonly class OnLogoutEventListener
 {
     use ClockAwareTrait;
+
     public function __construct(
         private UserRepository  $userRepository,
         private LoggerInterface $logger

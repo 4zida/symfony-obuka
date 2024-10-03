@@ -14,7 +14,6 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Nebkam\FluentTest\ResponseWrapper;
-use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdSearchControllerTest extends BaseTestController

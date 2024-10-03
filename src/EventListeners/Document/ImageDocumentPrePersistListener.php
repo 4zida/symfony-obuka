@@ -12,6 +12,7 @@ use Symfony\Component\Clock\ClockAwareTrait;
 class ImageDocumentPrePersistListener
 {
     use ClockAwareTrait;
+
     public function __invoke(LifecycleEventArgs $args): void
     {
         $image = $args->getDocument();

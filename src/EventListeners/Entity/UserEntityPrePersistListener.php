@@ -11,6 +11,7 @@ use Symfony\Component\Clock\ClockAwareTrait;
 class UserEntityPrePersistListener
 {
     use ClockAwareTrait;
+
     public function prePersist(User $user): void
     {
         $user->setCreatedAt($this->clock->now());

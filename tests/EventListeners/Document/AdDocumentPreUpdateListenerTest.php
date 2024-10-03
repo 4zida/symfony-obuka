@@ -14,7 +14,6 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
-use Random\RandomException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdDocumentPreUpdateListenerTest extends BaseTestController

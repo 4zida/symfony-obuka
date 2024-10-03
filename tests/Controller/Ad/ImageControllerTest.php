@@ -25,6 +25,7 @@ class ImageControllerTest extends BaseTestController
 {
     use DocumentManagerAwareTrait;
     use EntityManagerAwareTrait;
+
     private static ?Ad $ad = null;
     private static ?User $user = null;
     private static ?Company $company = null;
@@ -85,11 +86,11 @@ class ImageControllerTest extends BaseTestController
 
         // Delete the temporary files
         $dir = "/home/veljko-bogdan/PhpstormProjects/symfony-obuka/tmp";
-        if(file_exists($dir)){
+        if (file_exists($dir)) {
             $di = new RecursiveDirectoryIterator($dir, FilesystemIterator::SKIP_DOTS);
             $ri = new RecursiveIteratorIterator($di, RecursiveIteratorIterator::CHILD_FIRST);
-            foreach ( $ri as $file ) {
-                $file->isDir() ?  rmdir($file) : unlink($file);
+            foreach ($ri as $file) {
+                $file->isDir() ? rmdir($file) : unlink($file);
             }
         }
         unlink($mockAdImagePath . ".tmp");

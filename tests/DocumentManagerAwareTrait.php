@@ -2,10 +2,10 @@
 
 namespace App\Tests;
 
+use Doctrine\ODM\MongoDB\Aggregation\Builder as AggregationBuilder;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ODM\MongoDB\Query\Builder;
-use Doctrine\ODM\MongoDB\Aggregation\Builder as AggregationBuilder;
 use Exception;
 
 trait DocumentManagerAwareTrait

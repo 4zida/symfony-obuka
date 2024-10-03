@@ -11,7 +11,6 @@ use App\Util\AdStatus;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
-use Random\RandomException;
 
 class AdDocumentPrePersistListenerTest extends BaseTestController
 {

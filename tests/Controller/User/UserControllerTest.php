@@ -7,7 +7,6 @@ use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
-use App\Util\UserRole;
 use Doctrine\ORM\Exception\ORMException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;

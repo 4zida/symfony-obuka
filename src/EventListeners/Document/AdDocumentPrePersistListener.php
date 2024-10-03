@@ -13,6 +13,7 @@ use Symfony\Component\Clock\ClockAwareTrait;
 class AdDocumentPrePersistListener
 {
     use ClockAwareTrait;
+
     public function __invoke(LifecycleEventArgs $args): void
     {
         $ad = $args->getDocument();

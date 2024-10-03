@@ -5,8 +5,6 @@ namespace App\Command;
 use App\Repository\CompanyRepository;
 use App\Repository\PhoneRepository;
 use App\Repository\UserRepository;
-use Doctrine\ODM\MongoDB\DocumentManager;
-use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;

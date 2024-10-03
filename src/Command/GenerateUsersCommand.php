@@ -112,7 +112,7 @@ class GenerateUsersCommand extends Command
      * @param EntityManagerInterface $em
      * @return void
      */
-    public function generateUser(Generator $faker, UserRole $role, mixed $company, string $pass,
+    public function generateUser(Generator              $faker, UserRole $role, mixed $company, string $pass,
                                  EntityManagerInterface $em): void
     {
         $user = (new User())

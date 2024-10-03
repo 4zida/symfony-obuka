@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Document\Ad\Ad;
 use App\Document\Ad\Image;
-use App\Entity\User;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

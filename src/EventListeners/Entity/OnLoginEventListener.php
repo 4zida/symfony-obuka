@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Event\LoginSuccessEvent;
 readonly class OnLoginEventListener
 {
     use ClockAwareTrait;
+
     public function __construct(
         private UserRepository  $userRepository,
         private LoggerInterface $logger,

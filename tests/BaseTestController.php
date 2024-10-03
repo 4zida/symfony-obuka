@@ -3,16 +3,12 @@
 namespace App\Tests;
 
 use App\Document\Ad\Ad;
-use App\Document\Ad\Image;
 use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
 use App\Util\UserRole;
-use Doctrine\ODM\MongoDB\MongoDBException;
-use Exception;
 use libphonenumber\NumberParseException;
-use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
