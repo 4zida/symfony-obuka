@@ -6,14 +6,16 @@ use App\Entity\User;
 use DateTimeImmutable;
 use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
+use Symfony\Component\Clock\ClockAwareTrait;
 
 #[AsEntityListener(event: Events::prePersist, method: 'prePersist', entity: User::class)]
 class UserEntityPrePersistListener
 {
+    use ClockAwareTrait;
     public function prePersist(User $user): void
     {
-        $user->setCreatedAt(new DateTimeImmutable());
+        $user->setCreatedAt($this->clock->now());
         $user->setIsActive(false);
-        $user->setLastSeenAt(new DateTimeImmutable());
+        $user->setLastSeenAt($this->clock->now());
     }
 }
