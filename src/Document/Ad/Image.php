@@ -2,6 +2,7 @@
 
 namespace App\Document\Ad;
 
+use App\EventListeners\Document\ImageDocumentPrePersistListener;
 use App\Repository\ImageRepository;
 use App\Util\ContextGroup;
 use App\Util\ImageHelper;
@@ -25,7 +26,10 @@ class Image
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     protected ?string $location;
-    #[MongoDB\Field(type: 'date_immutable')]
+
+    /**
+     * @see ImageDocumentPrePersistListener
+     */
     protected ?DateTimeImmutable $createdAt;
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]

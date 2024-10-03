@@ -3,6 +3,8 @@
 namespace App\Document\Ad;
 
 use App\Document\AdFor;
+use App\EventListeners\Document\AdDocumentPrePersistListener;
+use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
@@ -55,9 +57,16 @@ class Ad
     protected ?int $m2;
     #[MongoDB\Field(type: 'int')]
     protected ?int $price;
-    #[MongoDB\Field(type: 'date_immutable')]
+
+    /**
+     * @see AdDocumentPrePersistListener
+     */
     protected ?DateTimeImmutable $createdAt;
-    #[MongoDB\Field(type: 'date_immutable')]
+
+    /**
+     * @see AdDocumentPreUpdateListener
+     * @see AdDocumentPrePersistListener
+     */
     protected ?DateTimeImmutable $lastUpdated;
     #[MongoDB\Field(type: 'string', enumType: AdFor::class)]
     #[Assert\NotBlank]

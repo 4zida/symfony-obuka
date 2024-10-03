@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\EventListeners\Entity\UserEntityPrePersistListener;
 use App\Repository\UserRepository;
 use App\Util\ContextGroup;
 use App\Util\UserRole;
@@ -54,6 +55,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public ?string $passwordNoHash;
     #[ORM\Column(type: "simple_array", nullable: true)]
     private ?array $roles;
+
+    /**
+     * @see UserEntityPrePersistListener
+     */
     #[ORM\Column(type: 'date_immutable')]
     private ?DateTimeImmutable $createdAt;
     #[ORM\Column(type: 'boolean')]

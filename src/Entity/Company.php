@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\EventListeners\Entity\CompanyEntityPrePersistListener;
 use App\Repository\CompanyRepository;
 use App\Util\ContextGroup;
 use DateTimeImmutable;
@@ -36,6 +37,9 @@ class Company
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'company')]
     private Collection $users;
 
+    /**
+     * @see CompanyEntityPrePersistListener
+     */
     #[ORM\Column(type: 'date_immutable')]
     private ?DateTimeImmutable $createdAt;
 
