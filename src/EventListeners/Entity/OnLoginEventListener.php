@@ -4,7 +4,6 @@ namespace App\EventListeners\Entity;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use DateTimeImmutable;
 use Exception;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;

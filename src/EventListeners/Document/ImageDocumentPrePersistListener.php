@@ -3,7 +3,6 @@
 namespace App\EventListeners\Document;
 
 use App\Document\Ad\Image;
-use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ORM\Events;

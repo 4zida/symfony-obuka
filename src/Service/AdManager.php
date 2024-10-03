@@ -4,7 +4,6 @@ namespace App\Service;
 
 use App\Document\Ad\Ad;
 use App\Util\AdStatus;
-use DateTimeImmutable;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Exception;
@@ -14,6 +13,7 @@ use Symfony\Component\Clock\ClockAwareTrait;
 readonly class AdManager
 {
     use ClockAwareTrait;
+
     public function __construct(
         private DocumentManager    $documentManager,
         private AdImageFileManager $adImageFileManager,
