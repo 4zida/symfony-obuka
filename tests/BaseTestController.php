@@ -47,10 +47,6 @@ class BaseTestController extends WebTestCase
         "address" => "address"
     ];
 
-    protected static ?array $phoneJsonData = [
-        "full" => "+381651112233"
-    ];
-
     protected static function createTestCompany(): Company
     {
         return (new Company())
@@ -94,10 +90,5 @@ class BaseTestController extends WebTestCase
         return (new Phone())
             ->setFromPhoneNumber(PhoneNumberUtil::getInstance()->parse(self::$testPhoneNumber))
             ->setUser($user);
-    }
-
-    public static function getImagePath(): string
-    {
-        return self::getContainer()->getParameter('test_ad_images_path');
     }
 }
