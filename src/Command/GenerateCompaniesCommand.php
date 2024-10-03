@@ -56,7 +56,8 @@ class GenerateCompaniesCommand extends Command
             try {
                 $company = (new Company())
                     ->setName($faker->company)
-                    ->setAddress($faker->address);
+                    ->setAddress($faker->address)
+                    ->setAboutUs($faker->paragraph);
                 $e->persist($company);
             } catch (Exception $e) {
                 $io->error($e->getMessage() . "\n Continuing...");

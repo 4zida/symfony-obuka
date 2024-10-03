@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Company;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +15,8 @@ class CompanyType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('address', TextType::class);
+            ->add('address', TextType::class)
+            ->add('aboutUs', TextareaType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

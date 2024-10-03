@@ -22,14 +22,14 @@ class Company
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $name = null;
-
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $address = null;
+    #[ORM\Column(length: 255)]
+    private ?string $aboutUs = null;
 
     /**
      * @var Collection<int, User>
@@ -56,7 +56,7 @@ class Company
         return $this->isActive;
     }
 
-    public function setIsActive(?bool $isActive): Company
+    public function setIsActive(?bool $isActive): self
     {
         $this->isActive = $isActive;
         return $this;
@@ -104,7 +104,7 @@ class Company
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -122,7 +122,7 @@ class Company
         return $this->address;
     }
 
-    public function setAddress(string $address): static
+    public function setAddress(string $address): self
     {
         $this->address = $address;
 
@@ -141,7 +141,7 @@ class Company
         return $this->users;
     }
 
-    public function addUser(User $user): static
+    public function addUser(User $user): self
     {
         if (!$this->users->contains($user)) {
             $this->users->add($user);
@@ -151,7 +151,7 @@ class Company
         return $this;
     }
 
-    public function removeUser(User $user): static
+    public function removeUser(User $user): self
     {
         if ($this->users->removeElement($user)) {
             // set the owning side to null (unless already changed)
@@ -160,6 +160,23 @@ class Company
             }
         }
 
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
+    ])]
+    public function getAboutUs(): ?string
+    {
+        return $this->aboutUs;
+    }
+
+    public function setAboutUs(?string $aboutUs): self
+    {
+        $this->aboutUs = $aboutUs;
         return $this;
     }
 }
