@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\EventListeners\Entity\CompanyEntityPrePersistListener;
 use App\Repository\CompanyRepository;
 use App\Util\ContextGroup;
+use App\Validator\Latitude;
+use App\Validator\Longitude;
 use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -45,6 +47,12 @@ class Company
 
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActive;
+    #[Latitude]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
+    private ?float $latitude;
+    #[Longitude]
+    #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
+    private ?float $longitude;
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
@@ -177,6 +185,40 @@ class Company
     public function setAboutUs(?string $aboutUs): self
     {
         $this->aboutUs = $aboutUs;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
+    ])]
+    public function getLatitude(): ?float
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(?float $latitude): self
+    {
+        $this->latitude = $latitude;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::USER_ALL_DETAILS,
+        ContextGroup::COMPANY_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::ADMIN_USER_SEARCH
+    ])]
+    public function getLongitude(): ?float
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(?float $longitude): self
+    {
+        $this->longitude = $longitude;
         return $this;
     }
 }

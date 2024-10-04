@@ -48,7 +48,9 @@ class BaseTestController extends WebTestCase
         return (new Company())
             ->setName("Test Company")
             ->setAddress("Test Address")
-            ->setAboutUs("Test About Us");
+            ->setAboutUs("Test About Us")
+            ->setLongitude(20.00)
+            ->setLatitude(42.00);
     }
 
     protected static function createTestUser(Company|null $company): User

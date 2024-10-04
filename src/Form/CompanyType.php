@@ -3,7 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Company;
+use Doctrine\DBAL\Types\DecimalType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,7 +18,9 @@ class CompanyType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('address', TextType::class)
-            ->add('aboutUs', TextareaType::class);
+            ->add('aboutUs', TextareaType::class)
+            ->add('longitude', NumberType::class)
+            ->add('latitude', NumberType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
