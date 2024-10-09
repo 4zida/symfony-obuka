@@ -41,12 +41,13 @@ class Ad
     protected ?AdStatus $status;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
+    #[Assert\Url(requireTld: true)]
     protected ?string $url;
+    #[Deprecated]
     #[MongoDB\Field(type: 'string')]
-    #[Deprecated]
     protected ?string $dateTime;
-    #[MongoDB\Field(type: 'int')]
     #[Deprecated]
+    #[MongoDB\Field(type: 'int')]
     protected ?int $unixTime;
     #[MongoDB\Field(type: 'int')]
     protected ?int $userId;
