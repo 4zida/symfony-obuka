@@ -15,7 +15,7 @@ class LatitudeValidator extends ConstraintValidator
         }
 
         if (!is_float($value)) {
-            throw new UnexpectedValueException($value, 'string');
+            throw new UnexpectedValueException($value, 'float');
         }
 
         if ($value < Latitude::MIN || $value > Latitude::MAX) {
