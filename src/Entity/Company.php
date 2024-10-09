@@ -30,7 +30,7 @@ class Company
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
     private ?string $address = null;
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'text')]
     private ?string $aboutUs = null;
 
     /**
