@@ -2,7 +2,6 @@
 
 namespace App\Validator;
 
-use Symfony\Component\Serializer\Attribute\Ignore;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
