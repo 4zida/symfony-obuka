@@ -11,10 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberUtil;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-#[UniqueEntity(fields: ['full'], message: 'This number is already registered.')]
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
 #[Groups(ContextGroup::PHONE_DETAILS)]
 class Phone

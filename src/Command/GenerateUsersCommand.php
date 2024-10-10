@@ -2,8 +2,6 @@
 
 namespace App\Command;
 
-require_once __DIR__ . '/../../vendor/fzaninotto/faker/src/autoload.php';
-
 use App\Entity\Company;
 use App\Entity\User;
 use App\Util\UserRole;

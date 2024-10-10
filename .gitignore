@@ -19,3 +19,7 @@ phpunit.xml.dist
 
 /ads.csv
 /images
+
+###> phpstan/phpstan ###
+phpstan.neon
+###< phpstan/phpstan ###
