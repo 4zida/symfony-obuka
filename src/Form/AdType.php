@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use App\Document\AdFor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;

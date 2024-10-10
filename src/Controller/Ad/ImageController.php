@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Ad;
 
-use App\Document\Ad\Ad;
-use App\Document\Ad\Image;
+use App\Document\Ad;
+use App\Document\Image;
 use App\Form\AdImageUploadType;
 use App\Service\AdImageManager;
 use App\Util\AdImageUpload;

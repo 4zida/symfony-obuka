@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Ad;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdType;

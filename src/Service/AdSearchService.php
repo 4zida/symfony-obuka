@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use App\Search\Filter\AdSearchFilter;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;

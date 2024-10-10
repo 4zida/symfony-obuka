@@ -2,7 +2,7 @@
 
 namespace App\Repository;
 
-use App\Document\Ad\Image;
+use App\Document\Image;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
 use Exception;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;

@@ -2,7 +2,7 @@
 
 namespace App\Tests\Controller\Ad;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;

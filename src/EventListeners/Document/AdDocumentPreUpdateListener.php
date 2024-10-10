@@ -2,7 +2,7 @@
 
 namespace App\EventListeners\Document;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use Doctrine\Bundle\MongoDBBundle\Attribute\AsDocumentListener;
 use Doctrine\ODM\MongoDB\Event\LifecycleEventArgs;
 use Doctrine\ODM\MongoDB\Events;

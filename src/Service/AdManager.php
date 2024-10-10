@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Document\Ad\Ad;
+use App\Document\Ad;
 use App\Util\AdStatus;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
