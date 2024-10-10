@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Document\Ad;
+namespace App\Document;
 
-use App\Document\AdFor;
 use App\EventListeners\Document\AdDocumentPrePersistListener;
 use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Repository\AdRepository;
@@ -36,7 +35,12 @@ class Ad
     protected ?string $address;
     #[MongoDB\Field(type: 'int')]
     #[Assert\NotBlank]
+    #[Assert\GreaterThanOrEqual(value: -2, message: 'Floors below -2 not supported.')]
+    #[Assert\LessThanOrEqual(value: 50, message: 'Floors above 50 not supported.')]
     protected ?int $floor;
+    /**
+     * @see AdDocumentPrePersistListener
+     */
     #[MongoDB\Field(type: 'string', enumType: AdStatus::class)]
     protected ?AdStatus $status;
     #[MongoDB\Field(type: 'string')]
@@ -53,10 +57,12 @@ class Ad
     protected ?int $userId;
     #[MongoDB\Field(type: 'int')]
     protected ?int $companyId;
-    #[MongoDB\Field(type: 'int')]
+    #[MongoDB\Field(type: 'float')]
+    #[Assert\GreaterThan(value: 0, message: 'The square footage should be a positive number.')]
     #[Assert\NotBlank]
     protected ?int $m2;
     #[MongoDB\Field(type: 'int')]
+    #[Assert\GreaterThanOrEqual(value: 0, message: 'The price should be a positive number.')]
     protected ?int $price;
 
     /**

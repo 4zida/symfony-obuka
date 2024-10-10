@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Document\Ad;
+namespace App\Document;
 
 use App\EventListeners\Document\ImageDocumentPrePersistListener;
 use App\Repository\ImageRepository;
@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Groups(ContextGroup::IMAGE_DETAILS)]
 class Image
 {
+    public const MAX_RESOLUTION = 8192;
+    public const MAX_SIZE = 8000000; // ~8 MB
+    public const MIN_RESOLUTION = 256;
+
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     protected ?string $id;
@@ -32,15 +36,20 @@ class Image
      */
     protected ?DateTimeImmutable $createdAt;
     #[MongoDB\Field(type: 'int')]
+    #[Assert\GreaterThanOrEqual(self::MIN_RESOLUTION, message: 'Minimum height of ' . self::MIN_RESOLUTION . ' is required.')]
+    #[Assert\LessThanOrEqual(self::MAX_RESOLUTION, message: 'Height cannot exceed ' . self::MAX_RESOLUTION . '.')]
     #[Assert\NotBlank]
     protected ?int $height = null;
     #[MongoDB\Field(type: 'int')]
+    #[Assert\GreaterThanOrEqual(self::MIN_RESOLUTION, message: 'Minimum width of ' . self::MIN_RESOLUTION . ' is required.')]
+    #[Assert\LessThanOrEqual(self::MAX_RESOLUTION, message: 'Width cannot exceed ' . self::MAX_RESOLUTION . '.')]
     #[Assert\NotBlank]
     protected ?int $width = null;
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     protected ?string $mimeType = null;
     #[MongoDB\Field(type: 'int')]
+    #[Assert\LessThanOrEqual(value: self::MAX_SIZE, message: 'The file is too big, files less than 8 MB required')]
     #[Assert\NotBlank]
     protected ?int $size = null;
 
