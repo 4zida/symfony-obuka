@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use App\Util\ContextGroup;
+use App\Validator\Phone\E164PhoneNumber;
+use App\Validator\Phone\InternationalPhoneNumber;
+use App\Validator\Phone\NationalPhoneNumber;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
@@ -11,7 +14,7 @@ use libphonenumber\PhoneNumberUtil;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-#[UniqueEntity(fields: ['full'])]
+#[UniqueEntity(fields: ['full'], message: 'This number is already registered.')]
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
 #[Groups(ContextGroup::PHONE_DETAILS)]
 class Phone
@@ -23,10 +26,13 @@ class Phone
     #[ORM\Column]
     private ?int $id = null;
     #[ORM\Column(name: 'full', type: 'string', length: 64)]
+    #[E164PhoneNumber]
     private ?string $full = null;
     #[ORM\Column(name: 'national', type: 'string', length: 64, nullable: true)]
+    #[NationalPhoneNumber]
     private ?string $national = null;
     #[ORM\Column(name: 'international', type: 'string', length: 64, nullable: true)]
+    #[InternationalPhoneNumber]
     private ?string $international = null;
     #[ORM\Column(name: 'isViber', type: 'boolean', nullable: true)]
     private ?bool $isViber = null;
@@ -54,9 +60,12 @@ class Phone
     {
         $phone = new self();
         $countryCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($phoneNumber);
-        $national = $countryCode === self::REGION_CODE ?
-            self::formatToNational($phoneNumber) :
-            self::formatToInternational($phoneNumber);
+
+        if ($countryCode === self::REGION_CODE) {
+            $national = self::formatToNational($phoneNumber);
+        } else {
+            $national = self::formatToInternational($phoneNumber);
+        }
 
         $phone->setNational($national)
             ->setCountryCode($countryCode)
