@@ -51,7 +51,7 @@ class Phone
         return $this->id;
     }
 
-    public function setFromPhoneNumber(PhoneNumber $phoneNumber): Phone
+    public function setFromPhoneNumber(PhoneNumber $phoneNumber): self
     {
         $phone = new Phone();
         $countryCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($phoneNumber);
@@ -101,7 +101,7 @@ class Phone
         return $this->full;
     }
 
-    public function setFull(?string $full): Phone
+    public function setFull(?string $full): self
     {
         $this->full = $full;
         return $this;
@@ -118,7 +118,7 @@ class Phone
         return $this->national;
     }
 
-    public function setNational(?string $national): Phone
+    public function setNational(?string $national): self
     {
         $this->national = $national;
         return $this;
@@ -135,7 +135,7 @@ class Phone
         return $this->international;
     }
 
-    public function setInternational(?string $international): Phone
+    public function setInternational(?string $international): self
     {
         $this->international = $international;
         return $this;
@@ -152,7 +152,7 @@ class Phone
         return $this->isMobile;
     }
 
-    public function setIsMobile(?bool $isMobile): Phone
+    public function setIsMobile(?bool $isMobile): self
     {
         $this->isMobile = $isMobile;
         return $this;
@@ -169,7 +169,7 @@ class Phone
         return $this->isViber;
     }
 
-    public function setIsViber(?bool $isViber): Phone
+    public function setIsViber(?bool $isViber): self
     {
         $this->isViber = $isViber;
         return $this;
@@ -186,7 +186,7 @@ class Phone
         return $this->countryCode;
     }
 
-    public function setCountryCode(?string $countryCode): Phone
+    public function setCountryCode(?string $countryCode): self
     {
         $this->countryCode = $countryCode;
         return $this;
@@ -197,7 +197,7 @@ class Phone
         return $this->user;
     }
 
-    public function setUser(?User $user): Phone
+    public function setUser(?User $user): self
     {
         $this->user = $user;
         return $this;
