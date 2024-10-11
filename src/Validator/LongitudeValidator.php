@@ -19,6 +19,7 @@ class LongitudeValidator extends ConstraintValidator
         }
 
         if ($value < Longitude::MIN || $value > Longitude::MAX) {
+            /** @var Longitude $constraint */
             $this->context->buildViolation(message: $constraint->message)
                 ->setParameter('{{ value }}', $value)
                 ->addViolation();
