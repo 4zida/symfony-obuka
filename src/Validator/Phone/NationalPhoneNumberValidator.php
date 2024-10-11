@@ -3,10 +3,12 @@
 namespace App\Validator\Phone;
 
 use App\Util\CustomRequirement;
+use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedValueException;
 
+#[Deprecated]
 class NationalPhoneNumberValidator extends ConstraintValidator
 {
 

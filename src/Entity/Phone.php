@@ -24,13 +24,10 @@ class Phone
     #[ORM\Column]
     private ?int $id = null;
     #[ORM\Column(name: 'full', type: 'string', length: 64)]
-    #[E164PhoneNumber]
     private ?string $full = null;
     #[ORM\Column(name: 'national', type: 'string', length: 64, nullable: true)]
-    #[NationalPhoneNumber]
     private ?string $national = null;
     #[ORM\Column(name: 'international', type: 'string', length: 64, nullable: true)]
-    #[InternationalPhoneNumber]
     private ?string $international = null;
     #[ORM\Column(name: 'isViber', type: 'boolean', nullable: true)]
     private ?bool $isViber = null;

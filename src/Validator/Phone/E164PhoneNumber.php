@@ -3,9 +3,11 @@
 namespace App\Validator\Phone;
 
 use Attribute;
+use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Validator\Constraint;
 
 #[Attribute]
+#[Deprecated]
 class E164PhoneNumber extends Constraint
 {
     public const E164 = '^\+?[1-9]\d{1,14}$^';
