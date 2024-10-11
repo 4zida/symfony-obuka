@@ -4,12 +4,10 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use App\Util\ContextGroup;
-use App\Validator\Phone\E164PhoneNumber;
-use App\Validator\Phone\InternationalPhoneNumber;
-use App\Validator\Phone\NationalPhoneNumber;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
+use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Serializer\Attribute\Groups;
 
@@ -29,6 +27,8 @@ class Phone
     private ?string $national = null;
     #[ORM\Column(name: 'international', type: 'string', length: 64, nullable: true)]
     private ?string $international = null;
+    #[ORM\Column(name: 'isMobile', type: 'boolean', nullable: true)]
+    private ?bool $isMobile = null;
     #[ORM\Column(name: 'isViber', type: 'boolean', nullable: true)]
     private ?bool $isViber = null;
     #[ORM\Column(name: 'countryCode', type: 'string', length: 64)]
@@ -53,7 +53,7 @@ class Phone
 
     public function setFromPhoneNumber(PhoneNumber $phoneNumber): Phone
     {
-        $phone = new self();
+        $phone = new Phone();
         $countryCode = PhoneNumberUtil::getInstance()->getRegionCodeForNumber($phoneNumber);
 
         if ($countryCode === self::REGION_CODE) {
@@ -64,6 +64,7 @@ class Phone
 
         $phone->setNational($national)
             ->setCountryCode($countryCode)
+            ->setIsMobile($this->isMobile($phoneNumber))
             ->setFull(self::formatToFull($phoneNumber));
 
         return $phone;
@@ -82,6 +83,11 @@ class Phone
     public function formatToInternational(PhoneNumber $phoneNumber): string
     {
         return PhoneNumberUtil::getInstance()->format($phoneNumber, PhoneNumberFormat::INTERNATIONAL);
+    }
+
+    public function isMobile(PhoneNumber $phoneNumber): bool
+    {
+        return PhoneNumberUtil::getInstance()->getNumberType($phoneNumber) === PhoneNumberType::MOBILE;
     }
 
     #[Groups([
@@ -132,6 +138,23 @@ class Phone
     public function setInternational(?string $international): Phone
     {
         $this->international = $international;
+        return $this;
+    }
+
+    #[Groups([
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
+    ])]
+    public function getIsMobile(): ?bool
+    {
+        return $this->isMobile;
+    }
+
+    public function setIsMobile(?bool $isMobile): Phone
+    {
+        $this->isMobile = $isMobile;
         return $this;
     }
 
