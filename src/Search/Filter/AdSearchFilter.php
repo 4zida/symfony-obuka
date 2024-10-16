@@ -11,9 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 class AdSearchFilter
 {
     #[Assert\Type('integer')]
+    #[Assert\GreaterThanOrEqual(-2)]
+    #[Assert\LessThanOrEqual(50)]
     #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::From, field: 'floor')]
     protected ?int $floorFrom = null;
     #[Assert\Type('integer')]
+    #[Assert\GreaterThanOrEqual(-2)]
+    #[Assert\LessThanOrEqual(50)]
     #[SearchParam(type: SearchParamType::RangeInt, direction: SearchParamDirection::To, field: 'floor')]
     protected ?int $floorTo = null;
     #[Assert\Type('integer')]
