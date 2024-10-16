@@ -7,6 +7,7 @@ use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
+use DateInterval;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -80,6 +81,12 @@ class Ad
     protected ?AdFor $for;
     #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
     protected ?ArrayCollection $images = null;
+    #[MongoDB\Field(type: 'boolean')]
+    protected ?bool $isPremium = null;
+    #[MongoDB\Field(type: 'integer')]
+    protected ?int $premiumDuration = null;
+    #[MongoDB\Field(type: 'date_immutable')]
+    protected ?DateTimeImmutable $premiumExpiresAt = null;
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
@@ -339,5 +346,54 @@ class Ad
     public function getImages(): Collection
     {
         return $this->images;
+    }
+
+    public function getPremiumExpiresAt(): ?DateTimeImmutable
+    {
+        return $this->premiumExpiresAt;
+    }
+
+    public function setPremiumExpiresAt(?DateTimeImmutable $premiumExpiresAt): self
+    {
+        $this->premiumExpiresAt = $premiumExpiresAt;
+        return $this;
+    }
+
+    public function getPremiumDuration(): ?int
+    {
+        return $this->premiumDuration;
+    }
+
+    public function setPremiumDuration(?int $premiumDuration): self
+    {
+        $this->premiumDuration = $premiumDuration;
+        return $this;
+    }
+
+    public function getIsPremium(): ?bool
+    {
+        return $this->isPremium;
+    }
+
+    public function setIsPremium(?bool $isPremium): self
+    {
+        $this->isPremium = $isPremium;
+        return $this;
+    }
+
+    public function removePremium(): self
+    {
+        $this->setIsPremium(null);
+        $this->setPremiumDuration(null);
+        $this->setPremiumExpiresAt(null);
+        return $this;
+    }
+
+    public function setPremium(int $duration): self
+    {
+        $this->setIsPremium(true);
+        $this->setPremiumDuration($duration);
+        $this->setPremiumExpiresAt((new DateTimeImmutable('now'))->modify('+' . $duration . ' days'));
+        return $this;
     }
 }
