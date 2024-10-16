@@ -68,6 +68,12 @@
 - svaki ad ima kolekciju imagea
 - u formi dodavanje slika
 
+# trinaesti zad
+- osmisiti promociju npr istaknuce oglasa ili premium oglas da bude na oglasu
+- kontroler za upraljvanje promocijom (trajanje promocije)
+- komanda koja ce da gasi promociju kada istekne trajanje
+- da se u pretrazi prikazuje prvo premium oglasi
+
 # BONUS zadatak x
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
