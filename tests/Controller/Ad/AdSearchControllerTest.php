@@ -7,8 +7,6 @@ use App\Document\AdFor;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
-use App\Tests\DocumentManagerAwareTrait;
-use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -18,9 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdSearchControllerTest extends BaseTestController
 {
-    use DocumentManagerAwareTrait;
-    use EntityManagerAwareTrait;
-
     private static ?Ad $ad;
     private static ?User $user;
     private static ?Company $company;

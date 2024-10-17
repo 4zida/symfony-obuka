@@ -4,7 +4,6 @@ namespace App\Tests\Controller;
 
 use App\Entity\User;
 use App\Tests\BaseTestController;
-use App\Tests\EntityManagerAwareTrait;
 use App\Util\UserRole;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
@@ -13,8 +12,6 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasher;
 
 class LoginControllerTest extends BaseTestController
 {
-    use EntityManagerAwareTrait;
-
     protected static ?KernelBrowser $client;
     protected static ?KernelInterface $kernel;
     protected static ?User $user;

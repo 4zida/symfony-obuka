@@ -4,7 +4,6 @@ namespace App\Tests\Controller\Company;
 
 use App\Entity\Company;
 use App\Tests\BaseTestController;
-use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
 use Doctrine\ORM\Exception\ORMException;
 use Nebkam\FluentTest\RequestBuilder;
@@ -12,8 +11,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class CompanyControllerTest extends BaseTestController
 {
-    use EntityManagerAwareTrait;
-
     private static ?Company $company;
 
     public static function setUpBeforeClass(): void

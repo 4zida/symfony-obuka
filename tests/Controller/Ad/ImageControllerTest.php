@@ -7,8 +7,6 @@ use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
 use App\Tests\BaseTestController;
-use App\Tests\DocumentManagerAwareTrait;
-use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
@@ -23,9 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class ImageControllerTest extends BaseTestController
 {
-    use DocumentManagerAwareTrait;
-    use EntityManagerAwareTrait;
-
     private static ?Ad $ad = null;
     private static ?User $user = null;
     private static ?Company $company = null;

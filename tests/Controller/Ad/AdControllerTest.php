@@ -6,8 +6,6 @@ use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
-use App\Tests\DocumentManagerAwareTrait;
-use App\Tests\EntityManagerAwareTrait;
 use App\Util\ResponseMessage;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\Exception\ORMException;
@@ -18,9 +16,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 class AdControllerTest extends BaseTestController
 {
-    use DocumentManagerAwareTrait;
-    use EntityManagerAwareTrait;
-
     private static ?Ad $ad;
     private static ?Ad $adDelete;
     private static ?User $user;
