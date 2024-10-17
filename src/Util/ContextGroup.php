@@ -15,6 +15,7 @@ interface ContextGroup
     public final const AD_COMPLETE_INFO = 'ad_complete_info';
     public final const USER_WITH_PHONE = 'user_with_phone';
     public final const IMAGE_DETAILS = 'image_details';
+    public final const PREMIUM_INFO = 'premium_info';
 
 
 }

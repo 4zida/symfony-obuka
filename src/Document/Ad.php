@@ -124,6 +124,7 @@ class Ad
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::PREMIUM_INFO
     ])]
     public function getId(): string
     {
@@ -134,6 +135,7 @@ class Ad
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::PREMIUM_INFO
     ])]
     public function getName(): string
     {
@@ -343,11 +345,21 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
     public function getImages(): Collection
     {
         return $this->images;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
     public function getPremiumExpiresAt(): ?DateTimeImmutable
     {
         return $this->premiumExpiresAt;
@@ -359,6 +371,11 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
     public function getPremiumDuration(): ?int
     {
         return $this->premiumDuration;
@@ -370,6 +387,11 @@ class Ad
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
     public function getIsPremium(): ?bool
     {
         return $this->isPremium;
