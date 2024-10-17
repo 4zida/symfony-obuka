@@ -19,7 +19,7 @@ readonly class PromotionService
      */
     public function promote(Ad $ad, int $duration): void
     {
-        $ad->setPremium($duration);
+        $ad->activatePremium($duration);
         $this->dm->flush();
     }
 
@@ -28,7 +28,7 @@ readonly class PromotionService
      */
     public function demote(Ad $ad): void
     {
-        $ad->removePremium();
+        $ad->deactivatePremium();
         $this->dm->flush();
     }
 }

@@ -403,7 +403,7 @@ class Ad
         return $this;
     }
 
-    public function removePremium(): self
+    public function deactivatePremium(): self
     {
         $this->setIsPremium(null);
         $this->setPremiumDuration(null);
@@ -411,7 +411,7 @@ class Ad
         return $this;
     }
 
-    public function setPremium(int $duration): self
+    public function activatePremium(int $duration): self
     {
         $this->setIsPremium(true);
         $this->setPremiumDuration($duration);
