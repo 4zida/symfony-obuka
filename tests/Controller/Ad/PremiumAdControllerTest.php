@@ -38,7 +38,7 @@ class PremiumAdControllerTest extends BaseTestController
 
     public function testActivatePremium(): void
     {
-        RequestBuilder::create($this->createClient())
+        $response = RequestBuilder::create($this->createClient())
             ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
             ->setMethod(Request::METHOD_POST)
             ->setJsonContent([
@@ -46,15 +46,23 @@ class PremiumAdControllerTest extends BaseTestController
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertEquals(PremiumDuration::DAYS_7->value, $content['premiumDuration']);
+        self::assertTrue($content['isPremium']);
     }
 
     public function testDeactivatePremium(): void
     {
-        RequestBuilder::create($this->createClient())
+        $response = RequestBuilder::create($this->createClient())
             ->setUri('/api/ad/deactivate_premium/' . self::$ad->getId())
             ->setMethod(Request::METHOD_GET)
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertEquals(null, $content['premiumDuration']);
+        self::assertNull($content['isPremium']);
     }
 
     /**
