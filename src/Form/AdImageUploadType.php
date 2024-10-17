@@ -2,7 +2,7 @@
 
 namespace App\Form;
 
-use App\Util\AdImageUpload;
+use App\Model\AdImageUpload;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
