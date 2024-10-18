@@ -22,7 +22,7 @@ class PromotionRequestFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => PromotionRequest::class,
-            'csrf_protection' => false,
+            'csrf_protection' => false
         ]);
     }
 }

@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class PromotionRequest
 {
     #[Assert\NotBlank]
-    public ?int $duration;
+    public ?int $duration = null;
 
     public function getDuration(): ?int
     {
