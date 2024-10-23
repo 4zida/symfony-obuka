@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Command;
 
 use App\Document\Ad;
@@ -19,7 +17,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
     name: 'app:demote_ads',
     description: 'Iterates through all ads and removes premium from the ones that have ended.'
 )]
-class DemoteAdCommand extends Command
+class DemoteExpiredPremiumAdsCommand extends Command
 {
     public function __construct(
         private readonly DocumentManager $documentManager,
