@@ -48,10 +48,10 @@ class Company
     #[ORM\Column(type: 'boolean')]
     private ?bool $isActive;
     #[Latitude]
-    #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
+    #[ORM\Column(type: 'float')]
     private ?float $latitude;
     #[Longitude]
-    #[ORM\Column(type: 'decimal', precision: 5, scale: 2)]
+    #[ORM\Column(type: 'float')]
     private ?float $longitude;
 
     #[Groups([
