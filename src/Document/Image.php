@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Image
 {
     public const MAX_RESOLUTION = 8192;
-    public const MAX_SIZE = 8000000; // ~8 MB
+    public const MAX_SIZE = 8_000_000; // ~8 MB
     public const MIN_RESOLUTION = 256;
 
     #[MongoDB\Field(type: 'string')]
