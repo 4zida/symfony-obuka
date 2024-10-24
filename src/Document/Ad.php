@@ -15,6 +15,7 @@ use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
+use Doctrine\ORM\Mapping as ORM;
 use JetBrains\PhpStorm\Deprecated;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -89,7 +90,8 @@ class Ad
     #[MongoDB\Field(type: 'string', enumType: AdFor::class)]
     #[Assert\NotBlank]
     protected ?AdFor $for;
-    #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
+    #[ORM\Column(type: 'array', nullable: true)]
+    #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class)]
     protected ?ArrayCollection $images = null;
     #[MongoDB\Field(type: 'integer')]
     protected ?int $premiumDuration = null;

@@ -23,7 +23,7 @@ class Image
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     protected ?string $id;
-    #[MongoDB\ReferenceOne(targetDocument: Ad::class, orphanRemoval: true)]
+    #[MongoDB\ReferenceOne(targetDocument: Ad::class, inversedBy: 'images')]
     protected ?Ad $ad;
     #[MongoDB\Field(type: 'string')]
     protected ?string $alias;
