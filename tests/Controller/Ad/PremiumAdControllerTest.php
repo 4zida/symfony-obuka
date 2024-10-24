@@ -49,7 +49,7 @@ class PremiumAdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertEquals(PremiumDuration::DAYS_7->value, $content['premiumDuration']);
-        self::assertTrue($content['isPremium']);
+        self::assertTrue($content['premium']);
     }
 
     public function testDeactivatePremium(): void
@@ -62,7 +62,7 @@ class PremiumAdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertEquals(null, $content['premiumDuration']);
-        self::assertFalse($content['isPremium']);
+        self::assertFalse($content['premium']);
     }
 
     /**

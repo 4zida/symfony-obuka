@@ -102,8 +102,8 @@ class AdRepository extends DocumentRepository
     {
         $builder = $this->createQueryBuilder();
         SearchParamParser::parse($filter, $builder);
-        // Premium ads are first
-        $builder->sort('isPremium', -1);
+
+        $builder->sort('premium', -1);
 
         return $builder->getQuery()->execute()->toArray();
     }

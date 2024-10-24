@@ -404,7 +404,7 @@ class Ad
         ContextGroup::SEARCH,
         ContextGroup::AD_COMPLETE_INFO,
     ])]
-    public function getIsPremium(): bool
+    public function getPremium(): bool
     {
         return $this->premiumDuration !== null && $this->premiumExpiresAt !== null;
     }
