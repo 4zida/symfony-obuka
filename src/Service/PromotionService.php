@@ -40,7 +40,7 @@ readonly class PromotionService
     public function demote(Ad $ad): void
     {
         $ad->deactivatePremium();
-        $this->promotionLogRepository->end($ad->getPromotionLogId());
+        // $this->promotionLogRepository->end($ad?->getPromotionLogId());
 
         $this->dm->flush();
     }

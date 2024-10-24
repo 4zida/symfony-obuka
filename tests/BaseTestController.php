@@ -4,6 +4,7 @@ namespace App\Tests;
 
 use App\Document\Ad;
 use App\Document\AdFor;
+use App\Document\Image;
 use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
@@ -88,5 +89,16 @@ class BaseTestController extends WebTestCase
         return (new Phone())
             ->setFromPhoneNumber(PhoneNumberUtil::getInstance()->parse(self::$testPhoneNumber))
             ->setUser($user);
+    }
+
+    protected static function createTestImage(): Image
+    {
+        return (new Image())
+            ->setLocation('test')
+            ->setAlias('test')
+            ->setHeight(1000)
+            ->setWidth(1000)
+            ->setSize(1000)
+            ->setMimeType('image/jpeg');
     }
 }

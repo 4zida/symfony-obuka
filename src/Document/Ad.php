@@ -4,6 +4,7 @@ namespace App\Document;
 
 use App\EventListeners\Document\AdDocumentPrePersistListener;
 use App\EventListeners\Document\AdDocumentPreUpdateListener;
+use App\Exception\MissingImagesException;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
@@ -25,6 +26,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Ad
 {
     use ClockAwareTrait;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
@@ -336,9 +342,6 @@ class Ad
 
     public function addImage(Image $image): self
     {
-        if ($this->images == null) {
-            $this->images = new ArrayCollection();
-        }
         $this->images->add($image);
         return $this;
     }
@@ -355,7 +358,7 @@ class Ad
         ContextGroup::SEARCH,
         ContextGroup::AD_COMPLETE_INFO
     ])]
-    public function getImages(): Collection
+    public function getImages(): Collection|null
     {
         return $this->images;
     }
@@ -430,5 +433,14 @@ class Ad
         return $this;
     }
 
+    /**
+     * @throws  MissingImagesException
+     */
+    public function assertHasImages(): void
+    {
+        if ($this->getImages()->count() < 1) {
+            throw new MissingImagesException();
+        }
+    }
 
 }

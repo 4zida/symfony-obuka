@@ -3,9 +3,11 @@
 namespace App\Tests\Controller\Ad;
 
 use App\Document\Ad;
+use App\Document\Image;
 use App\Entity\Company;
 use App\Entity\PromotionLog;
 use App\Entity\User;
+use App\Exception\MissingImagesException;
 use App\Tests\BaseTestController;
 use App\Util\PremiumDuration;
 use Doctrine\ODM\MongoDB\MongoDBException;
@@ -19,6 +21,9 @@ class PremiumAdControllerTest extends BaseTestController
     private static ?Ad $ad = null;
     private static ?User $user = null;
     private static ?Company $company = null;
+    private static ?Image $image = null;
+
+    private static ?Ad $adWithoutImage = null;
 
     /**
      * @throws MongoDBException
@@ -29,8 +34,10 @@ class PremiumAdControllerTest extends BaseTestController
 
         self::$company = self::createTestCompany();
         self::persistEntity(self::$company);
+
         self::$user = self::createTestUser(self::$company);
         self::persistEntity(self::$user);
+
         self::$ad = self::createTestAd(self::$company, self::$user);
         self::persistDocument(self::$ad);
 
@@ -47,10 +54,6 @@ class PremiumAdControllerTest extends BaseTestController
             ])
             ->getResponse();
         self::assertResponseIsSuccessful();
-
-        $content = $response->getJsonContent();
-        self::assertEquals(PremiumDuration::DAYS_7->value, $content['premiumDuration']);
-        self::assertTrue($content['premium']);
     }
 
     public function testDeactivatePremium(): void

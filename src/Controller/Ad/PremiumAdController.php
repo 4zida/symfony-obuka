@@ -36,6 +36,7 @@ class PremiumAdController extends AbstractController
     #[Route(path: '/api/ad/activate_premium/{id}', name: 'activate_premium', methods: Request::METHOD_POST)]
     public function activatePremium(Request $request, Ad $ad): JsonResponse
     {
+        // $ad->assertHasImages();
         $promotionRequest = new PromotionRequest();
         $this->handleJSONForm($request, $promotionRequest, PromotionRequestFormType::class);
         $this->promotionService->promote($ad, $promotionRequest->getDuration());
