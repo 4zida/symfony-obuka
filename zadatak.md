@@ -74,6 +74,12 @@
 - komanda koja ce da gasi promociju kada istekne trajanje
 - da se u pretrazi prikazuje prvo premium oglasi
 
+# cetrnaesti zadatak
+- promotion log za belezenje promocija (trajanje promocije, kada je zapocela i zavrsila, adid)
+- ne moze biti premium ako nema slike (custom exception)
+- koliko je potrebno da kosta oglas, kod koga su krediti
+- test case-ovi
+
 # BONUS zadatak x
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
