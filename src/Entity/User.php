@@ -10,6 +10,7 @@ use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Exception;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -71,10 +72,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: Phone::class, mappedBy: 'user')]
     private Collection $phones;
+    #[ORM\Column(type: 'integer')]
+    private ?int $creditBalance = null;
 
     public function __construct()
     {
         $this->phones = new ArrayCollection();
+        $this->creditBalance = 0;
     }
 
     #[Groups([
@@ -339,5 +343,33 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function isInTheSameCompanyAs(User $user): bool
     {
         return $this->company === $user->getCompany();
+    }
+
+    public function getCreditBalance(): ?int
+    {
+        return $this->creditBalance;
+    }
+
+    public function setCreditBalance(?int $creditBalance): self
+    {
+        $this->creditBalance = $creditBalance;
+        return $this;
+    }
+
+    public function assertCanSpendCredits(): bool
+    {
+        return true; // TODO
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function deductCredits(int $amount): void
+    {
+        if ($this->creditBalance < $amount) {
+            throw new Exception('Not enough credits');
+        }
+
+        $this->creditBalance -= $amount;
     }
 }

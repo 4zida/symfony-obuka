@@ -344,6 +344,9 @@ class Ad
 
     public function addImage(Image $image): self
     {
+        if ($this->images === null){
+            $this->images = new ArrayCollection();
+        }
         $this->images->add($image);
         return $this;
     }

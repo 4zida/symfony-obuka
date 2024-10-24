@@ -53,6 +53,8 @@ class Company
     #[Longitude]
     #[ORM\Column(type: 'float')]
     private ?float $longitude;
+    #[ORM\Column(type: 'integer')]
+    private ?int $creditBalance = null;
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
@@ -219,6 +221,17 @@ class Company
     public function setLongitude(?float $longitude): self
     {
         $this->longitude = $longitude;
+        return $this;
+    }
+
+    public function getCreditBalance(): ?int
+    {
+        return $this->creditBalance;
+    }
+
+    public function setCreditBalance(?int $creditBalance): self
+    {
+        $this->creditBalance = $creditBalance;
         return $this;
     }
 }

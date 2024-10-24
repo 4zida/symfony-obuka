@@ -27,6 +27,12 @@ readonly class PromotionService
      */
     public function promote(Ad $ad, PremiumDuration $duration, ?User $user = null): void
     {
+//        if ($user) {
+//            if ($user->getCreditBalance() < $ad->getPremiumPrice()) {
+//
+//            }
+//        }
+
         $ad->activatePremium($duration);
         $logId = $this->promotionLogRepository->start($ad, $duration, $user);
         $ad->setPromotionLogId($logId);

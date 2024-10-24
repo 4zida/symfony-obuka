@@ -51,7 +51,8 @@ class BaseTestController extends WebTestCase
             ->setAddress("Test Address")
             ->setAboutUs("Test About Us")
             ->setLongitude(20.00)
-            ->setLatitude(42.00);
+            ->setLatitude(42.00)
+            ->setCreditBalance(1000);
     }
 
     protected static function createTestUser(Company|null $company): User
@@ -63,7 +64,8 @@ class BaseTestController extends WebTestCase
             ->setSurname("Test Surname")
             ->setEmail("test@email.com")
             ->setCompany($company)
-            ->setPasswordNoHash("testPassword");
+            ->setPasswordNoHash("testPassword")
+            ->setCreditBalance(1000);
     }
 
     protected static function createTestAd(Company|null $company, User|null $user): Ad
