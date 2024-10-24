@@ -4,6 +4,7 @@ namespace App\Tests\Controller\Ad;
 
 use App\Document\Ad;
 use App\Entity\Company;
+use App\Entity\PromotionLog;
 use App\Entity\User;
 use App\Tests\BaseTestController;
 use App\Util\PremiumDuration;
@@ -72,10 +73,18 @@ class PremiumAdControllerTest extends BaseTestController
      */
     public static function tearDownAfterClass(): void
     {
+        self::clearLog();
         self::removeDocumentById(Ad::class, self::$ad->getId());
         self::removeEntityById(User::class, self::$user->getId());
         self::removeEntityById(Company::class, self::$company->getId());
 
         parent::tearDownAfterClass();
+    }
+
+    private static function clearLog(): void
+    {
+        foreach(self::getEntityManager()->getRepository(PromotionLog::class)->findAll() as $log) {
+            self::getEntityManager()->remove($log);
+        }
     }
 }

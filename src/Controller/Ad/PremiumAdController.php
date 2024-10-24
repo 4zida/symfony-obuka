@@ -7,6 +7,8 @@ use App\Form\PromotionRequestFormType;
 use App\Model\PromotionRequest;
 use App\Service\PromotionService;
 use App\Util\ContextGroup;
+use DateMalformedIntervalStringException;
+use DateMalformedStringException;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Nebkam\SymfonyTraits\ControllerTrait;
 use Nebkam\SymfonyTraits\FormTrait;
@@ -28,6 +30,8 @@ class PremiumAdController extends AbstractController
 
     /**
      * @throws MongoDBException
+     * @throws DateMalformedIntervalStringException
+     * @throws DateMalformedStringException
      */
     #[Route(path: '/api/ad/activate_premium/{id}', name: 'activate_premium', methods: Request::METHOD_POST)]
     public function activatePremium(Request $request, Ad $ad): JsonResponse

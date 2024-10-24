@@ -7,6 +7,7 @@ use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
+use App\Util\PremiumDuration;
 use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
@@ -88,6 +89,9 @@ class Ad
     protected ?int $premiumDuration = null;
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $premiumExpiresAt = null;
+
+    #[MongoDB\Field(type: 'integer')]
+    protected ?int $promotionLogId = null;
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
@@ -398,10 +402,10 @@ class Ad
     /**
      * @throws DateMalformedStringException
      */
-    public function activatePremium(int $duration): self
+    public function activatePremium(PremiumDuration $duration): self
     {
-        $this->setPremiumDuration($duration);
-        $this->setPremiumExpiresAt($this->now()->modify('+' . $duration . ' days'));
+        $this->setPremiumDuration($duration->value);
+        $this->setPremiumExpiresAt($this->now()->modify('+' . $duration->value . ' days'));
         return $this;
     }
 
@@ -414,5 +418,17 @@ class Ad
     {
         return $this->premiumDuration !== null && $this->premiumExpiresAt !== null;
     }
+
+    public function getPromotionLogId(): ?int
+    {
+        return $this->promotionLogId;
+    }
+
+    public function setPromotionLogId(?int $promotionLogId): self
+    {
+        $this->promotionLogId = $promotionLogId;
+        return $this;
+    }
+
 
 }

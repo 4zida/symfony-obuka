@@ -18,7 +18,7 @@ class PromotionLog
     private ?int $adAuthorId = null;
 
     #[ORM\Column(name: 'adId', nullable: true)]
-    private ?int $adId = null;
+    private ?string $adId = null;
 
     #[ORM\Column(name: 'duration', nullable: true)]
     private ?int $duration = null;
@@ -59,7 +59,7 @@ class PromotionLog
         return $this->adId;
     }
 
-    public function setAdId(?int $adId): PromotionLog
+    public function setAdId(?string $adId): PromotionLog
     {
         $this->adId = $adId;
         return $this;
