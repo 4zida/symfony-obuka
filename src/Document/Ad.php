@@ -7,13 +7,14 @@ use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
-use DateInterval;
+use DateMalformedStringException;
 use DateTimeImmutable;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use JetBrains\PhpStorm\Deprecated;
+use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -22,6 +23,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Groups(ContextGroup::ADMIN_AD_SEARCH)]
 class Ad
 {
+    use ClockAwareTrait;
+
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     protected ?string $id;
@@ -346,7 +349,7 @@ class Ad
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::AD_COMPLETE_INFO
     ])]
     public function getImages(): Collection
     {
@@ -356,7 +359,7 @@ class Ad
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::AD_COMPLETE_INFO
     ])]
     public function getPremiumExpiresAt(): ?DateTimeImmutable
     {
@@ -372,7 +375,7 @@ class Ad
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::AD_COMPLETE_INFO
     ])]
     public function getPremiumDuration(): ?int
     {
@@ -392,17 +395,20 @@ class Ad
         return $this;
     }
 
+    /**
+     * @throws DateMalformedStringException
+     */
     public function activatePremium(int $duration): self
     {
         $this->setPremiumDuration($duration);
-        $this->setPremiumExpiresAt((new DateTimeImmutable('now'))->modify('+' . $duration . ' days'));
+        $this->setPremiumExpiresAt($this->now()->modify('+' . $duration . ' days'));
         return $this;
     }
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
         ContextGroup::SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::AD_COMPLETE_INFO
     ])]
     public function getPremium(): bool
     {
