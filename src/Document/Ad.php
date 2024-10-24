@@ -81,8 +81,6 @@ class Ad
     protected ?AdFor $for;
     #[MongoDB\ReferenceMany(nullable: true, targetDocument: Image::class, mappedBy: Ad::class)]
     protected ?ArrayCollection $images = null;
-    #[MongoDB\Field(type: 'boolean')]
-    protected ?bool $isPremium = null;
     #[MongoDB\Field(type: 'integer')]
     protected ?int $premiumDuration = null;
     #[MongoDB\Field(type: 'date_immutable')]
@@ -387,25 +385,8 @@ class Ad
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::AD_ALL_DETAILS,
-        ContextGroup::SEARCH,
-        ContextGroup::AD_COMPLETE_INFO,
-    ])]
-    public function getIsPremium(): ?bool
-    {
-        return $this->isPremium;
-    }
-
-    public function setIsPremium(?bool $isPremium): self
-    {
-        $this->isPremium = $isPremium;
-        return $this;
-    }
-
     public function deactivatePremium(): self
     {
-        $this->setIsPremium(null);
         $this->setPremiumDuration(null);
         $this->setPremiumExpiresAt(null);
         return $this;
@@ -413,9 +394,19 @@ class Ad
 
     public function activatePremium(int $duration): self
     {
-        $this->setIsPremium(true);
         $this->setPremiumDuration($duration);
         $this->setPremiumExpiresAt((new DateTimeImmutable('now'))->modify('+' . $duration . ' days'));
         return $this;
     }
+
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO,
+    ])]
+    public function getIsPremium(): bool
+    {
+        return $this->premiumDuration !== null && $this->premiumExpiresAt !== null;
+    }
+
 }

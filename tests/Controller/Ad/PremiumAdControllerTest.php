@@ -62,7 +62,7 @@ class PremiumAdControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertEquals(null, $content['premiumDuration']);
-        self::assertNull($content['isPremium']);
+        self::assertFalse($content['isPremium']);
     }
 
     /**
