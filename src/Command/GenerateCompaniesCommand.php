@@ -59,7 +59,8 @@ class GenerateCompaniesCommand extends Command
                     ->setAddress($faker->address)
                     ->setAboutUs($faker->paragraph)
                     ->setLongitude(20.0)
-                    ->setLatitude(43.0);
+                    ->setLatitude(43.0)
+                    ->setCreditBalance(1000);
                 $e->persist($company);
             } catch (Exception $e) {
                 $io->error($e->getMessage() . "\n Continuing...");

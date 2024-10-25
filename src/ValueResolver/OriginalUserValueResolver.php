@@ -24,7 +24,8 @@ class OriginalUserValueResolver implements ValueResolverInterface
     public function resolve(Request $request, ArgumentMetadata $argument): array
     {
         if(UserInterface::class !== $argument->getType() &&
-            !$argument->getAttributesOfType(OriginalUser::class, ArgumentMetadata::IS_INSTANCEOF)) {
+            !$argument->getAttributesOfType(OriginalUser::class, ArgumentMetadata::IS_INSTANCEOF))
+        {
             return [];
         }
 

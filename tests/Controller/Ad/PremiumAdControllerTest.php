@@ -48,7 +48,10 @@ class PremiumAdControllerTest extends BaseTestController
 
     public function testActivatePremium(): void
     {
-        $response = RequestBuilder::create($this->createClient())
+        $client = self::createClient();
+        $client->loginUser(self::$user);
+
+        $response = RequestBuilder::create($client)
             ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
             ->setMethod(Request::METHOD_POST)
             ->setJsonContent([

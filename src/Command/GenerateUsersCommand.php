@@ -118,7 +118,8 @@ class GenerateUsersCommand extends Command
             ->setRole($role)
             ->setCompany($company)
             ->setSurname($faker->lastName)
-            ->setEmail($faker->email);
+            ->setEmail($faker->email)
+            ->setCreditBalance(1000);
         $user->setPassword($this->passwordHasher->hashPassword($user, $pass))
             ->setPasswordNoHash($pass);
         $em->persist($user);

@@ -6,13 +6,15 @@ use App\Document\Ad;
 use App\Entity\User;
 use App\Exception\ClosedCreditBalanceException;
 use App\Exception\InsufficientCreditsException;
+use App\Repository\CreditTransactionLogRepository;
 use App\Util\CreditTransactionPurpose;
 use Doctrine\ORM\EntityManagerInterface;
 
 readonly class CreditManager
 {
     public function __construct(
-        private EntityManagerInterface $entityManager
+        private EntityManagerInterface $entityManager,
+        private CreditTransactionLogRepository $transactionLog
     )
     {
     }
@@ -28,7 +30,7 @@ readonly class CreditManager
         $amount = $purpose->getPrice();
         $promotedBy->deductCredits($amount);
 
-        // TODO: Add credit transaction log
+        $this->transactionLog->add($purpose, $ad, $promotedBy);
 
         $this->entityManager->flush();
     }

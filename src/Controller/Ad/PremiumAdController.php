@@ -3,12 +3,14 @@
 namespace App\Controller\Ad;
 
 use App\Document\Ad;
+use App\Entity\User;
 use App\Exception\ClosedCreditBalanceException;
 use App\Exception\InsufficientCreditsException;
 use App\Form\PromotionRequestFormType;
 use App\Model\PromotionRequest;
 use App\Service\PromotionService;
 use App\Util\ContextGroup;
+use App\ValueResolver\OriginalUser;
 use DateMalformedIntervalStringException;
 use DateMalformedStringException;
 use Doctrine\ODM\MongoDB\MongoDBException;
@@ -38,12 +40,12 @@ class PremiumAdController extends AbstractController
      * @throws InsufficientCreditsException
      */
     #[Route(path: '/api/ad/activate_premium/{id}', name: 'activate_premium', methods: Request::METHOD_POST)]
-    public function activatePremium(Request $request, Ad $ad): JsonResponse
+    public function activatePremium(Request $request, Ad $ad, #[OriginalUser] User $originalUser): JsonResponse
     {
         $ad->assertHasImages();
         $promotionRequest = new PromotionRequest();
         $this->handleJSONForm($request, $promotionRequest, PromotionRequestFormType::class);
-        $this->promotionService->promote($ad, $promotionRequest->getDuration());
+        $this->promotionService->promote($ad, $promotionRequest->getDuration(), $originalUser);
 
         return $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO);
     }

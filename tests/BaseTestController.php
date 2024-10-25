@@ -65,7 +65,8 @@ class BaseTestController extends WebTestCase
             ->setEmail("test@email.com")
             ->setCompany($company)
             ->setPasswordNoHash("testPassword")
-            ->setCreditBalance(1000);
+            ->setCreditBalance(1000)
+            ->setRoles([]);
     }
 
     protected static function createTestAd(Company|null $company, User|null $user): Ad
