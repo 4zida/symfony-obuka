@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\EventListeners\Entity\CompanyEntityPrePersistListener;
+use App\Exception\ClosedCreditBalanceException;
+use App\Exception\InsufficientCreditsException;
 use App\Repository\CompanyRepository;
 use App\Util\ContextGroup;
 use App\Validator\Latitude;
@@ -55,6 +57,8 @@ class Company
     private ?float $longitude;
     #[ORM\Column(type: 'integer')]
     private ?int $creditBalance = null;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $canSpendCredits = null;
 
     #[Groups([
         ContextGroup::COMPANY_ALL_DETAILS,
@@ -232,6 +236,39 @@ class Company
     public function setCreditBalance(?int $creditBalance): self
     {
         $this->creditBalance = $creditBalance;
+        return $this;
+    }
+
+    /**
+     * @throws ClosedCreditBalanceException
+     */
+    public function assertCanSpendCredits(): void
+    {
+        if (!$this->canSpendCredits) {
+            throw new ClosedCreditBalanceException();
+        }
+    }
+
+    /**
+     * @throws InsufficientCreditsException
+     */
+    public function deductCredits(int $amount): void
+    {
+        if ($this->creditBalance < $amount) {
+            throw new InsufficientCreditsException();
+        }
+
+        $this->creditBalance -= $amount;
+    }
+
+    public function getCanSpendCredits(): ?bool
+    {
+        return $this->canSpendCredits;
+    }
+
+    public function setCanSpendCredits(?bool $canSpendCredits): self
+    {
+        $this->canSpendCredits = $canSpendCredits;
         return $this;
     }
 }

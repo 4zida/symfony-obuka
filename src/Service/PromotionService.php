@@ -4,7 +4,10 @@ namespace App\Service;
 
 use App\Document\Ad;
 use App\Entity\User;
+use App\Exception\ClosedCreditBalanceException;
+use App\Exception\InsufficientCreditsException;
 use App\Repository\PromotionLogRepository;
+use App\Util\CreditTransactionPurpose;
 use App\Util\PremiumDuration;
 use DateMalformedIntervalStringException;
 use DateMalformedStringException;
@@ -15,7 +18,8 @@ readonly class PromotionService
 {
     public function __construct(
         private DocumentManager $dm,
-        private PromotionLogRepository $promotionLogRepository
+        private PromotionLogRepository $promotionLogRepository,
+        private CreditManager $creditManager
     )
     {
     }
@@ -24,14 +28,14 @@ readonly class PromotionService
      * @throws MongoDBException
      * @throws DateMalformedStringException
      * @throws DateMalformedIntervalStringException
+     * @throws ClosedCreditBalanceException
+     * @throws InsufficientCreditsException
      */
     public function promote(Ad $ad, PremiumDuration $duration, ?User $user = null): void
     {
-//        if ($user) {
-//            if ($user->getCreditBalance() < $ad->getPremiumPrice()) {
-//
-//            }
-//        }
+        if ($user) {
+            $this->creditManager->chargePromotion($ad, CreditTransactionPurpose::PREMIUM, $user);
+        }
 
         $ad->activatePremium($duration);
         $logId = $this->promotionLogRepository->start($ad, $duration, $user);
@@ -46,7 +50,10 @@ readonly class PromotionService
     public function demote(Ad $ad): void
     {
         $ad->deactivatePremium();
-        // $this->promotionLogRepository->end($ad?->getPromotionLogId());
+        if (null !== $ad->getPromotionLogId())
+        {
+            $this->promotionLogRepository->end($ad?->getPromotionLogId());
+        }
 
         $this->dm->flush();
     }

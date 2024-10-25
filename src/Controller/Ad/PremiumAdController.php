@@ -3,6 +3,8 @@
 namespace App\Controller\Ad;
 
 use App\Document\Ad;
+use App\Exception\ClosedCreditBalanceException;
+use App\Exception\InsufficientCreditsException;
 use App\Form\PromotionRequestFormType;
 use App\Model\PromotionRequest;
 use App\Service\PromotionService;
@@ -29,9 +31,11 @@ class PremiumAdController extends AbstractController
     }
 
     /**
-     * @throws MongoDBException
      * @throws DateMalformedIntervalStringException
      * @throws DateMalformedStringException
+     * @throws MongoDBException
+     * @throws ClosedCreditBalanceException
+     * @throws InsufficientCreditsException
      */
     #[Route(path: '/api/ad/activate_premium/{id}', name: 'activate_premium', methods: Request::METHOD_POST)]
     public function activatePremium(Request $request, Ad $ad): JsonResponse

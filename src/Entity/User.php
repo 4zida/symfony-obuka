@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\EventListeners\Entity\UserEntityPrePersistListener;
+use App\Exception\ClosedCreditBalanceException;
+use App\Exception\InsufficientCreditsException;
 use App\Repository\UserRepository;
 use App\Util\ContextGroup;
 use App\Util\UserRole;
@@ -74,11 +76,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $phones;
     #[ORM\Column(type: 'integer')]
     private ?int $creditBalance = null;
+    #[ORM\Column(type: 'boolean', nullable: true)]
+    private ?bool $canSpendCredits = null;
 
     public function __construct()
     {
         $this->phones = new ArrayCollection();
         $this->creditBalance = 0;
+        $this->canSpendCredits = true;
     }
 
     #[Groups([
@@ -356,20 +361,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function assertCanSpendCredits(): bool
+    /**
+     * @throws ClosedCreditBalanceException
+     */
+    public function assertCanSpendCredits(): void
     {
-        return true; // TODO
+        if (!$this->canSpendCredits) {
+            throw new ClosedCreditBalanceException();
+        }
     }
 
     /**
-     * @throws Exception
+     * @throws InsufficientCreditsException
      */
     public function deductCredits(int $amount): void
     {
         if ($this->creditBalance < $amount) {
-            throw new Exception('Not enough credits');
+            throw new InsufficientCreditsException();
         }
 
         $this->creditBalance -= $amount;
+    }
+
+    public function getCanSpendCredits(): ?bool
+    {
+        return $this->canSpendCredits;
+    }
+
+    public function setCanSpendCredits(?bool $canSpendCredits): self
+    {
+        $this->canSpendCredits = $canSpendCredits;
+        return $this;
     }
 }
