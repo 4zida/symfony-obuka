@@ -3,9 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\CreditTransactionLogRepository;
+use App\Util\ContextGroup;
 use App\Util\CreditTransactionPurpose;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CreditTransactionLogRepository::class)]
 class CreditTransactionLog
@@ -24,11 +26,19 @@ class CreditTransactionLog
     private ?CreditTransactionPurpose $purpose = null;
     private ?int $amount = null;
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getAdId(): ?string
     {
         return $this->adId;
@@ -40,6 +50,10 @@ class CreditTransactionLog
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getTransactorId(): ?int
     {
         return $this->transactorId;
@@ -51,6 +65,10 @@ class CreditTransactionLog
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getTransactionDate(): ?DateTimeImmutable
     {
         return $this->transactionDate;
@@ -62,6 +80,10 @@ class CreditTransactionLog
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getPurpose(): ?CreditTransactionPurpose
     {
         return $this->purpose;
@@ -73,6 +95,10 @@ class CreditTransactionLog
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::USER_CREDIT_TRANSACTION_LOG,
+        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
+    ])]
     public function getAmount(): ?int
     {
         return $this->amount;

@@ -48,4 +48,9 @@ class PromotionLogRepository extends ServiceEntityRepository
         $promotionLog->setExpiredAt($this->now());
         $this->getEntityManager()->flush();
     }
+
+    public function findByUser(User $user): array
+    {
+        return $this->findBy(['adAuthorId' => $user->getId()]);
+    }
 }

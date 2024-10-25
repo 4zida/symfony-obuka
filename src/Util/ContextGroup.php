@@ -16,6 +16,9 @@ interface ContextGroup
     public final const USER_WITH_PHONE = 'user_with_phone';
     public final const IMAGE_DETAILS = 'image_details';
     public final const PREMIUM_INFO = 'premium_info';
-
+    public final const ADMIN_CREDIT_TRANSACTION_LOG = 'admin_credit_transaction_log';
+    public final const USER_CREDIT_TRANSACTION_LOG = 'user_credit_transaction_log';
+    public final const ADMIN_PROMOTION_LOG = 'admin_promotion_log';
+    public final const USER_PROMOTION_LOG = 'user_promotion_log';
 
 }

@@ -14,6 +14,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class PremiumAdControllerTest extends BaseTestController
 {
@@ -63,6 +64,71 @@ class PremiumAdControllerTest extends BaseTestController
         $content = $response->getJsonContent();
         self::assertEquals(PremiumDuration::DAYS_7->value, $content['premiumDuration']);
         self::assertTrue($content['premium']);
+    }
+
+    public function testActivatePremiumWithInsufficientCredits(): void
+    {
+        $client = self::createClient();
+
+        $user = self::getEntityManager()->getRepository(User::class)->find(self::$user->getId());
+        $user->setCreditBalance(0);
+
+        $client->loginUser($user);
+
+        $response = RequestBuilder::create($client)
+            ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => PremiumDuration::DAYS_7
+            ])
+            ->getResponse();
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testActivatePremiumWithInvalidDuration(): void
+    {
+        $client = self::createClient();
+        $client->loginUser(self::$user);
+
+        $response = RequestBuilder::create($client)
+            ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => 100
+            ])
+            ->getResponse();
+        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+    }
+
+    public function testActivatePremiumWithDisabledCredits(): void
+    {
+        $client = self::createClient();
+
+        $user = self::getEntityManager()->getRepository(User::class)->find(self::$user->getId());
+        $user->setCanSpendCredits(false);
+
+        $client->loginUser($user);
+
+        $response = RequestBuilder::create($client)
+            ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => PremiumDuration::DAYS_7
+            ])
+            ->getResponse();
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+    }
+
+    public function testActivatePremiumWithNoUser(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => PremiumDuration::DAYS_7
+            ])
+            ->getResponse();
+        self::assertSame(Response::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     public function testDeactivatePremium(): void
