@@ -14,11 +14,6 @@ use Symfony\Component\Clock\ClockAwareTrait;
 
 /**
  * @extends ServiceEntityRepository<PromotionLog>
- *
- * @method PromotionLog|null find($id, $lockMode = null, $lockVersion = null)
- * @method PromotionLog|null findOneBy(array $criteria, array $orderBy = null)
- * @method PromotionLog[]    findAll()
- * @method PromotionLog[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class PromotionLogRepository extends ServiceEntityRepository
 {
