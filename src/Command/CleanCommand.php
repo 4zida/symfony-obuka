@@ -2,8 +2,15 @@
 
 namespace App\Command;
 
+use App\Entity\Company;
+use App\Entity\CreditTransactionLog;
+use App\Entity\Phone;
+use App\Entity\PromotionLog;
+use App\Entity\User;
 use App\Repository\CompanyRepository;
+use App\Repository\CreditTransactionLogRepository;
 use App\Repository\PhoneRepository;
+use App\Repository\PromotionLogRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -19,10 +26,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CleanCommand extends Command
 {
     public function __construct(
-        private readonly CompanyRepository      $companyRepository,
-        private readonly UserRepository         $userRepository,
-        private readonly EntityManagerInterface $entityManager,
-        private readonly PhoneRepository        $phoneRepository,
+        private readonly EntityManagerInterface $entityManager
     )
     {
         parent::__construct();
@@ -36,31 +40,57 @@ class CleanCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $phones = $this->phoneRepository->findAll();
+        /** @var PhoneRepository $phoneRepo */
+        $phoneRepo = $this->entityManager->getRepository(Phone::class);
+        $phones = $phoneRepo->findAll();
         foreach ($phones as $phone) {
             $name = $phone->getFull();
             $id = $phone->getId();
             $output->writeln(sprintf('Phone %s (%d) will be deleted', $name, $id));
-            $this->phoneRepository->deletePhone($phone);
+            $this->entityManager->remove($phone);
             $output->writeln(sprintf('Phone %s (%d) has been deleted', $name, $id));
         }
 
-        $users = $this->userRepository->findAll();
+        /** @var UserRepository $userRepo */
+        $userRepo = $this->entityManager->getRepository(User::class);
+        $users = $userRepo->findAll();
         foreach ($users as $user) {
             $name = $user->getName();
             $id = $user->getId();
             $output->writeln(sprintf('User %s (%d) will be deleted', $name, $id));
-            $this->userRepository->deleteUser($user);
+            $this->entityManager->remove($user);
             $output->writeln(sprintf('User %s (%d) has been deleted', $name, $id));
         }
 
-        $companies = $this->companyRepository->findAll();
+        /** @var CompanyRepository $companyRepo */
+        $companyRepo = $this->entityManager->getRepository(Company::class);
+        $companies = $companyRepo->findAll();
         foreach ($companies as $company) {
             $name = $company->getName();
             $id = $company->getId();
             $output->writeln(sprintf('Company %s (%d) will be deleted', $name, $id));
-            $this->companyRepository->deleteCompany($company);
+            $this->entityManager->remove($company);
             $output->writeln(sprintf('Company %s (%d) has been deleted', $name, $id));
+        }
+
+        /** @var CreditTransactionLogRepository $creditTransactionLogRepo */
+        $creditTransactionLogRepo = $this->entityManager->getRepository(CreditTransactionLog::class);
+        $creditTransactionLogs = $creditTransactionLogRepo->findAll();
+        foreach ($creditTransactionLogs as $creditTransactionLog) {
+            $id = $creditTransactionLog->getId();
+            $output->writeln(sprintf('CreditTransactionLog %d will be deleted', $id));
+            $this->entityManager->remove($creditTransactionLog);
+            $output->writeln(sprintf('CreditTransactionLog %d has been deleted', $id));
+        }
+
+        /** @var PromotionLogRepository $promotionLogRepo */
+        $promotionLogRepo = $this->entityManager->getRepository(PromotionLog::class);
+        $promotionLogs = $promotionLogRepo->findAll();
+        foreach ($promotionLogs as $promotionLog) {
+            $id = $promotionLog->getId();
+            $output->writeln(sprintf('PromotionLog %d will be deleted', $id));
+            $this->entityManager->remove($promotionLog);
+            $output->writeln(sprintf('PromotionLog %d has been deleted', $id));
         }
 
         $this->entityManager->flush();

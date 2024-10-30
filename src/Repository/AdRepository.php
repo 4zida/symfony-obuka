@@ -30,7 +30,6 @@ class AdRepository extends DocumentRepository
             ->toArray();
     }
 
-
     /**
      * @throws MongoDBException
      */
@@ -55,7 +54,6 @@ class AdRepository extends DocumentRepository
             ->toArray();
     }
 
-
     /**
      * @throws MongoDBException
      */
@@ -68,7 +66,6 @@ class AdRepository extends DocumentRepository
             ->execute()
             ->toArray();
     }
-
 
     /**
      * @throws MongoDBException
@@ -92,7 +89,6 @@ class AdRepository extends DocumentRepository
         }
         return $array;
     }
-
 
     /**
      * @throws MongoDBException
