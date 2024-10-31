@@ -82,8 +82,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->phones = new ArrayCollection();
-        $this->creditBalance = 0;
-        $this->canSpendCredits = true;
     }
 
     #[Groups([
@@ -186,9 +184,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
     #[Groups([

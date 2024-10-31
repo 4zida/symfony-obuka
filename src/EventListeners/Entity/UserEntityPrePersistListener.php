@@ -14,8 +14,11 @@ class UserEntityPrePersistListener
 
     public function prePersist(User $user): void
     {
-        $user->setCreatedAt($this->clock->now());
-        $user->setIsActive(false);
-        $user->setLastSeenAt($this->clock->now());
+        $user
+            ->setCreatedAt($this->clock->now())
+            ->setIsActive(false)
+            ->setLastSeenAt($this->clock->now())
+            ->setCanSpendCredits(true)
+            ->setCreditBalance(0);
     }
 }
