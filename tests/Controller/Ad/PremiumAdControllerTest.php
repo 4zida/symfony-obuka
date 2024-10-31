@@ -36,6 +36,8 @@ class PremiumAdControllerTest extends BaseTestController
         self::$user = self::createTestUser(self::$company);
         self::persistEntity(self::$user);
 
+        self::$user->setCreditBalance(1000);
+
         self::$ad = self::createTestAd(self::$company, self::$user);
 
         self::$image = self::createTestImage();
@@ -43,6 +45,9 @@ class PremiumAdControllerTest extends BaseTestController
         self::$ad->addImage(self::$image);
 
         self::persistDocument(self::$ad);
+
+        self::flushEntities();
+        self::flushDocuments();
 
         self::ensureKernelShutdown();
     }
