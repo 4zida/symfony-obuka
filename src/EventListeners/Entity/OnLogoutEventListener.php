@@ -9,6 +9,8 @@ use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Symfony\Component\Clock\ClockAwareTrait;
 use Symfony\Component\EventDispatcher\Attribute\AsEventListener;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authentication\Token\SwitchUserToken;
 use Symfony\Component\Security\Http\Event\LogoutEvent;
 
 #[AsEventListener(event: LogoutEvent::class, method: 'onLogout')]
@@ -18,7 +20,7 @@ readonly class OnLogoutEventListener
 
     public function __construct(
         private UserRepository  $userRepository,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
     )
     {
     }
@@ -26,8 +28,15 @@ readonly class OnLogoutEventListener
     public function onLogout(LogoutEvent $event): void
     {
         try {
-            $user = $event->getToken()->getUser();
+            $token = $event->getToken();
+            if ($token instanceof SwitchUserToken) {
+                $user = $token->getOriginalToken()->getUser();
+            } else {
+                $user = $token->getUser();
+            }
+
             if (!$user instanceof User) return;
+
             $user->setLastSeenAt($this->clock->now());
             $this->userRepository->updateUser($user);
         } catch (Exception $e) {
