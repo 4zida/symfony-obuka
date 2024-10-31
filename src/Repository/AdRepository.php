@@ -103,9 +103,4 @@ class AdRepository extends DocumentRepository
 
         return $builder->getQuery()->execute()->toArray();
     }
-
-    public function remove(Ad $ad): void
-    {
-        $this->getDocumentManager()->remove($ad);
-    }
 }

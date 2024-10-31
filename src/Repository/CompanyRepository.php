@@ -26,23 +26,4 @@ class CompanyRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
-    /**
-     * @param Company $company
-     * @return void
-     */
-    public function deleteCompany(Company $company): void
-    {
-        $this->getEntityManager()->remove($company);
-        $this->getEntityManager()->flush();
-    }
-
-    /**
-     * @param int $id
-     * @return Company
-     */
-    public function getCompanyById(int $id): Company
-    {
-        return $this->getEntityManager()->getRepository(Company::class)->find($id);
-    }
 }

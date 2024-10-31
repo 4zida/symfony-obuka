@@ -34,7 +34,6 @@ class CreditTransactionLogRepository extends ServiceEntityRepository
             ->setTransactionDate($this->now());
 
         if ($transactor) {
-            /** @var User $transactor */
             $log->setTransactorId($transactor->getId());
         }
 

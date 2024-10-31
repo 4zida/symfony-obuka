@@ -18,17 +18,6 @@ class UserRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param User $user
-     * @return void
-     */
-    public function deleteUser(User $user): void
-    {
-        $em = $this->getEntityManager();
-        $em->remove($user);
-        $em->flush();
-    }
-
-    /**
      * @return array
      */
     public function getUsersAsArray(): array
