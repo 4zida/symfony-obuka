@@ -2,7 +2,6 @@
 
 namespace App\Tests\Controller;
 
-use App\Controller\PromotionLogController;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Tests\BaseTestController;
@@ -10,7 +9,6 @@ use App\Tests\EntityManagerAwareTrait;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
-use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
 
 class PromotionLogControllerTest extends BaseTestController
