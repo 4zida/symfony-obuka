@@ -70,7 +70,7 @@ class PromotionLog
         return $this->duration;
     }
 
-    public function setDuration(?int $duration): PromotionLog
+    public function setDuration(?int $duration): self
     {
         $this->duration = $duration;
         return $this;
@@ -81,7 +81,7 @@ class PromotionLog
         return $this->expiredAt;
     }
 
-    public function setExpiredAt(?DateTimeImmutable $expiredAt): PromotionLog
+    public function setExpiredAt(?DateTimeImmutable $expiredAt): self
     {
         $this->expiredAt = $expiredAt;
         return $this;
@@ -92,7 +92,7 @@ class PromotionLog
         return $this->shouldExpireAt;
     }
 
-    public function setShouldExpireAt(?DateTimeImmutable $shouldExpireAt): PromotionLog
+    public function setShouldExpireAt(?DateTimeImmutable $shouldExpireAt): self
     {
         $this->shouldExpireAt = $shouldExpireAt;
         return $this;
@@ -103,7 +103,7 @@ class PromotionLog
         return $this->promotedAt;
     }
 
-    public function setPromotedAt(?DateTimeImmutable $promotedAt): PromotionLog
+    public function setPromotedAt(?DateTimeImmutable $promotedAt): self
     {
         $this->promotedAt = $promotedAt;
         return $this;
@@ -114,7 +114,7 @@ class PromotionLog
         return $this->promotedBy;
     }
 
-    public function setPromotedBy(?int $promotedBy): PromotionLog
+    public function setPromotedBy(?int $promotedBy): self
     {
         $this->promotedBy = $promotedBy;
         return $this;
@@ -125,7 +125,7 @@ class PromotionLog
         return $this->demotedBy;
     }
 
-    public function setDemotedBy(?int $demotedBy): PromotionLog
+    public function setDemotedBy(?int $demotedBy): self
     {
         $this->demotedBy = $demotedBy;
         return $this;

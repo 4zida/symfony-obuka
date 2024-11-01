@@ -83,7 +83,7 @@ class Image
         return $this->height;
     }
 
-    public function setHeight(?int $height): Image
+    public function setHeight(?int $height): self
     {
         $this->height = $height;
         return $this;
@@ -97,7 +97,7 @@ class Image
         return $this->width;
     }
 
-    public function setWidth(?int $width): Image
+    public function setWidth(?int $width): self
     {
         $this->width = $width;
         return $this;
@@ -111,7 +111,7 @@ class Image
         return $this->mimeType;
     }
 
-    public function setMimeType(?string $mimeType): Image
+    public function setMimeType(?string $mimeType): self
     {
         $this->mimeType = $mimeType;
         return $this;

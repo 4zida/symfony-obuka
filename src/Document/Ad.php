@@ -111,7 +111,7 @@ class Ad
         return $this->price;
     }
 
-    public function setPrice(?int $price): Ad
+    public function setPrice(?int $price): self
     {
         $this->price = $price;
         return $this;
@@ -127,7 +127,7 @@ class Ad
         return $this->for;
     }
 
-    public function setFor(?AdFor $for): Ad
+    public function setFor(?AdFor $for): self
     {
         $this->for = $for;
         return $this;
@@ -155,7 +155,7 @@ class Ad
         return $this->name;
     }
 
-    public function setName(string $name): Ad
+    public function setName(string $name): self
     {
         $this->name = $name;
         return $this;
@@ -171,7 +171,7 @@ class Ad
         return $this->description;
     }
 
-    public function setDescription(string $description): Ad
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         return $this;
@@ -187,7 +187,7 @@ class Ad
         return $this->url;
     }
 
-    public function setUrl(string $url): Ad
+    public function setUrl(string $url): self
     {
         $this->url = $url;
         return $this;
@@ -203,7 +203,7 @@ class Ad
         return $this->userId;
     }
 
-    public function setUserId(?int $userId): Ad
+    public function setUserId(?int $userId): self
     {
         $this->userId = $userId;
         return $this;
@@ -218,7 +218,7 @@ class Ad
         return $this->companyId;
     }
 
-    public function setCompanyId(?int $companyId): Ad
+    public function setCompanyId(?int $companyId): self
     {
         $this->companyId = $companyId;
         return $this;
@@ -229,7 +229,7 @@ class Ad
         return $this->dateTime;
     }
 
-    public function setDateTime(string $dateTime): Ad
+    public function setDateTime(string $dateTime): self
     {
         $this->dateTime = $dateTime;
         return $this;
@@ -240,7 +240,7 @@ class Ad
         return $this->unixTime;
     }
 
-    public function setUnixTime(int $unixTime): Ad
+    public function setUnixTime(int $unixTime): self
     {
         $this->unixTime = $unixTime;
         return $this;
@@ -336,7 +336,7 @@ class Ad
         return $this->lastUpdated;
     }
 
-    public function setLastUpdated(?DateTimeImmutable $lastUpdated): Ad
+    public function setLastUpdated(?DateTimeImmutable $lastUpdated): self
     {
         $this->lastUpdated = $lastUpdated;
         return $this;
