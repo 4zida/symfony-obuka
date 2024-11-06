@@ -28,12 +28,7 @@ readonly class OnLogoutEventListener
     public function onLogout(LogoutEvent $event): void
     {
         try {
-            $token = $event->getToken();
-            if ($token instanceof SwitchUserToken) {
-                $user = $token->getOriginalToken()->getUser();
-            } else {
-                $user = $token->getUser();
-            }
+            $user = $event->getToken()->getUser();
 
             if (!$user instanceof User) return;
 
