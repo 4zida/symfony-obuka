@@ -60,7 +60,7 @@ class PromotionLogRepository extends ServiceEntityRepository
      */
     public function extend(Ad $ad, ?PremiumDuration $duration, ?User $promotedBy = null): int
     {
-        $log = (new PromotionLog())
+        $log = ($this->getEntityManager()->getRepository(PromotionLog::class)->find($ad->getPromotionLogId()))
             ->setPromotedAt($this->now())
             ->setAdId($ad->getId())
             ->setDuration($ad->getPremiumDuration() + $duration->value)
