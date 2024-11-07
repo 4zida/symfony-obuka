@@ -71,6 +71,25 @@ class PremiumAdControllerTest extends BaseTestController
         self::assertTrue($content['premium']);
     }
 
+    public function testActivatePremiumSecondTime(): void
+    {
+        $client = self::createClient();
+        $client->loginUser(self::$user);
+
+        $response = RequestBuilder::create($client)
+            ->setUri('/api/ad/activate_premium/' . self::$ad->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => PremiumDuration::DAYS_7
+            ])
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertEquals(PremiumDuration::DAYS_7->value * 2, $content['premiumDuration']);
+        self::assertTrue($content['premium']);
+    }
+
     public function testActivatePremiumWithInsufficientCredits(): void
     {
         $client = self::createClient();

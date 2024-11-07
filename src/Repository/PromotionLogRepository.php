@@ -53,4 +53,22 @@ class PromotionLogRepository extends ServiceEntityRepository
     {
         return $this->findBy(['adAuthorId' => $user->getId()]);
     }
+
+    /**
+     * @throws DateMalformedStringException
+     * @throws DateMalformedIntervalStringException
+     */
+    public function extend(Ad $ad, ?PremiumDuration $duration, ?User $promotedBy = null): int
+    {
+        $log = (new PromotionLog())
+            ->setPromotedAt($this->now())
+            ->setAdId($ad->getId())
+            ->setDuration($ad->getPremiumDuration() + $duration->value)
+            ->setShouldExpireAt($duration->toFutureDate($ad->getPremiumExpiresAt()))
+            ->setPromotedBy($promotedBy?->getId());
+
+        $this->getEntityManager()->persist($log);
+        $this->getEntityManager()->flush();
+        return $log->getId();
+    }
 }

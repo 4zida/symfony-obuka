@@ -8,6 +8,7 @@ use App\Exception\ClosedCreditBalanceException;
 use App\Exception\InsufficientCreditsException;
 use App\Form\PromotionRequestFormType;
 use App\Model\PromotionRequest;
+use App\Repository\PromotionLogRepository;
 use App\Service\PromotionService;
 use App\Util\ContextGroup;
 use App\ValueResolver\OriginalUser;
@@ -27,7 +28,7 @@ class PremiumAdController extends AbstractController
     use FormTrait;
 
     public function __construct(
-        private readonly PromotionService $promotionService,
+        private readonly PromotionService $promotionService
     )
     {
     }
@@ -45,7 +46,11 @@ class PremiumAdController extends AbstractController
         $ad->assertHasImages();
         $promotionRequest = new PromotionRequest();
         $this->handleJSONForm($request, $promotionRequest, PromotionRequestFormType::class);
-        $this->promotionService->promote($ad, $promotionRequest->getDuration(), $originalUser);
+        if (!$ad->getPremium()) {
+            $this->promotionService->promote($ad, $promotionRequest->getDuration(), $originalUser);
+        } else {
+            $this->promotionService->extend($ad, $promotionRequest->getDuration(), $originalUser);
+        }
 
         return $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO);
     }

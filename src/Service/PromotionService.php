@@ -57,4 +57,24 @@ readonly class PromotionService
 
         $this->dm->flush();
     }
+
+    /**
+     * @throws ClosedCreditBalanceException
+     * @throws DateMalformedStringException
+     * @throws InsufficientCreditsException
+     * @throws MongoDBException
+     * @throws DateMalformedIntervalStringException
+     */
+    public function extend(Ad $ad, ?PremiumDuration $duration, ?User $originalUser = null): void
+    {
+        if ($originalUser) {
+            $this->creditManager->chargePromotion($ad, CreditTransactionPurpose::PREMIUM, $originalUser);
+        }
+
+        $ad->extendPremium($duration);
+        $logId = $this->promotionLogRepository->extend($ad, $duration, $originalUser);
+        $ad->setPromotionLogId($logId);
+
+        $this->dm->flush();
+    }
 }

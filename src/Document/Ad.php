@@ -448,4 +448,11 @@ class Ad
         }
     }
 
+    public function extendPremium(?PremiumDuration $duration): self
+    {
+        $this->setPremiumDuration($this->getPremiumDuration() + $duration->value);
+        $this->setPremiumExpiresAt($this->getPremiumExpiresAt()->modify('+' . $duration->value . ' days'));
+        return $this;
+    }
+
 }
