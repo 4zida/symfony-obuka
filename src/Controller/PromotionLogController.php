@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Document\Ad;
 use App\Entity\PromotionLog;
 use App\Entity\User;
 use App\Util\ContextGroup;
@@ -33,10 +34,17 @@ class PromotionLogController extends AbstractController
             ContextGroup::ADMIN_PROMOTION_LOG);
     }
 
-    #[Route(path: '/api/promotion-log/{user}', methods: Request::METHOD_GET)]
+    #[Route(path: '/api/promotion-log/user/{user}', methods: Request::METHOD_GET)]
     public function allByUser(User $user): JsonResponse
     {
         return $this->jsonWithGroup($this->entityManager->getRepository(PromotionLog::class)->findByUser($user),
+            ContextGroup::USER_PROMOTION_LOG);
+    }
+
+    #[Route(path: '/api/promotion-log/ad/{ad}', methods: Request::METHOD_GET)]
+    public function allForAd(Ad $ad): JsonResponse
+    {
+        return $this->jsonWithGroup($this->entityManager->getRepository(PromotionLog::class)->findBy(['adId' => $ad->getId()]),
             ContextGroup::USER_PROMOTION_LOG);
     }
 }
