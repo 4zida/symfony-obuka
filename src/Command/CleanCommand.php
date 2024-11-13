@@ -2,6 +2,8 @@
 
 namespace App\Command;
 
+use App\Document\Ad;
+use App\Document\Image;
 use App\Entity\Company;
 use App\Entity\CreditTransactionLog;
 use App\Entity\Phone;
@@ -12,6 +14,8 @@ use App\Repository\CreditTransactionLogRepository;
 use App\Repository\PhoneRepository;
 use App\Repository\PromotionLogRepository;
 use App\Repository\UserRepository;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -26,7 +30,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class CleanCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface $entityManager
+        private readonly EntityManagerInterface $entityManager, private readonly DocumentManager $documentManager
     )
     {
         parent::__construct();
@@ -36,6 +40,9 @@ class CleanCommand extends Command
     {
     }
 
+    /**
+     * @throws MongoDBException
+     */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
@@ -93,6 +100,25 @@ class CleanCommand extends Command
             $output->writeln(sprintf('PromotionLog %d has been deleted', $id));
         }
 
+        $images = $this->documentManager->getRepository(Image::class)->findAll();
+        /** @var Image $image */
+        foreach ($images as $image) {
+            $id = $image->getId();
+            $output->writeln(sprintf('Image %s will be deleted', $id));
+            $this->documentManager->remove($image);
+            $output->writeln(sprintf('Image %s has been deleted', $id));
+        }
+
+        $ads = $this->documentManager->getRepository(Ad::class)->findAll();
+        /** @var Ad $ad */
+        foreach ($ads as $ad) {
+            $id = $ad->getId();
+            $output->writeln(sprintf('Ad %s will be deleted', $id));
+            $this->documentManager->remove($ad);
+            $output->writeln(sprintf('Ad %s has been deleted', $id));
+        }
+
+        $this->documentManager->flush();
         $this->entityManager->flush();
 
         $io->success('The database has been wiped.');
