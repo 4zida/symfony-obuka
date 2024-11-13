@@ -12,7 +12,9 @@ class ImageRepository extends DocumentRepository
     public function remove(Image $image): void
     {
         try {
-            unlink($image->getLocation());
+            if (file_exists($image->getLocation())) {
+                unlink($image->getLocation());
+            }
             self::getDocumentManager()->remove($image);
             self::getDocumentManager()->flush();
         } catch (Exception $e) {
