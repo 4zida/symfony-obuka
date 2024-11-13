@@ -19,7 +19,7 @@ class BaseTestController extends WebTestCase
     use DocumentManagerAwareTrait;
 
     protected static string $testPhoneNumber = "+381651112233";
-    protected static ?array $adJsonData = [
+    protected static array $adJsonData = [
         "name" => "test",
         "description" => "test description",
         "url" => "https://symfony.com/doc/current/testing/database.html",
@@ -30,7 +30,7 @@ class BaseTestController extends WebTestCase
         "for" => AdFor::RENT
     ];
 
-    protected static ?array $userJsonData = [
+    protected static array $userJsonData = [
         "name" => "Test User",
         "role" => UserRole::BackEnd,
         "surname" => "Test Surname",
@@ -39,7 +39,7 @@ class BaseTestController extends WebTestCase
         "company" => null
     ];
 
-    protected static ?array $companyJsonData = [
+    protected static array $companyJsonData = [
         "name" => "test",
         "address" => "address"
     ];
