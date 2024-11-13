@@ -64,6 +64,16 @@ class PhoneControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
     }
 
+    public function testUpdateWithInvalidNumber(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_PATCH)
+            ->setUri("api/phone/" . self::$phone->getId())
+            ->setJsonContent(['full' => '1'])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
+    }
+
     public function testCreate(): void
     {
         $response = RequestBuilder::create(self::createClient())
@@ -72,6 +82,16 @@ class PhoneControllerTest extends BaseTestController
             ->setJsonContent(["full" => "+381651111111"])
             ->getResponse();
         self::assertResponseIsSuccessful();
+    }
+
+    public function testCreateWithInvalidNumber(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_POST)
+            ->setUri("api/phone/")
+            ->setJsonContent(['full' => '1'])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
     }
 
     public function testFindById(): void

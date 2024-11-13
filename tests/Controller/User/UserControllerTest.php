@@ -58,6 +58,19 @@ class UserControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::USER_CREATED, $content);
     }
 
+    public function testCreateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_POST)
+            ->setUri('/api/user/')
+            ->setJsonContent([
+                "email" => "test",
+                "password" => "test"
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
+    }
+
     public function testShow(): void
     {
         // id
@@ -87,6 +100,18 @@ class UserControllerTest extends BaseTestController
         $content = $response->getRawContent();
         self::assertNotEmpty($content);
         self::assertEquals(ResponseMessage::USER_UPDATED, $content);
+    }
+
+    public function testUpdateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_PATCH)
+            ->setUri('/api/user/' . self::$user->getId())
+            ->setJsonContent([
+                "email" => "test"
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
     }
 
     public function testDelete(): void
@@ -141,7 +166,9 @@ class UserControllerTest extends BaseTestController
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
         self::assertIsArray($content);
-        self::assertEquals(self::$company->getId(), $content[0]["company"]["id"]);
+        foreach ($content as $user) {
+            self::assertEquals(self::$company->getId(), $user["company"]["id"]);
+        }
     }
 
     public function testAdminIndex(): void

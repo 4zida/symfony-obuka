@@ -27,7 +27,7 @@ class PhoneController extends AbstractController
 
     public function __construct(
         private readonly PhoneRepository        $phoneRepository,
-        private readonly EntityManagerInterface $entityManager,
+        private readonly EntityManagerInterface $entityManager
     )
     {
     }
@@ -51,7 +51,7 @@ class PhoneController extends AbstractController
     #[Route('/api/phone/', methods: Request::METHOD_POST)]
     public function create(Request $request): Response
     {
-        $this->handleJSONForm($request, new Phone(), PhoneType::class);
+        $this->handleJSONForm($request, new Phone(), PhoneType::class, [], false);
 
         $this->entityManager->flush();
 

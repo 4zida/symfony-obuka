@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use App\Repository\PhoneRepository;
 use App\Util\ContextGroup;
+use App\Util\CustomRequirement;
 use Doctrine\ORM\Mapping as ORM;
 use libphonenumber\PhoneNumber;
 use libphonenumber\PhoneNumberFormat;
 use libphonenumber\PhoneNumberType;
 use libphonenumber\PhoneNumberUtil;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
 #[Groups(ContextGroup::PHONE_DETAILS)]
@@ -22,6 +24,7 @@ class Phone
     #[ORM\Column]
     private ?int $id = null;
     #[ORM\Column(name: 'full', type: 'string', length: 64)]
+    #[Assert\Regex(CustomRequirement::PHONE)]
     private ?string $full = null;
     #[ORM\Column(name: 'national', type: 'string', length: 64, nullable: true)]
     private ?string $national = null;

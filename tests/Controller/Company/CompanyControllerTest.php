@@ -49,6 +49,18 @@ class CompanyControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::COMPANY_CREATED, $content);
     }
 
+    public function testCreateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                "name" => ""
+            ])
+            ->setUri('/api/company/')
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
+    }
+
     public function testShow(): void
     {
         $response = RequestBuilder::create(self::createClient())
@@ -77,6 +89,18 @@ class CompanyControllerTest extends BaseTestController
         $content = $response->getRawContent();
         self::assertNotEmpty($content);
         self::assertEquals(ResponseMessage::COMPANY_UPDATED, $content);
+    }
+
+    public function testUpdateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_PATCH)
+            ->setUri('/api/company/' . self::$company->getId())
+            ->setJsonContent([
+                "email" => "test"
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
     }
 
     public function testDelete(): void

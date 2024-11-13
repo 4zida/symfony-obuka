@@ -12,6 +12,7 @@ use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\OptimisticLockException;
 use Nebkam\FluentTest\RequestBuilder;
 use Nebkam\FluentTest\ResponseWrapper;
+use Nebkam\SymfonyTraits\Exception\ValidationException;
 use Symfony\Component\HttpFoundation\Request;
 
 class AdSearchControllerTest extends BaseTestController
@@ -39,7 +40,7 @@ class AdSearchControllerTest extends BaseTestController
         self::ensureKernelShutdown();
     }
 
-    public function testSearch(): void
+    public function testSearchFloor(): void
     {
         self::createClient();
         // floor search testing
@@ -54,7 +55,11 @@ class AdSearchControllerTest extends BaseTestController
             self::assertGreaterThanOrEqual(5, $ad['floor']);
             self::assertLessThanOrEqual(10, $ad['floor']);
         }
+    }
 
+    public function testSearchM2(): void
+    {
+        self::createClient();
         // m2 search testing
         $response = $this->adSearchResponseBuilder([
             'm2From' => 20,
@@ -67,7 +72,11 @@ class AdSearchControllerTest extends BaseTestController
             self::assertGreaterThanOrEqual(20, $ad['m2']);
             self::assertLessThanOrEqual(30, $ad['m2']);
         }
+    }
 
+    public function testSearchAddress(): void
+    {
+        self::createClient();
         // address search testing
         $response = $this->adSearchResponseBuilder([
             'address' => self::$ad->getAddress()
@@ -78,7 +87,12 @@ class AdSearchControllerTest extends BaseTestController
         foreach ($content as $ad) {
             self::assertEquals(self::$ad->getAddress(), $ad['address']);
         }
+    }
 
+    public function testSearchFor(): void
+    {
+        self::createClient();
+        // for search testing
         $response = $this->adSearchResponseBuilder([
             'for' => AdFor::RENT
         ]);
@@ -88,7 +102,12 @@ class AdSearchControllerTest extends BaseTestController
         foreach ($content as $ad) {
             self::assertEquals(self::$ad->getFor()->value, $ad['for']);
         }
+    }
 
+    public function testSearchPrice(): void
+    {
+        self::createClient();
+        // price search testing
         $response = $this->adSearchResponseBuilder([
             'priceFrom' => 500,
             'priceTo' => 1500
@@ -100,6 +119,15 @@ class AdSearchControllerTest extends BaseTestController
             self::assertGreaterThanOrEqual(500, $ad['price']);
             self::assertLessThanOrEqual(1500, $ad['price']);
         }
+    }
+
+    public function testSearchWithInvalidFor(): void
+    {
+        self::createClient();
+        $response = $this->adSearchResponseBuilder([
+            'for' => 'test'
+        ]);
+        self::assertResponseIsUnprocessable();
     }
 
     /**

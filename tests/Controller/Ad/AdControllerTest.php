@@ -109,6 +109,18 @@ class AdControllerTest extends BaseTestController
         self::assertEquals(ResponseMessage::AD_CREATED, $content);
     }
 
+    public function testCreateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_POST)
+            ->setUri('/api/ad/')
+            ->setJsonContent([
+                "name" => ""
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
+    }
+
     /**
      * @throws Exception
      */
@@ -123,6 +135,18 @@ class AdControllerTest extends BaseTestController
 
         $content = $response->getRawContent();
         self::assertEquals(ResponseMessage::AD_UPDATED, $content);
+    }
+
+    public function testUpdateWithInvalidData(): void
+    {
+        $response = RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_PATCH)
+            ->setUri('/api/ad/' . self::$ad->getId())
+            ->setJsonContent([
+                "for" => "test"
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
     }
 
     public function testFindById(): void
