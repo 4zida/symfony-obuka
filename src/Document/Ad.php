@@ -5,6 +5,7 @@ namespace App\Document;
 use App\EventListeners\Document\AdDocumentPrePersistListener;
 use App\EventListeners\Document\AdDocumentPreUpdateListener;
 use App\Exception\MissingImagesException;
+use App\Exception\NotPremiumException;
 use App\Repository\AdRepository;
 use App\Util\AdStatus;
 use App\Util\ContextGroup;
@@ -439,12 +440,22 @@ class Ad
     }
 
     /**
-     * @throws  MissingImagesException
+     * @throws MissingImagesException
      */
     public function assertHasImages(): void
     {
-        if ($this->getImages()->count() < 1) {
+        if ($this->getImages()->count() < 1 || $this->getImages()->isEmpty()) {
             throw new MissingImagesException();
+        }
+    }
+
+    /**
+     * @throws NotPremiumException
+     */
+    public function assertIsPremium(): void
+    {
+        if (!$this->getPremium()) {
+            throw new NotPremiumException();
         }
     }
 
@@ -454,5 +465,4 @@ class Ad
         $this->setPremiumExpiresAt($this->getPremiumExpiresAt()->modify('+' . $duration->value . ' days'));
         return $this;
     }
-
 }

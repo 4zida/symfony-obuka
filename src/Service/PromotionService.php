@@ -6,6 +6,7 @@ use App\Document\Ad;
 use App\Entity\User;
 use App\Exception\ClosedCreditBalanceException;
 use App\Exception\InsufficientCreditsException;
+use App\Exception\NotPremiumException;
 use App\Repository\PromotionLogRepository;
 use App\Util\CreditTransactionPurpose;
 use App\Util\PremiumDuration;
@@ -46,9 +47,11 @@ readonly class PromotionService
 
     /**
      * @throws MongoDBException
+     * @throws NotPremiumException
      */
     public function demote(Ad $ad): void
     {
+        $ad->assertIsPremium();
         $ad->deactivatePremium();
         if (null !== $ad->getPromotionLogId()) {
             $this->promotionLogRepository->end($ad?->getPromotionLogId());
