@@ -8,6 +8,6 @@ class MissingImagesException extends UnprocessableEntityHttpException
 {
     public function __construct()
     {
-        parent::__construct('Oglas mora imati slike!');
+        parent::__construct('Ad has to have images!');
     }
 }
