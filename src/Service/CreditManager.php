@@ -13,7 +13,7 @@ use Doctrine\ORM\EntityManagerInterface;
 readonly class CreditManager
 {
     public function __construct(
-        private EntityManagerInterface $entityManager,
+        private EntityManagerInterface         $entityManager,
         private CreditTransactionLogRepository $transactionLog
     )
     {

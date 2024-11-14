@@ -17,9 +17,9 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 readonly class PromotionService
 {
     public function __construct(
-        private DocumentManager $dm,
+        private DocumentManager        $dm,
         private PromotionLogRepository $promotionLogRepository,
-        private CreditManager $creditManager
+        private CreditManager          $creditManager
     )
     {
     }
@@ -50,8 +50,7 @@ readonly class PromotionService
     public function demote(Ad $ad): void
     {
         $ad->deactivatePremium();
-        if (null !== $ad->getPromotionLogId())
-        {
+        if (null !== $ad->getPromotionLogId()) {
             $this->promotionLogRepository->end($ad?->getPromotionLogId());
         }
 

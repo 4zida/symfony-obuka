@@ -8,7 +8,6 @@ use App\Exception\ClosedCreditBalanceException;
 use App\Exception\InsufficientCreditsException;
 use App\Form\PromotionRequestFormType;
 use App\Model\PromotionRequest;
-use App\Repository\PromotionLogRepository;
 use App\Service\PromotionService;
 use App\Util\ContextGroup;
 use App\ValueResolver\OriginalUser;

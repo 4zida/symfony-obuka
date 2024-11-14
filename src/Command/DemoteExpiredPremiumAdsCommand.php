@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class DemoteExpiredPremiumAdsCommand extends Command
 {
     public function __construct(
-        private readonly DocumentManager $documentManager,
+        private readonly DocumentManager  $documentManager,
         private readonly PromotionService $promotionService
     )
     {

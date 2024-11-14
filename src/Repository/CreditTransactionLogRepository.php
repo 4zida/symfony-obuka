@@ -17,8 +17,9 @@ use Symfony\Component\Clock\ClockAwareTrait;
 class CreditTransactionLogRepository extends ServiceEntityRepository
 {
     use ClockAwareTrait;
+
     public function __construct(
-        ManagerRegistry $registry,
+        ManagerRegistry                         $registry,
         private readonly EntityManagerInterface $entityManager
     )
     {
