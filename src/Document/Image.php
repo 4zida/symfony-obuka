@@ -53,17 +53,11 @@ class Image
     #[Assert\NotBlank]
     protected ?int $size = null;
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getId(): string
     {
         return $this->id;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getSize(): ?int
     {
         return $this->size;
@@ -75,9 +69,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getHeight(): ?int
     {
         return $this->height;
@@ -89,9 +80,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getWidth(): ?int
     {
         return $this->width;
@@ -103,9 +91,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getMimeType(): ?string
     {
         return $this->mimeType;
@@ -117,9 +102,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getLocation(): ?string
     {
         return $this->location;
@@ -131,9 +113,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getAlias(): string
     {
         return $this->alias;
@@ -151,9 +130,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt ?? null;
@@ -165,9 +141,6 @@ class Image
         return $this;
     }
 
-    #[Groups([
-        ContextGroup::IMAGE_DETAILS,
-    ])]
     public function getAd(): ?Ad
     {
         return $this->ad;

@@ -428,6 +428,11 @@ class Ad
         return $this->premiumDuration !== null && $this->premiumExpiresAt !== null;
     }
 
+    #[Groups([
+        ContextGroup::AD_ALL_DETAILS,
+        ContextGroup::SEARCH,
+        ContextGroup::AD_COMPLETE_INFO
+    ])]
     public function getPromotionLogId(): ?int
     {
         return $this->promotionLogId;
