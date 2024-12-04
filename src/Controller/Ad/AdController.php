@@ -180,6 +180,7 @@ class AdController extends AbstractController
         return $this->jsonWithGroup($ad, ContextGroup::ADMIN_AD_SEARCH);
     }
 
+    #[Deprecated]
     #[Route('/api/ad/aggregate', methods: Request::METHOD_GET)]
     public function aggregationTest(): JsonResponse
     {
