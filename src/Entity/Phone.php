@@ -14,7 +14,7 @@ use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PhoneRepository::class)]
-#[Groups(ContextGroup::PHONE_DETAILS)]
+#[Groups(ContextGroup::ADMIN_PHONE_SEARCH)]
 class Phone
 {
     public const REGION_CODE = 'RS';
@@ -195,6 +195,12 @@ class Phone
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PHONE_DETAILS,
+        ContextGroup::USER_WITH_PHONE,
+        ContextGroup::AD_COMPLETE_INFO,
+        ContextGroup::ADMIN_USER_SEARCH,
+    ])]
     public function getUser(): ?User
     {
         return $this->user;

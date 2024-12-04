@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: CreditTransactionLogRepository::class)]
+#[Groups(ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG)]
 class CreditTransactionLog
 {
     #[ORM\Id]
@@ -28,7 +29,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getId(): ?int
     {
@@ -37,7 +37,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getAdId(): ?string
     {
@@ -52,7 +51,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getTransactorId(): ?int
     {
@@ -67,7 +65,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getTransactionDate(): ?DateTimeImmutable
     {
@@ -82,7 +79,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getPurpose(): ?CreditTransactionPurpose
     {
@@ -97,7 +93,6 @@ class CreditTransactionLog
 
     #[Groups([
         ContextGroup::USER_CREDIT_TRANSACTION_LOG,
-        ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG
     ])]
     public function getAmount(): ?int
     {

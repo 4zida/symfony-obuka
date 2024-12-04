@@ -3,10 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\PromotionLogRepository;
+use App\Util\ContextGroup;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PromotionLogRepository::class)]
+#[Groups(ContextGroup::ADMIN_PROMOTION_LOG)]
 class PromotionLog
 {
     #[ORM\Id]
