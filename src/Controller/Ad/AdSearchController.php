@@ -13,6 +13,7 @@ use ReflectionException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Attribute\Cache;
 use Symfony\Component\Routing\Attribute\Route;
 
 class AdSearchController extends AbstractController
@@ -25,6 +26,7 @@ class AdSearchController extends AbstractController
      * @throws MongoDBException
      */
     #[Route('/api/ad/search', name: 'ad_search', methods: Request::METHOD_GET)]
+    #[Cache(maxage: 30, public: true, vary: ["Origin"])]
     public function search(Request $request, AdSearchService $adSearchService): JsonResponse
     {
         $filter = new AdSearchFilter();
