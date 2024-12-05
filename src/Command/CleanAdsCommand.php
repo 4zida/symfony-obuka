@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
     name: 'app:clean-ads',
-    description: 'Clears the Ad documents',
+    description: 'Clears the Ad documents and their images',
 )]
 class CleanAdsCommand extends Command
 {
@@ -39,14 +39,14 @@ class CleanAdsCommand extends Command
         $ads = $this->documentManager->getRepository(Ad::class)->findAll();
 
         foreach ($ads as $ad) {
-            $id = $ad->getId();
-            $name = $ad->getName();
             foreach ($ad->getImages() as $image) {
                 $this->documentManager->getRepository(Image::class)->remove($image);
             }
-            $output->writeln(sprintf('Ad %s (%s) will be deleted', $name, $id));
-            $this->documentManager->remove($ad);
-            $output->writeln(sprintf('Ad %s (%s) has been deleted', $name, $id));
+            try {
+                $this->documentManager->remove($ad);
+            } catch (\Exception $e) {
+                $io->warning($e->getMessage());
+            }
         }
 
         $this->documentManager->flush();
