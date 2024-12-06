@@ -39,7 +39,7 @@ class PremiumAdController extends AbstractController
      * @throws ClosedCreditBalanceException
      * @throws InsufficientCreditsException
      */
-    #[Route(path: '/api/ad/activate_premium/{id}', name: 'activate_premium', methods: Request::METHOD_POST)]
+    #[Route(path: '/api/ad/activate_premium/{ad}', name: 'activate_premium', methods: Request::METHOD_POST)]
     public function activatePremium(Request $request, Ad $ad, #[OriginalUser] User $originalUser): JsonResponse
     {
         $ad->assertHasImages();
