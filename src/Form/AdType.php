@@ -43,7 +43,8 @@ class AdType extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid image'
                     ])
                 ]
-            ]);
+            ])
+            ->add('placeId');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

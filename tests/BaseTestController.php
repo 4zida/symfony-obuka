@@ -5,6 +5,7 @@ namespace App\Tests;
 use App\Document\Ad;
 use App\Document\AdFor;
 use App\Document\Image;
+use App\Document\Place;
 use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
@@ -27,7 +28,8 @@ class BaseTestController extends WebTestCase
         "price" => 1000,
         "floor" => -1,
         "m2" => 50,
-        "for" => AdFor::RENT
+        "for" => AdFor::RENT,
+        "placeId" => 1
     ];
 
     protected static array $userJsonData = [
@@ -81,7 +83,8 @@ class BaseTestController extends WebTestCase
             ->setPrice(1000)
             ->setAddress("Test Address")
             ->setM2(50)
-            ->setFor(AdFor::RENT);
+            ->setFor(AdFor::RENT)
+            ->setPlaceId(1);
     }
 
     /**
@@ -103,5 +106,11 @@ class BaseTestController extends WebTestCase
             ->setWidth(1000)
             ->setSize(1000)
             ->setMimeType('image/jpeg');
+    }
+
+    protected static function createTestPlace(): Place
+    {
+        return (new Place())
+            ->setTitle('Test Place');
     }
 }

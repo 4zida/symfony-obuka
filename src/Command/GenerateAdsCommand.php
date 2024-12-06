@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Document\Ad;
+use App\Document\Place;
 use App\Entity\Company;
 use App\Entity\User;
 use DateTimeImmutable;
@@ -64,6 +65,7 @@ class GenerateAdsCommand extends Command
 
         $companyArray = $em->getRepository(Company::class)->getCompaniesAsArray();
         $userArray = $em->getRepository(User::class)->getUsersAsArray();
+        $placeArray = $dm->getRepository(Place::class)->findAll();
 
         for ($i = 0; $i < $amount; $i++) {
             try {
@@ -74,6 +76,10 @@ class GenerateAdsCommand extends Command
                 $ad->setFloor(random_int(-2, 10));
                 $ad->setAddress($faker->address);
                 $ad->setM2(random_int(20, 200));
+                $ad->setPrice(random_int(1000000, 100000000));
+
+                $place = $placeArray[array_rand($placeArray)];
+                $ad->setPlaceId($place->getId());
 
                 $rand = random_int(0, 1);
                 if ($rand) {

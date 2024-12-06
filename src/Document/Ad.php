@@ -29,11 +29,6 @@ class Ad
 {
     use ClockAwareTrait;
 
-    public function __construct()
-    {
-        $this->images = new ArrayCollection();
-    }
-
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     protected ?string $id;
@@ -98,9 +93,16 @@ class Ad
     protected ?int $premiumDuration = null;
     #[MongoDB\Field(type: 'date_immutable')]
     protected ?DateTimeImmutable $premiumExpiresAt = null;
-
     #[MongoDB\Field(type: 'integer')]
     protected ?int $promotionLogId = null;
+    #[MongoDB\Field(type: 'string')]
+    #[Assert\NotBlank]
+    protected ?string $placeId = null;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+    }
 
     #[Groups([
         ContextGroup::AD_ALL_DETAILS,
@@ -468,6 +470,17 @@ class Ad
     {
         $this->setPremiumDuration($this->getPremiumDuration() + $duration->value);
         $this->setPremiumExpiresAt($this->getPremiumExpiresAt()->modify('+' . $duration->value . ' days'));
+        return $this;
+    }
+
+    public function getPlaceId(): ?string
+    {
+        return $this->placeId;
+    }
+
+    public function setPlaceId(?string $placeId): self
+    {
+        $this->placeId = $placeId;
         return $this;
     }
 }
