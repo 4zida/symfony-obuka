@@ -98,6 +98,8 @@ class Ad
     #[MongoDB\Field(type: 'string')]
     #[Assert\NotBlank]
     protected ?string $placeId = null;
+    #[MongoDB\Field(type: 'string', enumType: AdType::class)]
+    protected ?AdType $type = null;
 
     public function __construct()
     {
@@ -481,6 +483,17 @@ class Ad
     public function setPlaceId(?string $placeId): self
     {
         $this->placeId = $placeId;
+        return $this;
+    }
+
+    public function getType(): ?AdType
+    {
+        return $this->type;
+    }
+
+    public function setType(?AdType $type): self
+    {
+        $this->type = $type;
         return $this;
     }
 }

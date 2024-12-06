@@ -7,7 +7,7 @@ namespace App\Controller\Ad;
 use App\Document\Ad;
 use App\Entity\Company;
 use App\Entity\User;
-use App\Form\AdType;
+use App\Form\AdFormType;
 use App\Service\AdManager;
 use App\Util\ContextGroup;
 use App\Util\CustomRequirement;
@@ -83,7 +83,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/{id}', requirements: ['id' => CustomRequirement::OBJECT_ID], methods: Request::METHOD_PATCH)]
     public function update(Ad $ad, Request $request): Response
     {
-        $this->handleJSONForm($request, $ad, AdType::class, [], false);
+        $this->handleJSONForm($request, $ad, AdFormType::class, [], false);
 
         $this->documentManager->flush();
 
@@ -96,7 +96,7 @@ class AdController extends AbstractController
     #[Route('/api/ad/', methods: Request::METHOD_POST)]
     public function create(Request $request): Response
     {
-        $this->handleJSONForm($request, new Ad(), AdType::class);
+        $this->handleJSONForm($request, new Ad(), AdFormType::class);
 
         $this->documentManager->flush();
 
