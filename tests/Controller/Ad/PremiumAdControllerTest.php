@@ -22,6 +22,7 @@ class PremiumAdControllerTest extends BaseTestController
     private static ?User $user = null;
     private static ?Company $company = null;
     private static ?Image $image = null;
+    private static ?Ad $adNoImage = null;
 
     /**
      * @throws MongoDBException
@@ -38,12 +39,13 @@ class PremiumAdControllerTest extends BaseTestController
 
         self::$user->setCreditBalance(1000);
 
-        self::$ad = self::createTestAd(self::$company, self::$user);
+        self::$adNoImage = self::createTestAd(self::$company, self::$user);
+        self::persistDocument(self::$adNoImage);
 
+        self::$ad = self::createTestAd(self::$company, self::$user);
         self::$image = self::createTestImage();
         self::persistDocument(self::$image);
         self::$ad->addImage(self::$image);
-
         self::persistDocument(self::$ad);
 
         self::flushEntities();
@@ -90,6 +92,23 @@ class PremiumAdControllerTest extends BaseTestController
         self::assertTrue($content['premium']);
     }
 
+    public function testActivatePremiumWithNoImages(): void
+    {
+        $client = self::createClient();
+
+        $user = self::getEntityManager()->getRepository(User::class)->find(self::$user->getId());
+        $client->loginUser($user);
+
+        $response = RequestBuilder::create($client)
+            ->setUri('/api/ad/activate_premium/' . self::$adNoImage->getId())
+            ->setMethod(Request::METHOD_POST)
+            ->setJsonContent([
+                'duration' => PremiumDuration::DAYS_7
+            ])
+            ->getResponse();
+        self::assertResponseIsUnprocessable();
+    }
+
     public function testActivatePremiumWithInsufficientCredits(): void
     {
         $client = self::createClient();
@@ -121,7 +140,7 @@ class PremiumAdControllerTest extends BaseTestController
                 'duration' => 100
             ])
             ->getResponse();
-        self::assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
+        self::assertResponseIsUnprocessable();
     }
 
     public function testActivatePremiumWithDisabledCredits(): void
