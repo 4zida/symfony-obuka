@@ -3,6 +3,8 @@
 namespace App\Command;
 
 use App\Document\Ad;
+use App\Document\AdFor;
+use App\Document\AdType;
 use App\Document\Place;
 use App\Entity\Company;
 use App\Entity\User;
@@ -12,6 +14,7 @@ use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use Faker\Factory;
+use Random\RandomException;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -44,6 +47,7 @@ class GenerateAdsCommand extends Command
 
     /**
      * @throws MongoDBException
+     * @throws RandomException
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
@@ -69,6 +73,8 @@ class GenerateAdsCommand extends Command
 
         for ($i = 0; $i < $amount; $i++) {
             try {
+                $rand = random_int(0, 1);
+
                 $ad = new Ad();
                 $ad->setName($faker->sentence);
                 $ad->setUrl($faker->url);
@@ -77,11 +83,23 @@ class GenerateAdsCommand extends Command
                 $ad->setAddress($faker->address);
                 $ad->setM2(random_int(20, 200));
                 $ad->setPrice(random_int(1000000, 100000000));
+                $ad->setFor($rand? AdFor::SALE : AdFor::RENT);
 
                 $place = $placeArray[array_rand($placeArray)];
                 $ad->setPlaceId($place->getId());
 
-                $rand = random_int(0, 1);
+                switch (random_int(0, 2)) {
+                    case 0:
+                        $ad->setType(AdType::APARTMENT);
+                        break;
+                    case 1:
+                        $ad->setType(AdType::HOUSE);
+                        break;
+                    case 2:
+                        $ad->setType(AdType::OFFICE);
+                        break;
+                }
+
                 if ($rand) {
                     if (!empty($userArray)) {
                         $user = $userArray[array_rand($userArray)];
