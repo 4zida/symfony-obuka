@@ -53,8 +53,8 @@ readonly class PromotionService
     {
         $ad->assertIsPremium();
         $ad->deactivatePremium();
-        if (null !== $ad->getPromotionLogId()) {
-            $this->promotionLogRepository->end($ad?->getPromotionLogId());
+        if ($ad->getPromotionLogId()) {
+            $this->promotionLogRepository->end($ad->getPromotionLogId());
         }
 
         $this->dm->flush();

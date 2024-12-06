@@ -37,7 +37,7 @@ class DemoteExpiredPremiumAdsCommand extends Command
         $now = new DateTimeImmutable();
 
         foreach ($this->documentManager->getRepository(Ad::class)->findAll() as $ad) {
-            if (!is_null($ad->getPremiumExpiresAt()) && $now >= $ad->getPremiumExpiresAt()) {
+            if (!$ad->getPremiumExpiresAt() && $now >= $ad->getPremiumExpiresAt()) {
                 $this->promotionService->demote($ad);
                 $count++;
             }

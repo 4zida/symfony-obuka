@@ -449,7 +449,7 @@ class Ad
      */
     public function assertHasImages(): void
     {
-        if ($this->getImages()->count() < 1 || $this->getImages()->isEmpty()) {
+        if  ($this->getImages()->isEmpty()) {
             throw new MissingImagesException();
         }
     }
