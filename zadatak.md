@@ -80,6 +80,14 @@
 - koliko je potrebno da kosta oglas, kod koga su krediti
 - test case-ovi
 
+# petnaesti zadatak
+- place (id, title) u ad-u place_id
+- napravi dokument PriceStats (range_from i range_to price, average)
+- prosecna cena po lokaciji i po tipu (napraviti tipove)
+- izbaciti ekstreme(najskuplji i najjeftiniji oglasi), izracunati prosek
+- test na vise lokacija po 10 i vise oglasa
+- samo za for sale ad-ove
+
 # BONUS zadatak
 - Istražiti autentifikaciju u Symfony-u.
 - Pokušati implementirati autentifikaciju za User-a.
