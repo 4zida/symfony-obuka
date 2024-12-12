@@ -13,7 +13,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-#[AsCommand(name: 'app:generate_places', description: 'Generates places')]
+#[AsCommand(name: 'app:generate-places', description: 'Generates places')]
 class GeneratePlacesCommand extends Command
 {
     public function __construct(
