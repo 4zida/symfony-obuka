@@ -49,11 +49,6 @@ class PromotionLogRepository extends ServiceEntityRepository
         $this->getEntityManager()->flush();
     }
 
-    public function findByUser(User $user): array
-    {
-        return $this->findBy(['adAuthorId' => $user->getId()]);
-    }
-
     /**
      * @throws DateMalformedStringException
      * @throws DateMalformedIntervalStringException
