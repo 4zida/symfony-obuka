@@ -37,5 +37,6 @@ interface ContextGroup
     // Promotion Log
     public final const ADMIN_PROMOTION_LOG = 'admin_promotion_log';
     public final const USER_PROMOTION_LOG = 'user_promotion_log';
+    public final const PRICE_STATS = 'price_stats';
 
 }

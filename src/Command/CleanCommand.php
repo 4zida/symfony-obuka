@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Document\Ad;
 use App\Document\Image;
+use App\Document\PriceStats;
 use App\Entity\Company;
 use App\Entity\CreditTransactionLog;
 use App\Entity\Phone;
@@ -17,6 +18,7 @@ use App\Repository\UserRepository;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -114,7 +116,17 @@ class CleanCommand extends Command
         foreach ($ads as $ad) {
             try {
                 $this->documentManager->remove($ad);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
+                $io->warning($e->getMessage());
+            }
+        }
+
+        $priceStats = $this->documentManager->getRepository(PriceStats::class)->findAll();
+        /** @var PriceStats $priceStat */
+        foreach ($priceStats as $priceStat) {
+            try {
+                $this->documentManager->remove($priceStat);
+            } catch (Exception $e) {
                 $io->warning($e->getMessage());
             }
         }

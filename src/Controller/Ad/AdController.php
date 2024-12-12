@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Ad;
 
 use App\Document\Ad;
+use App\Document\PriceStats;
 use App\Entity\Company;
 use App\Entity\User;
 use App\Form\AdFormType;
@@ -222,5 +223,13 @@ class AdController extends AbstractController
         $user = $this->entityManager->getRepository(User::class)->find($ad->getUserId());
 
         return $this->jsonWithGroup($user, ContextGroup::USER_WITH_PHONE);
+    }
+
+    #[Route('/api/ad/price-stats', methods: Request::METHOD_GET)]
+    public function getPriceStats(): JsonResponse
+    {
+        $result = $this->documentManager->getRepository(PriceStats::class)->findAll();
+
+        return $this->json($result);
     }
 }
