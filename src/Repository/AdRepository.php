@@ -122,6 +122,9 @@ class AdRepository extends DocumentRepository
             /** @var array{prices: int[]} $price */
             $price = $item['prices'];
 
+            /** @var int $m2 */
+            $m2 = $item['sumM2'];
+
             if (empty($price)) throw new Exception('Price is empty');
             if (count($price) < 10) continue;
 
@@ -135,9 +138,10 @@ class AdRepository extends DocumentRepository
             $price = $this->filterExtremes($price);
 
             $avgPrice = $this->arrayAverage($price);
+            $pricePerM2 = $avgPrice / $m2;
 
             $priceStats = new PriceStats();
-            $priceStats->create($place, $type, $max, $min, $avgPrice);
+            $priceStats->create($place, $type, $max, $min, $avgPrice, $pricePerM2);
             $this->getDocumentManager()->persist($priceStats);
         }
 
@@ -160,6 +164,7 @@ class AdRepository extends DocumentRepository
                     ->field('type')->expression('$type')
             )
             ->field('prices')->push('$price')
+            ->field('sumM2')->sum('$m2')
             ->getAggregation();
 
         return $result->getIterator()->toArray();

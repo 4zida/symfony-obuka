@@ -18,12 +18,14 @@ class PriceStats
     private ?string $placeId = null;
     #[MongoDB\Field(type: 'string')]
     private ?string $type = null;
-    #[MongoDB\Field(type: 'int')]
+    #[MongoDB\Field(type: 'float')]
     private ?float $maxPrice = null;
-    #[MongoDB\Field(type: 'int')]
+    #[MongoDB\Field(type: 'float')]
     private ?float $minPrice = null;
-    #[MongoDB\Field(type: 'int')]
+    #[MongoDB\Field(type: 'float')]
     private ?float $averagePrice = null;
+    #[MongoDB\Field(type: 'float')]
+    private ?float $pricePerM2 = null;
 
     public function getId(): string
     {
@@ -85,13 +87,26 @@ class PriceStats
         return $this;
     }
 
-    public function create(string $placeId, string $type, float $maxPrice, float $minPrice, float $averagePrice): self
+
+    public function getPricePerM2(): ?float
+    {
+        return $this->pricePerM2;
+    }
+
+    public function setPricePerM2(?float $pricePerM2): self
+    {
+        $this->pricePerM2 = $pricePerM2;
+        return $this;
+    }
+
+    public function create(string $placeId, string $type, float $maxPrice, float $minPrice, float $averagePrice, float $pricePerM2): self
     {
         $this->placeId = $placeId;
         $this->type = $type;
         $this->maxPrice = $maxPrice;
         $this->minPrice = $minPrice;
         $this->averagePrice = $averagePrice;
+        $this->pricePerM2 = $pricePerM2;
         return $this;
     }
 }
