@@ -14,6 +14,7 @@ use DateMalformedIntervalStringException;
 use DateMalformedStringException;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use JetBrains\PhpStorm\Deprecated;
 
 readonly class PromotionService
 {
@@ -38,9 +39,17 @@ readonly class PromotionService
             $this->creditManager->chargePromotion($ad, CreditTransactionPurpose::PREMIUM, $user);
         }
 
-        $ad->activatePremium($duration);
-        $logId = $this->promotionLogRepository->start($ad, $duration, $user);
-        $ad->setPromotionLogId($logId);
+        if ($ad->getPremium()) {
+            // Ad is premium, extend promotion
+            $ad->extendPremium($duration);
+            $logId = $this->promotionLogRepository->extend($ad, $duration, $user);
+            $ad->setPromotionLogId($logId);
+        } else {
+            // Ad is not premium, promote
+            $ad->activatePremium($duration);
+            $logId = $this->promotionLogRepository->start($ad, $duration, $user);
+            $ad->setPromotionLogId($logId);
+        }
 
         $this->dm->flush();
     }
@@ -67,6 +76,7 @@ readonly class PromotionService
      * @throws MongoDBException
      * @throws DateMalformedIntervalStringException
      */
+    #[Deprecated]
     public function extend(Ad $ad, ?PremiumDuration $duration, ?User $originalUser = null): void
     {
         if ($originalUser) {

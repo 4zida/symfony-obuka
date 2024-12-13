@@ -45,11 +45,7 @@ class PremiumAdController extends AbstractController
         $ad->assertHasImages();
         $promotionRequest = new PromotionRequest();
         $this->handleJSONForm($request, $promotionRequest, PromotionRequestFormType::class);
-        if (!$ad->getPremium()) {
-            $this->promotionService->promote($ad, $promotionRequest->getDuration(), $originalUser);
-        } else {
-            $this->promotionService->extend($ad, $promotionRequest->getDuration(), $originalUser);
-        }
+        $this->promotionService->promote($ad, $promotionRequest->getDuration(), $originalUser);
 
         return $this->jsonWithGroup($ad, ContextGroup::AD_COMPLETE_INFO);
     }
