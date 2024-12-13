@@ -123,28 +123,21 @@ class AdRepository extends DocumentRepository
             $price = $item['prices'];
 
             if (empty($price)) throw new Exception('Price is empty');
-
             if (count($price) < 10) continue;
 
             $place = $id['placeId'];
             $type = $id['type'];
 
-            sort($price);
-
             // minmax
             $max = max($price);
             $min = min($price);
 
-            if (count($price) > 2) {
-                $price = $this->filterExtremes($price);
-            }
+            $price = $this->filterExtremes($price);
 
-            // Average
             $avgPrice = $this->arrayAverage($price);
 
             $priceStats = new PriceStats();
             $priceStats->create($place, $type, $max, $min, $avgPrice);
-
             $this->getDocumentManager()->persist($priceStats);
         }
 
@@ -172,17 +165,18 @@ class AdRepository extends DocumentRepository
         return $result->getIterator()->toArray();
     }
 
-    public function filterExtremes(array $price): array
+    public function filterExtremes(array $array): array
     {
-        return array_slice($price, 1, -1);
+        sort($array);
+        return array_slice($array, 1, -1);
     }
 
     /**
-     * @param array $price
+     * @param array $array
      * @return float|int
      */
-    public function arrayAverage(array $price): int|float
+    public function arrayAverage(array $array): int|float
     {
-        return array_sum($price) / count($price);
+        return array_sum($array) / count($array);
     }
 }
