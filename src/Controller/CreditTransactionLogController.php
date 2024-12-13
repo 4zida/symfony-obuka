@@ -29,14 +29,16 @@ class CreditTransactionLogController extends AbstractController
     #[Route(path: '/api/credit-transaction-log', methods: Request::METHOD_GET)]
     public function all(): JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(CreditTransactionLog::class)->findAll(),
+        $creditTransactionLogRepository = $this->entityManager->getRepository(CreditTransactionLog::class);
+        return $this->jsonWithGroup($creditTransactionLogRepository->findAll(),
             ContextGroup::ADMIN_CREDIT_TRANSACTION_LOG);
     }
 
     #[Route(path: '/api/credit-transaction-log/{user}', methods: Request::METHOD_GET)]
     public function allByUser(User $user): JsonResponse
     {
-        return $this->jsonWithGroup($this->entityManager->getRepository(CreditTransactionLog::class)->findByUser($user),
+        $creditTransactionLogRepository = $this->entityManager->getRepository(CreditTransactionLog::class);
+        return $this->jsonWithGroup($creditTransactionLogRepository->findBy(['id' => $user->getId()]),
             ContextGroup::USER_CREDIT_TRANSACTION_LOG);
     }
 }

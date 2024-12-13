@@ -42,9 +42,4 @@ class CreditTransactionLogRepository extends ServiceEntityRepository
         $this->entityManager->flush();
         return $log->getId();
     }
-
-    public function findByUser(User $user): array
-    {
-        return $this->findBy(['transactorId' => $user->getId()]);
-    }
 }
