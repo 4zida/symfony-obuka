@@ -52,6 +52,9 @@ class PriceStats
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PRICE_STATS_DETAILS
+    ])]
     public function getMaxPrice(): ?float
     {
         return $this->maxPrice;
@@ -63,6 +66,9 @@ class PriceStats
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PRICE_STATS_DETAILS
+    ])]
     public function getMinPrice(): ?float
     {
         return $this->minPrice;
@@ -74,6 +80,9 @@ class PriceStats
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PRICE_STATS_DETAILS
+    ])]
     public function getAveragePrice(): ?float
     {
         return $this->averagePrice;
