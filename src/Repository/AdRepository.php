@@ -131,7 +131,6 @@ class AdRepository extends DocumentRepository
             $place = $id['placeId'];
             $type = $id['type'];
 
-            // minmax
             $max = max($price);
             $min = min($price);
 

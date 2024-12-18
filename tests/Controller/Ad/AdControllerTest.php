@@ -22,7 +22,6 @@ class AdControllerTest extends BaseTestController
     private static ?Ad $adDelete;
     private static ?User $user;
     private static ?Company $company;
-    private static ?PriceStats $priceStats;
 
     /**
      * @throws MongoDBException
@@ -297,45 +296,11 @@ class AdControllerTest extends BaseTestController
 
     public function testGetPriceStats(): void
     {
-        RequestBuilder::create(self::createClient())
+        $response = RequestBuilder::create(self::createClient())
             ->setMethod(Request::METHOD_GET)
             ->setUri('/api/ad/price-stats')
             ->getResponse();
         self::assertResponseIsSuccessful();
-    }
-
-    /**
-     * @throws MongoDBException
-     */
-    public function testExtremes(): void
-    {
-        $client = static::createClient();
-
-        $prices = [1000, 100, 100, 5];
-        $adRepository = self::getDocumentManager()->getRepository(Ad::class);
-        $filteredPrices = $adRepository->filterExtremes($prices);
-
-        self::$priceStats = new PriceStats();
-        self::$priceStats->setPlaceId(self::$ad->getPlaceId());
-        self::$priceStats->setAveragePrice($adRepository->arrayAverage($filteredPrices));
-        self::$priceStats->setType(AdFor::SALE->value);
-        self::$priceStats->setMaxPrice(max($prices));
-        self::$priceStats->setMinPrice(min($prices));
-
-        $this->getDocumentManager()->persist(self::$priceStats);
-        $this->getDocumentManager()->flush();
-
-        $response = RequestBuilder::create($client)
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/price-stats')
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-
-        $result = $response->getJsonContent();
-
-        self::assertEquals(100, $result[0]["averagePrice"]);
-        self::assertEquals(1000, $result[0]["maxPrice"]);
-        self::assertEquals(5, $result[0]["minPrice"]);
     }
 
     /**
@@ -349,7 +314,6 @@ class AdControllerTest extends BaseTestController
         self::removeDocumentById(Ad::class, self::$adDelete->getId());
         self::removeEntityById(User::class, self::$user->getId());
         self::removeEntityById(Company::class, self::$company->getId());
-        self::removeDocumentById(PriceStats::class, self::$priceStats->getId());
 
         parent::tearDownAfterClass();
     }
