@@ -6,6 +6,7 @@ namespace App\Command;
 
 use App\Document\Ad;
 use App\Document\AdFor;
+use App\Document\Place;
 use App\Document\PriceStats;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Exception;
@@ -39,15 +40,18 @@ class GetPriceStatsCommand extends Command
             $price = $item['prices'];
 
             if (empty($price)) throw new Exception('Price is empty');
-            if (count($price) < 10) continue;
 
-            $place = $id['placeId'];
+            $placeId = $id['placeId'];
             $type = $id['type'];
+
+            $place = $this->dm->getRepository(Place::class)->find($placeId);
 
             $max = max($price);
             $min = min($price);
 
             $price = $this->filterExtremes($price);
+
+            if (count($price) < 10) continue;
 
             $avgPrice = $this->arrayAverage($price);
 
@@ -88,10 +92,6 @@ class GetPriceStatsCommand extends Command
         return array_slice($array, 1, -1);
     }
 
-    /**
-     * @param array $array
-     * @return float|int
-     */
     public function arrayAverage(array $array): int|float
     {
         return array_sum($array) / count($array);

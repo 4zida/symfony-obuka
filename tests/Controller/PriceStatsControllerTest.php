@@ -38,6 +38,9 @@ class PriceStatsControllerTest extends BaseTestController
             ->setUri('/api/price-stats/')
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
     }
 
     public function testShow(): void
@@ -47,6 +50,9 @@ class PriceStatsControllerTest extends BaseTestController
             ->setUri('/api/price-stats/' . self::$place->getId() . DIRECTORY_SEPARATOR . self::$priceStats->getType())
             ->getResponse();
         self::assertResponseIsSuccessful();
+
+        $content = $response->getJsonContent();
+        self::assertNotEmpty($content);
     }
 
     /**

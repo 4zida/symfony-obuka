@@ -124,7 +124,7 @@ class BaseTestController extends WebTestCase
             ->setMaxPrice(500_000)
             ->setMinPrice(50_000)
             ->setType(AdType::APARTMENT->value)
-            ->setPlaceId($place->getId())
+            ->setPlace($place)
             ->setAveragePrice(250_000);
     }
 }

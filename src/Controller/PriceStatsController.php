@@ -31,10 +31,10 @@ class PriceStatsController extends AbstractController
         return $this->jsonWithGroup($priceStats, ContextGroup::PRICE_STATS_DETAILS);
     }
 
-    #[Route('/api/price-stats/{placeId}/{type}', methods: Request::METHOD_GET)]
-    public function show(string $placeId, string $type): JsonResponse
+    #[Route('/api/price-stats/{place}/{type}', methods: Request::METHOD_GET)]
+    public function show(string $place, string $type): JsonResponse
     {
-        $priceStats = $this->documentManager->getRepository(PriceStats::class)->findOneBy(['placeId' => $placeId, 'type' => $type]);
+        $priceStats = $this->documentManager->getRepository(PriceStats::class)->findOneBy(['place' => $place, 'type' => $type]);
 
         return $this->jsonWithGroup($priceStats, ContextGroup::PRICE_STATS_DETAILS);
     }

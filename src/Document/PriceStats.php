@@ -14,8 +14,8 @@ class PriceStats
     #[MongoDB\Field(type: 'string')]
     #[MongoDB\Id]
     private ?string $id = null;
-    #[MongoDB\Field(type: 'string')]
-    private ?string $placeId = null;
+    #[MongoDB\ReferenceOne(storeAs: 'id', targetDocument: Place::class)]
+    private ?Place $place = null;
     #[MongoDB\Field(type: 'string')]
     private ?string $type = null;
     #[MongoDB\Field(type: 'float')]
@@ -30,17 +30,28 @@ class PriceStats
         return $this->id;
     }
 
-    public function getPlaceId(): ?string
+    #[Groups([
+        ContextGroup::PRICE_STATS_DETAILS
+    ])]
+    public function getPlaceName(): ?string
     {
-        return $this->placeId;
+        return $this->place->getTitle();
     }
 
-    public function setPlaceId(?string $placeId): self
+    public function getPlace(): ?Place
     {
-        $this->placeId = $placeId;
+        return $this->place;
+    }
+
+    public function setPlace(?Place $place): self
+    {
+        $this->place = $place;
         return $this;
     }
 
+    #[Groups([
+        ContextGroup::PRICE_STATS_DETAILS
+    ])]
     public function getType(): ?string
     {
         return $this->type;
@@ -94,10 +105,10 @@ class PriceStats
         return $this;
     }
 
-    public static function create(string $placeId, string $type, float $maxPrice, float $minPrice, float $averagePrice): self
+    public static function create(Place $place, string $type, float $maxPrice, float $minPrice, float $averagePrice): self
     {
         return (new PriceStats())
-            ->setPlaceId($placeId)
+            ->setPlace($place)
             ->setType($type)
             ->setMaxPrice($maxPrice)
             ->setMinPrice($minPrice)

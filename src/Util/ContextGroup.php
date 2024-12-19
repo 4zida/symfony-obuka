@@ -39,5 +39,6 @@ interface ContextGroup
     public final const USER_PROMOTION_LOG = 'user_promotion_log';
     public final const PRICE_STATS = 'price_stats';
     public final const PRICE_STATS_DETAILS = 'price_stats_details';
+    public final const PLACE_DETAILS = 'place_details';
 
 }
