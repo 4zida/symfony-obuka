@@ -7,6 +7,7 @@ use App\Document\AdFor;
 use App\Document\AdType;
 use App\Document\Image;
 use App\Document\Place;
+use App\Document\PriceStats;
 use App\Entity\Company;
 use App\Entity\Phone;
 use App\Entity\User;
@@ -115,5 +116,15 @@ class BaseTestController extends WebTestCase
     {
         return (new Place())
             ->setTitle('Test Place');
+    }
+
+    protected static function createTestPriceStats(Place $place): PriceStats
+    {
+        return (new PriceStats())
+            ->setMaxPrice(500_000)
+            ->setMinPrice(50_000)
+            ->setType(AdType::APARTMENT->value)
+            ->setPlaceId($place->getId())
+            ->setAveragePrice(250_000);
     }
 }
