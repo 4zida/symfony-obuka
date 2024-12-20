@@ -39,8 +39,11 @@ class PriceStatsControllerTest extends BaseTestController
             ->getResponse();
         self::assertResponseIsSuccessful();
 
-        $content = $response->getJsonContent();
+        $content = $response->getJsonContent()[0];
         self::assertNotEmpty($content);
+        self::assertEquals(500_000, $content['maxPrice']);
+        self::assertEquals(50_000, $content['minPrice']);
+        self::assertEquals(250_000, $content['averagePrice']);
     }
 
     public function testShow(): void
@@ -53,6 +56,9 @@ class PriceStatsControllerTest extends BaseTestController
 
         $content = $response->getJsonContent();
         self::assertNotEmpty($content);
+        self::assertEquals(500_000, $content['maxPrice']);
+        self::assertEquals(50_000, $content['minPrice']);
+        self::assertEquals(250_000, $content['averagePrice']);
     }
 
     /**
