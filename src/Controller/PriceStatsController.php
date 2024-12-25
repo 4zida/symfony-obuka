@@ -38,4 +38,12 @@ class PriceStatsController extends AbstractController
 
         return $this->jsonWithGroup($priceStats, ContextGroup::PRICE_STATS_DETAILS);
     }
+
+    #[Route('/api/ad/price-stats', methods: Request::METHOD_GET)]
+    public function adminShow(): JsonResponse
+    {
+        $result = $this->documentManager->getRepository(PriceStats::class)->findAll();
+
+        return $this->jsonWithGroup($result, ContextGroup::ADMIN_PRICE_STATS);
+    }
 }

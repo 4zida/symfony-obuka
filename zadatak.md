@@ -63,14 +63,14 @@
 - formatiranje responsa
 
 # dvanaesti zadatak
-- nad adom je moguce dodati slike
-- slike se storuju lokalno u folder, ali u bazi da se upise gde se slika nalazi
-- svaki ad ima kolekciju imagea
+- ad-u je moguce dodati slike
+- slike se storuju lokalno u folderu, ali u bazi da se upise adresa slike
+- svaki ad ima kolekciju slika
 - u formi dodavanje slika
 
 # trinaesti zad
-- osmisiti promociju npr istaknuce oglasa ili premium oglas da bude na oglasu
-- kontroler za upraljvanje promocijom (trajanje promocije)
+- osmisliti promociju (istaknuce oglasa ili premium oglas)
+- kontroler za upravljanje promocijom (trajanje promocije)
 - komanda koja ce da gasi promociju kada istekne trajanje
 - da se u pretrazi prikazuje prvo premium oglasi
 
@@ -84,8 +84,8 @@
 - place (id, title) u ad-u place_id
 - napravi dokument PriceStats (range_from i range_to price, average)
 - prosecna cena po lokaciji i po tipu (napraviti tipove)
-- izbaciti ekstreme(najskuplji i najjeftiniji oglasi), izracunati prosek
-- test na vise lokacija po 10 i vise oglasa
+- izbaciti ekstreme (najskuplji i najjeftiniji oglasi), izracunati prosek
+- testovi
 - samo za for sale ad-ove
 
 # BONUS zadatak

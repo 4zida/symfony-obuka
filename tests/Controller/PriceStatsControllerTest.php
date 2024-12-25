@@ -61,6 +61,15 @@ class PriceStatsControllerTest extends BaseTestController
         self::assertEquals(250_000, $content['averagePrice']);
     }
 
+    public function testGetPriceStats(): void
+    {
+        RequestBuilder::create(self::createClient())
+            ->setMethod(Request::METHOD_GET)
+            ->setUri('/api/ad/price-stats')
+            ->getResponse();
+        self::assertResponseIsSuccessful();
+    }
+
     /**
      * @throws MongoDBException
      */

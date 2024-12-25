@@ -7,7 +7,7 @@ use App\Util\ContextGroup;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Serializer\Attribute\Groups;
 
-#[Groups(ContextGroup::PLACE_DETAILS)]
+#[Groups([ContextGroup::PLACE_DETAILS, ContextGroup::ADMIN_PRICE_STATS])]
 #[MongoDB\Document(collection: 'place', repositoryClass: PlaceRepository::class)]
 class Place
 {

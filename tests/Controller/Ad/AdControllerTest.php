@@ -294,15 +294,6 @@ class AdControllerTest extends BaseTestController
         self::assertResponseIsSuccessful();
     }
 
-    public function testGetPriceStats(): void
-    {
-        $response = RequestBuilder::create(self::createClient())
-            ->setMethod(Request::METHOD_GET)
-            ->setUri('/api/ad/price-stats')
-            ->getResponse();
-        self::assertResponseIsSuccessful();
-    }
-
     /**
      * @throws MongoDBException
      * @throws ORMException

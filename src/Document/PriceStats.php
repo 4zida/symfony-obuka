@@ -8,7 +8,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as MongoDB;
 use Symfony\Component\Serializer\Attribute\Groups;
 
 #[MongoDB\Document(collection: 'price_stats', repositoryClass: PriceStatsRepository::class)]
-#[Groups([ContextGroup::PRICE_STATS])]
+#[Groups([ContextGroup::ADMIN_PRICE_STATS])]
 class PriceStats
 {
     #[MongoDB\Field(type: 'string')]

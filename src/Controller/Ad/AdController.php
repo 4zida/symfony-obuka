@@ -224,12 +224,4 @@ class AdController extends AbstractController
 
         return $this->jsonWithGroup($user, ContextGroup::USER_WITH_PHONE);
     }
-
-    #[Route('/api/ad/price-stats', methods: Request::METHOD_GET)]
-    public function getPriceStats(): JsonResponse
-    {
-        $result = $this->documentManager->getRepository(PriceStats::class)->findAll();
-
-        return $this->json($result);
-    }
 }
