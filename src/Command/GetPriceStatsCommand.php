@@ -14,12 +14,13 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(name: 'app:get-price-stats', description: 'Get price stats for ads per place')]
 class GetPriceStatsCommand extends Command
 {
     public function __construct(
-        private readonly DocumentManager $dm
+        private readonly DocumentManager $dm, private readonly DocumentManager $documentManager
     )
     {
         parent::__construct();
@@ -30,7 +31,11 @@ class GetPriceStatsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        $aggregationResult = $this->getAggregatedPriceStats();
+        $count = 0;
+
+        $aggregationResult = $this->documentManager
+            ->getRepository(PriceStats::class)
+            ->getAggregatedPriceStats();
 
         if (empty($aggregationResult)) throw new Exception('There are no aggregated results');
 
@@ -57,33 +62,16 @@ class GetPriceStatsCommand extends Command
 
             $priceStats = PriceStats::create($place, $type, $max, $min, $avgPrice);
             $this->dm->persist($priceStats);
+
+            $count++;
         }
 
         $this->dm->flush();
 
+        $io = new SymfonyStyle($input, $output);
+        $io->success(sprintf('Created %s price stats', $count));
+
         return Command::SUCCESS;
-    }
-
-    /**
-     * @throws Exception
-     * @return array{_id: array{placeId: string, type: string}, prices: int[]}
-     */
-    public function getAggregatedPriceStats(): array
-    {
-        $builder = $this->dm->createAggregationBuilder(Ad::class);
-        $result = $builder
-            ->match()
-            ->field('for')->equals(AdFor::SALE)
-            ->group()
-            ->field('_id')->expression(
-                $builder->expr()
-                    ->field('placeId')->expression('$placeId')
-                    ->field('type')->expression('$type')
-            )
-            ->field('prices')->push('$price')
-            ->getAggregation();
-
-        return $result->getIterator()->toArray();
     }
 
     public function filterExtremes(array $array): array
