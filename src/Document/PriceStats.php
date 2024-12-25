@@ -30,14 +30,17 @@ class PriceStats
         return $this->id;
     }
 
+//    #[Groups([
+//        ContextGroup::PRICE_STATS_DETAILS
+//    ])]
+//    public function getPlaceName(): ?string
+//    {
+//        return $this->place->getTitle();
+//    }
+
     #[Groups([
         ContextGroup::PRICE_STATS_DETAILS
     ])]
-    public function getPlaceName(): ?string
-    {
-        return $this->place->getTitle();
-    }
-
     public function getPlace(): ?Place
     {
         return $this->place;
