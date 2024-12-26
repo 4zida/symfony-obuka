@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class GetPriceStatsCommand extends Command
 {
     public function __construct(
-        private readonly DocumentManager $dm, private readonly DocumentManager $documentManager
+        private readonly DocumentManager $dm
     )
     {
         parent::__construct();
@@ -33,7 +33,7 @@ class GetPriceStatsCommand extends Command
     {
         $count = 0;
 
-        $aggregationResult = $this->documentManager
+        $aggregationResult = $this->dm
             ->getRepository(PriceStats::class)
             ->getAggregatedPriceStats();
 
