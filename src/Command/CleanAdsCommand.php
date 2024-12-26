@@ -6,6 +6,7 @@ use App\Document\Ad;
 use App\Document\Image;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\MongoDBException;
+use Exception;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -44,7 +45,7 @@ class CleanAdsCommand extends Command
             }
             try {
                 $this->documentManager->remove($ad);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 $io->warning($e->getMessage());
             }
         }
